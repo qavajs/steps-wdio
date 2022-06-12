@@ -1,0 +1,26 @@
+{
+  "name": "steps-wdio",
+  "version": "1.0.0",
+  "description": "steps to interact with wdio",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlexGalichenko/steps-wdio.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AlexGalichenko/steps-wdio/issues"
+  },
+  "homepage": "https://github.com/AlexGalichenko/steps-wdio#readme",
+  "dependencies": {
+    "@cucumber-e2e/memory2": "^1.0.0",
+    "@cucumber-e2e/po2": "^1.0.4",
+    "@cucumber/cucumber": "^8.2.2",
+    "chai": "^4.3.6",
+    "webdriverio": "^7.20.1"
+  }
+}
