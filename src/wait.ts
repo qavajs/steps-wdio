@@ -1,4 +1,6 @@
-const validation = {
+import { Element } from 'webdriverio';
+
+export const validations = {
     PRESENT: 'present',
     CLICKABLE: 'clickable',
     VISIBLE: 'visible',
@@ -11,7 +13,7 @@ const validation = {
     BECOME_CLICKABLE: 'become clickable'
 }
 
-const timeout = {
+export const timeout = {
     GLOBAL_TIMEOUT: 60 * 1000,
     DEFAULT_TIMEOUT: 60 * 1000,
     WAIT_PAGE_TIMEOUT: 60 * 1000,
@@ -23,38 +25,33 @@ const timeout = {
     THROTTLE: 200
 }
 
-function ECHelper(element, validationType, reverse, timeout, timeoutMsg) {
+/**
+ * Wait for condition
+ * @param {WebdriverIOAsync.Element} element - protractor element
+ * @param {string} validationType - validation to perform
+ * @param {number} [timeout] - timeout to wait
+ * @param {boolean} [reverse] - negate flag
+ * @return {Promise<void>}
+ */
+export async function wait(
+    element: Element<'async'>,
+    validationType: string,
+    timeout: number = 10000,
+    reverse: boolean = false
+) {
+    const timeoutMsg: string = `Element${reverse ? ' ' : ' not'} ${validationType}`;
     switch (validationType) {
-        case validation.PRESENT:
+        case validations.PRESENT:
             return element.waitForExist({reverse, timeout, timeoutMsg})
-        case validation.BECOME_CLICKABLE:
-        case validation.CLICKABLE:
+        case validations.BECOME_CLICKABLE:
+        case validations.CLICKABLE:
             return element.waitForClickable({reverse, timeout, timeoutMsg})
-        case validation.BECOME_VISIBLE:
-        case validation.VISIBLE:
+        case validations.BECOME_VISIBLE:
+        case validations.VISIBLE:
             return element.waitForDisplayed({reverse, timeout, timeoutMsg})
-        case validation.INVISIBLE:
+        case validations.INVISIBLE:
             return element.waitForDisplayed({reverse: true, timeout, timeoutMsg})
         default:
             throw new Error(`${validationType} validation is not expected`);
     }
-}
-
-/**
- * Wait for condition
- * @param {WebdriverIOAsync.Element} element - protractor element
- * @param {string} validation - validation to perform
- * @param {number} [timeout] - timeout to wait
- * @param {boolean} [negate] - negate flag
- * @return {Promise<void>}
- */
-async function wait(element, validation, timeout = 10000, negate = false) {
-    const timeoutMsg = `Element not ${validation}`;
-    await ECHelper(element, validation, Boolean(negate), timeout, timeoutMsg)
-}
-
-module.exports = {
-    wait,
-    ...validation,
-    ...timeout
 }
