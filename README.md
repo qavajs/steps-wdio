@@ -18,3 +18,6 @@ module.exports = {
     }
 }
 ```
+
+## Steps
+[implemented steps](docs/steps.md)
