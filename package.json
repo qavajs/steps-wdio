@@ -1,6 +1,6 @@
 {
   "name": "steps-wdio",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "steps to interact with wdio",
   "main": "lib/index.ts",
   "scripts": {
