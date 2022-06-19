@@ -9,21 +9,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AlexGalichenko/steps-wdio.git"
+    "url": "git+https://github.com/yaatp/steps-wdio.git"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/AlexGalichenko/steps-wdio/issues"
+    "url": "https://github.com/yaatp/steps-wdio/issues"
   },
-  "homepage": "https://github.com/AlexGalichenko/steps-wdio#readme",
+  "homepage": "https://github.com/yaatp/steps-wdio#readme",
   "dependencies": {
     "chai": "^4.3.6"
   },
   "devDependencies": {
-    "@types/chai": "^4.3.1"
-  },
-  "peerDependencies": {
+    "@types/chai": "^4.3.1",
     "@cucumber/cucumber": "^8.2.2",
     "@yaatp/memory": "^0.0.1",
     "@yaatp/po": "^0.0.1",

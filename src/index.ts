@@ -100,3 +100,79 @@ Then(
         });
     }
 );
+
+/**
+ * Click on element with desired text in collection
+ * @param {string} expectedText - text to click
+ * @param {ElementArray} collection - collection to search text
+ * @example click 'google' text in 'Search Engines' collection
+ */
+When(
+    'click {memory} in {element} collection',
+    async function(expectedText, collection) {
+        for (const ePromise of await collection) {
+            const element = await ePromise;
+            const text = await element.getText();
+            if (text === await expectedText) {
+                return element.click();
+            }
+        }
+        throw new Error(`text '${expectedText}' is not found in collection`);
+});
+
+/**
+ * Switch to parent frame
+ * @example switch to parent frame
+ */
+When('switch to parent frame', async function() {
+    await browser.switchToParentFrame();
+});
+
+/**
+ * Switch to frame by index
+ * @param {number} index - index to switch
+ * @example switch to 2 frame
+ */
+When('switch to {int} frame', async function(index) {
+    await browser.switchToFrame(index);
+});
+
+/**
+ * Switch to window by index
+ * @param {number} index - index to switch
+ * @example switch to 2 window
+ */
+When('switch to {int} window', async function(index) {
+    await browser.waitUntil(
+        async () => (await browser.getWindowHandles()).length >= index,
+        { timeout: timeout.WAIT_PAGE_TIMEOUT }
+    );
+    const windowHandles = await browser.getWindowHandles();
+    await browser.switchToWindow(windowHandles[index - 1]);
+});
+
+/**
+ * Switch to window by text
+ * @param {string} matcher - window matcher (url or title)
+ * @example switch to 'google.com' window
+ */
+When('switch to {string} window', async function(matcher) {
+    await browser.switchWindow(matcher);
+});
+
+/**
+ * Refresh current page
+ * @example refresh page
+ */
+When('refresh page', async function() {
+    await browser.refresh();
+});
+
+/**
+ * Press button
+ * @param {string} key - key to press
+ * @example press 'Enter' key
+ */
+When('press {string} key', async function(key) {
+    await browser.keys(key);
+});
