@@ -1,10 +1,11 @@
 import { Element, ElementArray, Browser } from 'webdriverio';
 import { Before, After, When, Then, defineParameterType } from '@cucumber/cucumber';
 import { remote } from 'webdriverio';
-import memory from '@yaatp/memory';
-import { po } from '@yaatp/po';
-import { wait, validations, timeout } from './wait';
+import memory from '@qavajs/memory';
+import { po } from '@qavajs/po';
+import { wait, validations } from './wait';
 import { verify } from './verify';
+import defaultTimeouts from './defaultTimeouts';
 
 declare global {
     var browser: Browser<'async'>;
@@ -23,15 +24,13 @@ defineParameterType({
     transformer: p => p ?? false
 });
 
-defineParameterType({
-    name: 'validation',
-    regexp: /(be equal to|contain)/,
-    transformer: p => p
-});
-
 Before(async function () {
+    config.browser.timeout = {
+        defaultTimeouts,
+        ...config.browser.timeout
+    }
     global.browser = await remote(config.browser);
-    po.init(browser, { timeout: 10000 });
+    po.init(browser, { timeout: config.browser.timeout.present });
     po.register(config.pageObject);
 });
 
@@ -44,7 +43,7 @@ After(async function() {
  * @param {string} url - url to navigate
  * @example open 'https://google.com'
  */
-When('open {memory} url', async function(url) {
+When('I open {memory} url', async function(url) {
     await browser.url(await url);
 });
 
@@ -54,8 +53,8 @@ When('open {memory} url', async function(url) {
  * @param {string} value - value to type
  * @example type 'wikipedia' to 'Google Input'
  */
-When('type {string} to {element}', async function(value, element) {
-    await (await element).waitForDisplayed();
+When('I type {string} to {element}', async function(value, element) {
+    await wait(await element, validations.VISIBLE, config.browser.timeout.visible);
     await (await element).addValue(await value);
 });
 
@@ -64,8 +63,8 @@ When('type {string} to {element}', async function(value, element) {
  * @param {Element|ElementArray} element - element to click
  * @example click 'Google Button'
  */
-When('click {element}', async function(element) {
-    await (await element).waitForDisplayed();
+When('I click {element}', async function(element) {
+    await wait(await element, validations.VISIBLE, config.browser.timeout.visible);
     await (await element).click();
 });
 
@@ -74,8 +73,8 @@ When('click {element}', async function(element) {
  * @param {Element|ElementArray} element - element to clear
  * @example clear 'Google Input'
  */
-When('clear {element}', async function(element) {
-    await (await element).waitForDisplayed();
+When('I clear {element}', async function(element) {
+    await wait(await element, validations.VISIBLE, config.browser.timeout.visible);
     await (await element).clearValue();
 });
 
@@ -88,9 +87,9 @@ When('clear {element}', async function(element) {
  * @example text of '#1 of Search Results' should be equal 'google'
  */
 Then(
-    'text of {element} element should{reverse} {validation} {memory}',
+    'I expect text of {element} element{reverse} to {string} {memory}',
     async function (element, reverse, validation, value) {
-        await wait(element, validations.BECOME_VISIBLE, timeout.WAIT_ELEMENT_TIMEOUT);
+        await wait(await element, validations.VISIBLE, config.browser.timeout.visible);
         const elementText: string = await (await element).getText();
         verify({
             AR: elementText,
@@ -108,7 +107,7 @@ Then(
  * @example click 'google' text in 'Search Engines' collection
  */
 When(
-    'click {memory} in {element} collection',
+    'I click {memory} in {element} collection',
     async function(expectedText, collection) {
         for (const ePromise of await collection) {
             const element = await ePromise;
@@ -124,7 +123,7 @@ When(
  * Switch to parent frame
  * @example switch to parent frame
  */
-When('switch to parent frame', async function() {
+When('I switch to parent frame', async function() {
     await browser.switchToParentFrame();
 });
 
@@ -133,7 +132,7 @@ When('switch to parent frame', async function() {
  * @param {number} index - index to switch
  * @example switch to 2 frame
  */
-When('switch to {int} frame', async function(index) {
+When('I switch to {int} frame', async function(index) {
     await browser.switchToFrame(index);
 });
 
@@ -142,10 +141,10 @@ When('switch to {int} frame', async function(index) {
  * @param {number} index - index to switch
  * @example switch to 2 window
  */
-When('switch to {int} window', async function(index) {
+When('I switch to {int} window', async function(index) {
     await browser.waitUntil(
         async () => (await browser.getWindowHandles()).length >= index,
-        { timeout: timeout.WAIT_PAGE_TIMEOUT }
+        { timeout: config.browser.timeout.page }
     );
     const windowHandles = await browser.getWindowHandles();
     await browser.switchToWindow(windowHandles[index - 1]);
@@ -156,7 +155,7 @@ When('switch to {int} window', async function(index) {
  * @param {string} matcher - window matcher (url or title)
  * @example switch to 'google.com' window
  */
-When('switch to {string} window', async function(matcher) {
+When('I switch to {string} window', async function(matcher) {
     await browser.switchWindow(matcher);
 });
 
@@ -164,7 +163,7 @@ When('switch to {string} window', async function(matcher) {
  * Refresh current page
  * @example refresh page
  */
-When('refresh page', async function() {
+When('I refresh page', async function() {
     await browser.refresh();
 });
 
@@ -173,6 +172,6 @@ When('refresh page', async function() {
  * @param {string} key - key to press
  * @example press 'Enter' key
  */
-When('press {string} key', async function(key) {
+When('I press {string} key', async function(key) {
     await browser.keys(key);
 });

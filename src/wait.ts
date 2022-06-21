@@ -13,18 +13,6 @@ export const validations = {
     BECOME_CLICKABLE: 'become clickable'
 }
 
-export const timeout = {
-    GLOBAL_TIMEOUT: 60 * 1000,
-    DEFAULT_TIMEOUT: 60 * 1000,
-    WAIT_PAGE_TIMEOUT: 60 * 1000,
-    CLICK_TIMEOUT: 30 * 1000,
-    DOWNLOAD_TIMEOUT: 60 * 1000,
-    WAIT_ELEMENT_TIMEOUT: 30 * 1000,
-    WAIT_TEXT_TIMEOUT: 30 * 1000,
-    EMAIL_TIMEOUT: 60 * 1000,
-    THROTTLE: 200
-}
-
 /**
  * Wait for condition
  * @param {WebdriverIOAsync.Element} element - protractor element

@@ -1,6 +1,6 @@
 # Steps
 
-### open {memory} url &#9989;
+### I open {memory} url &#9989;
 
 Opens provided url
 
@@ -9,10 +9,10 @@ Opens provided url
 |  url  | string | url to navigate |
 example:
 ```gherkin
-   When open 'https://google.com' url
+   When I open 'https://google.com' url
 ```
 ---
-### type {string} to {element} &#9989;
+### I type {string} to {element} &#9989;
 
 Type text to element
 
@@ -22,10 +22,10 @@ Type text to element
 |  value  | string  |  value to type  |
 example:
 ```gherkin
-   When type 'wikipedia' to 'Google Input'
+   When I type 'wikipedia' to 'Google Input'
 ```
 ---
-### click {element} &#9989;
+### I click {element} &#9989;
 
 Click element
 
@@ -34,10 +34,10 @@ Click element
 | element | Element | element to click |
 example:
 ```gherkin
-   When click 'Google Button'
+   When I click 'Google Button'
 ```
 ---
-### clear {element} &#9989;
+### I clear {element} &#9989;
 
 Clear element
 
@@ -46,10 +46,10 @@ Clear element
 | element | Element | element to clear |
 example:
 ```gherkin
-   When clear 'Google Button'
+   When I clear 'Google Button'
 ```
 ---
-### text of {element} element should{reverse} {validation} {memory} &#9989;
+### I expect text of {element} element{reverse} to {validation} {memory} &#9989;
 
 Verify that text of element satisfies condition
 
@@ -62,7 +62,7 @@ Verify that text of element satisfies condition
 
 example:
 ```gherkin
-   Then text of '#1 of Search Results' should be equal 'google'
+   Then I expect text of '#1 of Search Results' to be equal 'google'
 ```
 ---
 ### template &#9989;&#10060;
