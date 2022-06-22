@@ -56,38 +56,38 @@ When('I open {memory} url', async (url: string) => {
 
 /**
  * Type text to element
- * @param {Element|ElementArray} element - element to type
+ * @param {Element} element - element to type
  * @param {string} value - value to type
  * @example type 'wikipedia' to 'Google Input'
  */
-When('I type {string} to {element}', async (value: string, element: Element|ElementArray) => {
+When('I type {string} to {element}', async (value: string, element: Element<'async'>) => {
     await wait(await element, validations.VISIBLE, config.browser.timeout.visible);
     await (await element).addValue(await value);
 });
 
 /**
  * Click element
- * @param {Element|ElementArray} element - element to click
+ * @param {Element} element - element to click
  * @example click 'Google Button'
  */
-When('I click {element}', async (element: Element|ElementArray) => {
+When('I click {element}', async (element: Element<'async'>) => {
     await wait(await element, validations.VISIBLE, config.browser.timeout.visible);
     await (await element).click();
 });
 
 /**
  * Clear input
- * @param {Element|ElementArray} element - element to clear
+ * @param {Element} element - element to clear
  * @example clear 'Google Input'
  */
-When('I clear {element}', async (element: Element|ElementArray) => {
+When('I clear {element}', async (element: Element<'async'>) => {
     await wait(await element, validations.VISIBLE, config.browser.timeout.visible);
     await (await element).clearValue();
 });
 
 /**
  * Verify that text of element satisfy condition
- * @param {Element|ElementArray} element - element to get text
+ * @param {Element} element - element to get text
  // * @param {boolean} reverse - reverse validation
  * @param {string} validation - validation
  * @param {string} value - expected result
@@ -96,7 +96,7 @@ When('I clear {element}', async (element: Element|ElementArray) => {
  */
 Then(
     'I expect text of {element} element {compareValidation} {memory}',
-    async (element: Element|ElementArray, validation, value) => {
+    async (element: Element<'async'>, validation, value) => {
         await wait(await element, validations.VISIBLE, config.browser.timeout.visible);
         const elementText: string = await (await element).getText();
         verify({
