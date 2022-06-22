@@ -31,7 +31,7 @@ defineParameterType({
     transformer: compareValidationTransformer
 });
 
-Before(async function () {
+Before(async () => {
     config.browser.timeout = {
         defaultTimeouts,
         ...config.browser.timeout
@@ -41,7 +41,7 @@ Before(async function () {
     po.register(config.pageObject);
 });
 
-After(async function() {
+After(async () => {
     await browser.deleteSession();
 });
 
@@ -50,8 +50,8 @@ After(async function() {
  * @param {string} url - url to navigate
  * @example open 'https://google.com'
  */
-When('I open {memory} url', async function(url) {
-    await browser.url(await url);
+When('I open {memory} url', async (url: string) => {
+    await browser.url(url);
 });
 
 /**
@@ -60,7 +60,7 @@ When('I open {memory} url', async function(url) {
  * @param {string} value - value to type
  * @example type 'wikipedia' to 'Google Input'
  */
-When('I type {string} to {element}', async function(value, element) {
+When('I type {string} to {element}', async (value: string, element) => {
     await wait(await element, validations.VISIBLE, config.browser.timeout.visible);
     await (await element).addValue(await value);
 });
@@ -70,7 +70,7 @@ When('I type {string} to {element}', async function(value, element) {
  * @param {Element|ElementArray} element - element to click
  * @example click 'Google Button'
  */
-When('I click {element}', async function(element) {
+When('I click {element}', async (element) => {
     await wait(await element, validations.VISIBLE, config.browser.timeout.visible);
     await (await element).click();
 });
@@ -80,7 +80,7 @@ When('I click {element}', async function(element) {
  * @param {Element|ElementArray} element - element to clear
  * @example clear 'Google Input'
  */
-When('I clear {element}', async function(element) {
+When('I clear {element}', async (element) => {
     await wait(await element, validations.VISIBLE, config.browser.timeout.visible);
     await (await element).clearValue();
 });
@@ -96,7 +96,7 @@ When('I clear {element}', async function(element) {
  */
 Then(
     'I expect text of {element} element {compareValidation} {memory}',
-    async function (element, validation, value) {
+    async (element, validation, value) => {
         await wait(await element, validations.VISIBLE, config.browser.timeout.visible);
         const elementText: string = await (await element).getText();
         verify({
@@ -116,7 +116,7 @@ Then(
  */
 When(
     'I click {memory} in {element} collection',
-    async function(expectedText, collection) {
+    async (expectedText: string, collection: ElementArray) => {
         for (const ePromise of await collection) {
             const element = await ePromise;
             const text = await element.getText();
@@ -131,7 +131,7 @@ When(
  * Switch to parent frame
  * @example switch to parent frame
  */
-When('I switch to parent frame', async function() {
+When('I switch to parent frame', async () => {
     await browser.switchToParentFrame();
 });
 
@@ -140,7 +140,7 @@ When('I switch to parent frame', async function() {
  * @param {number} index - index to switch
  * @example switch to 2 frame
  */
-When('I switch to {int} frame', async function(index) {
+When('I switch to {int} frame', async (index: number) => {
     await browser.switchToFrame(index);
 });
 
@@ -149,7 +149,7 @@ When('I switch to {int} frame', async function(index) {
  * @param {number} index - index to switch
  * @example switch to 2 window
  */
-When('I switch to {int} window', async function(index) {
+When('I switch to {int} window', async (index: number) => {
     await browser.waitUntil(
         async () => (await browser.getWindowHandles()).length >= index,
         { timeout: config.browser.timeout.page }
@@ -163,7 +163,7 @@ When('I switch to {int} window', async function(index) {
  * @param {string} matcher - window matcher (url or title)
  * @example switch to 'google.com' window
  */
-When('I switch to {string} window', async function(matcher) {
+When('I switch to {string} window', async (matcher: string) => {
     await browser.switchWindow(matcher);
 });
 
@@ -171,7 +171,7 @@ When('I switch to {string} window', async function(matcher) {
  * Refresh current page
  * @example refresh page
  */
-When('I refresh page', async function() {
+When('I refresh page', async () => {
     await browser.refresh();
 });
 
@@ -180,6 +180,6 @@ When('I refresh page', async function() {
  * @param {string} key - key to press
  * @example press 'Enter' key
  */
-When('I press {string} key', async function(key) {
+When('I press {string} key', async (key: string) => {
     await browser.keys(key);
 });
