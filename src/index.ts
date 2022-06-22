@@ -60,7 +60,7 @@ When('I open {memory} url', async (url: string) => {
  * @param {string} value - value to type
  * @example type 'wikipedia' to 'Google Input'
  */
-When('I type {string} to {element}', async (value: string, element) => {
+When('I type {string} to {element}', async (value: string, element: Element|ElementArray) => {
     await wait(await element, validations.VISIBLE, config.browser.timeout.visible);
     await (await element).addValue(await value);
 });
@@ -70,7 +70,7 @@ When('I type {string} to {element}', async (value: string, element) => {
  * @param {Element|ElementArray} element - element to click
  * @example click 'Google Button'
  */
-When('I click {element}', async (element) => {
+When('I click {element}', async (element: Element|ElementArray) => {
     await wait(await element, validations.VISIBLE, config.browser.timeout.visible);
     await (await element).click();
 });
@@ -80,7 +80,7 @@ When('I click {element}', async (element) => {
  * @param {Element|ElementArray} element - element to clear
  * @example clear 'Google Input'
  */
-When('I clear {element}', async (element) => {
+When('I clear {element}', async (element: Element|ElementArray) => {
     await wait(await element, validations.VISIBLE, config.browser.timeout.visible);
     await (await element).clearValue();
 });
@@ -96,7 +96,7 @@ When('I clear {element}', async (element) => {
  */
 Then(
     'I expect text of {element} element {compareValidation} {memory}',
-    async (element, validation, value) => {
+    async (element: Element|ElementArray, validation, value) => {
         await wait(await element, validations.VISIBLE, config.browser.timeout.visible);
         const elementText: string = await (await element).getText();
         verify({
