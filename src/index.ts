@@ -50,8 +50,8 @@ After(async function () {
  * @param {string} url - url to navigate
  * @example open 'https://google.com'
  */
-When('I open {memory} url', async function (url: string) {
-    await browser.url(url);
+When('I open {memory} url', async function (url: string|Promise<string>) {
+    await browser.url(await url);
 });
 
 /**
@@ -116,7 +116,7 @@ Then(
  */
 When(
     'I click {memory} in {element} collection',
-    async function (expectedText: string, collection: ElementArray) {
+    async function (expectedText: string|Promise<string>, collection: ElementArray) {
         for (const ePromise of await collection) {
             const element = await ePromise;
             const text = await element.getText();
