@@ -6,6 +6,7 @@ import { po } from '@qavajs/po';
 import { wait, validations } from './wait';
 import { verify } from './verify';
 import defaultTimeouts from './defaultTimeouts';
+import { compareValidationTransformer } from './parameterTypeTransformer';
 
 declare global {
     var browser: Browser<'async'>;
@@ -22,6 +23,12 @@ defineParameterType({
     name: 'reverse',
     regexp: /( not)?/,
     transformer: p => p ?? false
+});
+
+defineParameterType({
+    name: 'compareValidation',
+    regexp: /(.+)/,
+    transformer: compareValidationTransformer
 });
 
 Before(async function () {
@@ -81,21 +88,22 @@ When('I clear {element}', async function(element) {
 /**
  * Verify that text of element satisfy condition
  * @param {Element|ElementArray} element - element to get text
- * @param {boolean} reverse - reverse validation
+ // * @param {boolean} reverse - reverse validation
  * @param {string} validation - validation
  * @param {string} value - expected result
- * @example text of '#1 of Search Results' should be equal 'google'
+ * @example I expect text of '#1 of Search Results' equals to 'google'
+ * @example I expect text of '#2 of Search Results' does not contain 'yandex'
  */
 Then(
-    'I expect text of {element} element{reverse} to {string} {memory}',
-    async function (element, reverse, validation, value) {
+    'I expect text of {element} element {compareValidation} {memory}',
+    async function (element, validation, value) {
         await wait(await element, validations.VISIBLE, config.browser.timeout.visible);
         const elementText: string = await (await element).getText();
         verify({
             AR: elementText,
             ER: await value,
-            reverse,
-            validation
+            reverse: validation.reverse,
+            validation: validation.validation
         });
     }
 );
