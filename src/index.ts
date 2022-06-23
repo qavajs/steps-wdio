@@ -1,4 +1,4 @@
-import { Element, ElementArray, Browser } from 'webdriverio';
+import {Element, ElementArray, Browser} from 'webdriverio';
 import { Before, After, When, Then, defineParameterType } from '@cucumber/cucumber';
 import { remote } from 'webdriverio';
 import memory from '@qavajs/memory';
@@ -74,6 +74,26 @@ When('I click {element}', async function (element: Element<'async'>) {
     await wait(await element, validations.VISIBLE, config.browser.timeout.visible);
     await (await element).click();
 });
+
+/**
+ * Double click element
+ * @param {Element} element - double element to click
+ * @example double click 'Google Button'
+ */
+When('I double click {element}', async function (element: Element<'async'>) {
+    await wait(await element, validations.VISIBLE, config.browser.timeout.visible);
+    await (await element).doubleClick();
+});
+
+/**
+ * Right click element
+ * @param {Element} element - element to right click
+ * @example right click 'Google Button'
+ */
+When('I right click {element}', async function (element: Element<'async'>) {
+    await wait(await element, validations.VISIBLE, config.browser.timeout.visible);
+    await (await element).click({button: 'right'});
+})
 
 /**
  * Clear input
@@ -182,4 +202,14 @@ When('I refresh page', async function () {
  */
 When('I press {string} key', async function (key: string) {
     await browser.keys(key);
+});
+
+/**
+ * Hover over element
+ * @param {Element} element - element to hover over
+ * @example hover over 'Google Button'
+ */
+When('I hover over {element}', async function (element: Element<'async'>) {
+    await wait(await element, validations.VISIBLE, config.browser.timeout.visible);
+    await (await element).moveTo();
 });
