@@ -4,7 +4,6 @@ import { remote } from 'webdriverio';
 import memory from '@qavajs/memory';
 import { po } from '@qavajs/po';
 import { wait, validations } from './wait';
-import { verify } from './verify';
 import defaultTimeouts from './defaultTimeouts';
 
 declare global {
@@ -101,16 +100,11 @@ When('I clear {element}', async function (element: Element<'async'>) {
  * @example I expect text of '#2 of Search Results' does not contain 'yandex'
  */
 Then(
-    'I expect text of {element} element {compareValidation} {text}',
-    async function (element: Element<'async'>, validation, value) {
+    'I expect text of {element} element {validation} {text}',
+    async function (element: Element<'async'>, validation: Function, value: any) {
         await wait(await element, validations.VISIBLE, config.browser.timeout.visible);
         const elementText: string = await (await element).getText();
-        verify({
-            AR: elementText,
-            ER: await value,
-            reverse: validation.reverse,
-            validation: validation.validation
-        });
+        validation(elementText, await value);
     }
 );
 
