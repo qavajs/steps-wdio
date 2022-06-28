@@ -4,9 +4,7 @@ import { remote } from 'webdriverio';
 import memory from '@qavajs/memory';
 import { po } from '@qavajs/po';
 import { wait, validations } from './wait';
-import { verify } from './verify';
 import defaultTimeouts from './defaultTimeouts';
-import { compareValidationTransformer } from './parameterTypeTransformer';
 
 declare global {
     var browser: Browser<'async'>;
@@ -17,18 +15,6 @@ defineParameterType({
     name: 'element',
     regexp: /'(.+)'/,
     transformer: async p => po.getElement(await memory.getValue(p))
-});
-
-defineParameterType({
-    name: 'reverse',
-    regexp: /( not)?/,
-    transformer: p => p ?? false
-});
-
-defineParameterType({
-    name: 'compareValidation',
-    regexp: /(.+)/,
-    transformer: compareValidationTransformer
 });
 
 Before(async function () {
@@ -50,7 +36,7 @@ After(async function () {
  * @param {string} url - url to navigate
  * @example open 'https://google.com'
  */
-When('I open {memory} url', async function (url: string|Promise<string>) {
+When('I open {text} url', async function (url: string|Promise<string>) {
     await browser.url(await url);
 });
 
@@ -108,23 +94,17 @@ When('I clear {element}', async function (element: Element<'async'>) {
 /**
  * Verify that text of element satisfy condition
  * @param {Element} element - element to get text
- // * @param {boolean} reverse - reverse validation
  * @param {string} validation - validation
  * @param {string} value - expected result
  * @example I expect text of '#1 of Search Results' equals to 'google'
  * @example I expect text of '#2 of Search Results' does not contain 'yandex'
  */
 Then(
-    'I expect text of {element} element {compareValidation} {memory}',
-    async function (element: Element<'async'>, validation, value) {
+    'I expect text of {element} element {validation} {text}',
+    async function (element: Element<'async'>, validation: Function, value: any) {
         await wait(await element, validations.VISIBLE, config.browser.timeout.visible);
         const elementText: string = await (await element).getText();
-        verify({
-            AR: elementText,
-            ER: await value,
-            reverse: validation.reverse,
-            validation: validation.validation
-        });
+        validation(elementText, await value);
     }
 );
 
@@ -135,7 +115,7 @@ Then(
  * @example click 'google' text in 'Search Engines' collection
  */
 When(
-    'I click {memory} in {element} collection',
+    'I click {text} in {element} collection',
     async function (expectedText: string|Promise<string>, collection: ElementArray) {
         for (const ePromise of await collection) {
             const element = await ePromise;
