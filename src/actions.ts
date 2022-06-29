@@ -1,5 +1,5 @@
 import { When } from '@cucumber/cucumber';
-import {Element, ElementArray} from 'webdriverio';
+import { Element, ElementArray } from 'webdriverio';
 import { conditionValidations, conditionWait } from './conditionWait';
 
 /**
