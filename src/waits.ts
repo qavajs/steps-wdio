@@ -1,4 +1,7 @@
 import { When } from '@cucumber/cucumber';
+import { valueWait } from './valueWait';
+import { conditionWait } from './conditionWait';
+import { wdio } from './wdioResolver';
 
 /**
  * Wait for element condition
@@ -8,8 +11,8 @@ import { When } from '@cucumber/cucumber';
  * @example I wait until 'Loading' not to be present
  * @example I wait until 'Search Bar > Submit Button' to be clickable
  */
-When('I wait until {element} {conditionWait}', async function (element, wait) {
-    await wait(await element, config.browser.timeout.page);
+When('I wait until {element} {wait}', async function (element, wait) {
+    await wait(conditionWait, config.browser.timeout.page, await element(wdio));
 });
 
 /**
@@ -20,9 +23,9 @@ When('I wait until {element} {conditionWait}', async function (element, wait) {
  * @example I wait until text of 'Header' to be equal 'Javascript'
  * @example I wait until text of 'Header' not to be equal 'Python'
  */
-When('I wait until text of {element} {valueWait} {text}', async function (element, wait, expectedValue) {
-    const getValue = async () => (await element).getText();
-    await wait(getValue, expectedValue, config.browser.timeout.page);
+When('I wait until text of {element} {wait} {text}', async function (element, wait, expectedValue) {
+    const getValue = async () => (await element(wdio)).getText();
+    await wait(valueWait, config.browser.timeout.page, getValue, expectedValue);
 });
 
 /**
@@ -35,8 +38,9 @@ When('I wait until text of {element} {valueWait} {text}', async function (elemen
  * @example I wait until number of elements in 'Search Results' collection to be below '51'
  */
 When(
-    'I wait until number of elements in {lazyElement} collection {valueWait} {text}',
+    'I wait until number of elements in {lazyElement} collection {wait} {text}',
     async function (collection, wait, expectedValue) {
-        const getValue = async () => (await collection()).length;
-        await wait(getValue, expectedValue, config.browser.timeout.page);
+        const col = await collection(wdio);
+        const getValue = async () => (await col()).length;
+        await wait(valueWait, config.browser.timeout.page, getValue, expectedValue);
 });

@@ -42,10 +42,10 @@ const waits = {
  * @return {Promise<void>}
  */
 export async function conditionWait(
-    element: Element<'async'>,
     validationType: string,
+    reverse: boolean = false,
     timeout: number = 10000,
-    reverse: boolean = false
+    element: Element<'async'>
 ) {
     const timeoutMsg: string = `Element is${reverse ? ' ' : ' not'} ${validationType}`;
     const waitFn = waits[validationType];

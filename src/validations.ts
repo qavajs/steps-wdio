@@ -1,6 +1,7 @@
 import { Element } from 'webdriverio';
-import {Then, When} from '@cucumber/cucumber';
+import { Then } from '@cucumber/cucumber';
 import { conditionWait, conditionValidations } from './conditionWait';
+import { wdio } from './wdioResolver';
 
 /**
  * Verify element condition
@@ -10,8 +11,8 @@ import { conditionWait, conditionValidations } from './conditionWait';
  * @example I expect 'Loading' not to be present
  * @example I expect 'Search Bar > Submit Button' to be clickable
  */
-Then('I expect {element} {conditionWait}', async function (element, wait) {
-    await wait(await element, config.browser.timeout.page);
+Then('I expect {element} {wait}', async function (element, wait) {
+    await wait(conditionWait, config.browser.timeout.page, await element(wdio));
 });
 
 /**
@@ -24,9 +25,10 @@ Then('I expect {element} {conditionWait}', async function (element, wait) {
  */
 Then(
     'I expect text of {element} element {validation} {text}',
-    async function (element: Element<'async'>, validation: Function, value: any) {
-        await conditionWait(await element, conditionValidations.VISIBLE, config.browser.timeout.visible);
-        const elementText: string = await (await element).getText();
+    async function (element: Function, validation: Function, value: any) {
+        const el = await element(wdio);
+        await conditionWait(conditionValidations.VISIBLE, false, config.browser.timeout.visible, el);
+        const elementText: string = await el.getText();
         validation(elementText, await value);
     }
 );

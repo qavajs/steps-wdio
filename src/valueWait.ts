@@ -22,11 +22,11 @@ const waits = {
  * @return {Promise<void>}
  */
 export async function valueWait(
-    valueFn: Function,
-    expected: any,
     validationType: string,
+    reverse: boolean = false,
     timeout: number = 10000,
-    reverse: boolean = false
+    valueFn: Function,
+    expected: any
 ) {
     const timeoutMsg: string = `Value is${reverse ? ' ' : ' not'} ${validationType} ${expected}`;
     const options = { timeout, timeoutMsg };

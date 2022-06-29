@@ -1,6 +1,7 @@
 import { When } from '@cucumber/cucumber';
-import {Element, ElementArray} from 'webdriverio';
+import { Element, ElementArray } from 'webdriverio';
 import { conditionValidations, conditionWait } from './conditionWait';
+import { wdio } from './wdioResolver';
 
 /**
  * Opens provided url
@@ -17,9 +18,10 @@ When('I open {text} url', async function (url: string|Promise<string>) {
  * @param {string} value - value to type
  * @example type 'wikipedia' to 'Google Input'
  */
-When('I type {string} to {element}', async function (value: string, element: Element<'async'>) {
-    await conditionWait(await element, conditionValidations.VISIBLE, config.browser.timeout.visible);
-    await (await element).addValue(await value);
+When('I type {string} to {element}', async function (value: string, element: Function) {
+    const el = await element(wdio);
+    await conditionWait(conditionValidations.VISIBLE, false, config.browser.timeout.visible, el);
+    await el.addValue(await value);
 });
 
 /**
@@ -27,9 +29,10 @@ When('I type {string} to {element}', async function (value: string, element: Ele
  * @param {Element} element - element to click
  * @example click 'Google Button'
  */
-When('I click {element}', async function (element: Element<'async'>) {
-    await conditionWait(await element, conditionValidations.VISIBLE, config.browser.timeout.visible);
-    await (await element).click();
+When('I click {element}', async function (element: Function) {
+    const el = await element(wdio);
+    await conditionWait(conditionValidations.VISIBLE, false, config.browser.timeout.visible, el);
+    await el.click();
 });
 
 /**
@@ -37,9 +40,10 @@ When('I click {element}', async function (element: Element<'async'>) {
  * @param {Element} element - double element to click
  * @example double click 'Google Button'
  */
-When('I double click {element}', async function (element: Element<'async'>) {
-    await conditionWait(await element, conditionValidations.VISIBLE, config.browser.timeout.visible);
-    await (await element).doubleClick();
+When('I double click {element}', async function (element: Function) {
+    const el = await element(wdio);
+    await conditionWait(conditionValidations.VISIBLE, false, config.browser.timeout.visible, el);
+    await el.doubleClick();
 });
 
 /**
@@ -47,9 +51,10 @@ When('I double click {element}', async function (element: Element<'async'>) {
  * @param {Element} element - element to right click
  * @example right click 'Google Button'
  */
-When('I right click {element}', async function (element: Element<'async'>) {
-    await conditionWait(await element, conditionValidations.VISIBLE, config.browser.timeout.visible);
-    await (await element).click({button: 'right'});
+When('I right click {element}', async function (element: Function) {
+    const el = await element(wdio);
+    await conditionWait(conditionValidations.VISIBLE, false, config.browser.timeout.visible, el);
+    await el.click({button: 'right'});
 })
 
 /**
@@ -57,9 +62,10 @@ When('I right click {element}', async function (element: Element<'async'>) {
  * @param {Element} element - element to clear
  * @example clear 'Google Input'
  */
-When('I clear {element}', async function (element: Element<'async'>) {
-    await conditionWait(await element, conditionValidations.VISIBLE, config.browser.timeout.visible);
-    await (await element).clearValue();
+When('I clear {element}', async function (element: Function) {
+    const el = await element(wdio);
+    await conditionWait(conditionValidations.VISIBLE, false, config.browser.timeout.visible, el);
+    await el.clearValue();
 });
 
 /**
@@ -70,8 +76,8 @@ When('I clear {element}', async function (element: Element<'async'>) {
  */
 When(
     'I click {text} in {element} collection',
-    async function (expectedText: string|Promise<string>, collection: ElementArray) {
-        for (const ePromise of await collection) {
+    async function (expectedText: string|Promise<string>, collection: Function) {
+        for (const ePromise of await collection(wdio)) {
             const element = await ePromise;
             const text = await element.getText();
             if (text === await expectedText) {
@@ -143,7 +149,8 @@ When('I press {string} key', async function (key: string) {
  * @param {Element} element - element to hover over
  * @example hover over 'Google Button'
  */
-When('I hover over {element}', async function (element: Element<'async'>) {
-    await conditionWait(await element, conditionValidations.VISIBLE, config.browser.timeout.visible);
-    await (await element).moveTo();
+When('I hover over {element}', async function (element: Function) {
+    const el = await element(wdio);
+    await conditionWait(conditionValidations.VISIBLE, false, config.browser.timeout.visible, el);
+    await el.moveTo();
 });
