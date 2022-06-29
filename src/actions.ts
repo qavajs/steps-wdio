@@ -1,35 +1,6 @@
-import {Element, ElementArray, Browser} from 'webdriverio';
-import { Before, After, When, Then, defineParameterType } from '@cucumber/cucumber';
-import { remote } from 'webdriverio';
-import memory from '@qavajs/memory';
-import { po } from '@qavajs/po';
-import { wait, validations } from './wait';
-import defaultTimeouts from './defaultTimeouts';
-
-declare global {
-    var browser: Browser<'async'>;
-    var config: any;
-}
-
-defineParameterType({
-    name: 'element',
-    regexp: /'(.+)'/,
-    transformer: async p => po.getElement(await memory.getValue(p))
-});
-
-Before(async function () {
-    config.browser.timeout = {
-        defaultTimeouts,
-        ...config.browser.timeout
-    }
-    global.browser = await remote(config.browser);
-    po.init(browser, { timeout: config.browser.timeout.present });
-    po.register(config.pageObject);
-});
-
-After(async function () {
-    await browser.deleteSession();
-});
+import { When } from '@cucumber/cucumber';
+import {Element, ElementArray} from 'webdriverio';
+import { conditionValidations, conditionWait } from './conditionWait';
 
 /**
  * Opens provided url
@@ -47,7 +18,7 @@ When('I open {text} url', async function (url: string|Promise<string>) {
  * @example type 'wikipedia' to 'Google Input'
  */
 When('I type {string} to {element}', async function (value: string, element: Element<'async'>) {
-    await wait(await element, validations.VISIBLE, config.browser.timeout.visible);
+    await conditionWait(await element, conditionValidations.VISIBLE, config.browser.timeout.visible);
     await (await element).addValue(await value);
 });
 
@@ -57,7 +28,7 @@ When('I type {string} to {element}', async function (value: string, element: Ele
  * @example click 'Google Button'
  */
 When('I click {element}', async function (element: Element<'async'>) {
-    await wait(await element, validations.VISIBLE, config.browser.timeout.visible);
+    await conditionWait(await element, conditionValidations.VISIBLE, config.browser.timeout.visible);
     await (await element).click();
 });
 
@@ -67,7 +38,7 @@ When('I click {element}', async function (element: Element<'async'>) {
  * @example double click 'Google Button'
  */
 When('I double click {element}', async function (element: Element<'async'>) {
-    await wait(await element, validations.VISIBLE, config.browser.timeout.visible);
+    await conditionWait(await element, conditionValidations.VISIBLE, config.browser.timeout.visible);
     await (await element).doubleClick();
 });
 
@@ -77,7 +48,7 @@ When('I double click {element}', async function (element: Element<'async'>) {
  * @example right click 'Google Button'
  */
 When('I right click {element}', async function (element: Element<'async'>) {
-    await wait(await element, validations.VISIBLE, config.browser.timeout.visible);
+    await conditionWait(await element, conditionValidations.VISIBLE, config.browser.timeout.visible);
     await (await element).click({button: 'right'});
 })
 
@@ -87,26 +58,9 @@ When('I right click {element}', async function (element: Element<'async'>) {
  * @example clear 'Google Input'
  */
 When('I clear {element}', async function (element: Element<'async'>) {
-    await wait(await element, validations.VISIBLE, config.browser.timeout.visible);
+    await conditionWait(await element, conditionValidations.VISIBLE, config.browser.timeout.visible);
     await (await element).clearValue();
 });
-
-/**
- * Verify that text of element satisfy condition
- * @param {Element} element - element to get text
- * @param {string} validation - validation
- * @param {string} value - expected result
- * @example I expect text of '#1 of Search Results' equals to 'google'
- * @example I expect text of '#2 of Search Results' does not contain 'yandex'
- */
-Then(
-    'I expect text of {element} element {validation} {text}',
-    async function (element: Element<'async'>, validation: Function, value: any) {
-        await wait(await element, validations.VISIBLE, config.browser.timeout.visible);
-        const elementText: string = await (await element).getText();
-        validation(elementText, await value);
-    }
-);
 
 /**
  * Click on element with desired text in collection
@@ -125,7 +79,7 @@ When(
             }
         }
         throw new Error(`text '${expectedText}' is not found in collection`);
-});
+    });
 
 /**
  * Switch to parent frame
@@ -190,6 +144,6 @@ When('I press {string} key', async function (key: string) {
  * @example hover over 'Google Button'
  */
 When('I hover over {element}', async function (element: Element<'async'>) {
-    await wait(await element, validations.VISIBLE, config.browser.timeout.visible);
+    await conditionWait(await element, conditionValidations.VISIBLE, config.browser.timeout.visible);
     await (await element).moveTo();
 });
