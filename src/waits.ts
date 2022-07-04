@@ -1,5 +1,6 @@
 import { When } from '@cucumber/cucumber';
 import { Locator } from './parameterTypeTransformer';
+import { Element, ElementArray } from "webdriverio";
 
 /**
  * Wait for element condition
@@ -41,7 +42,7 @@ When(
 When(
     'I wait until number of elements in {locator} collection {valueWait} {text}',
     async function (collection: Locator, wait: Function, expectedValue: any) {
-        const getValue = async () => (await collection()).length;
+        const getValue = async () => (await collection() as ElementArray).length;
         await wait(getValue, expectedValue, config.browser.timeout.page);
     }
 );

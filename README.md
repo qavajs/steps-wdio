@@ -32,3 +32,5 @@ module.exports = {
 [validation steps](docs/validation_steps.md)
 
 [wait steps](docs/wait_steps.md)
+
+[memory steps](docs/memory_steps.md)

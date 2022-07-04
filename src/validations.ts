@@ -23,7 +23,7 @@ Then('I expect {element} {conditionWait}', async function (element: Element<'asy
  * @example I expect text of '#2 of Search Results' does not contain 'yandex'
  */
 Then(
-    'I expect text of {element} element {validation} {text}',
+    'I expect text of {element} {validation} {text}',
     async function (element: Element<'async'>, validation: Function, expectedValue: any) {
         await conditionWait(await element, conditionValidations.VISIBLE, config.browser.timeout.visible);
         const elementText: string = await (await element).getText();

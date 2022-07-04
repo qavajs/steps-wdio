@@ -34,7 +34,7 @@ example:
 ```
 
 ---
-### I expect text of {element} element {validation} {text} &#9989;
+### I expect text of {element} {validation} {text} &#9989;
 
 Verify that text of element satisfies condition
 
