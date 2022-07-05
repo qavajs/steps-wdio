@@ -5,7 +5,7 @@ import { conditionValidations, conditionWait } from './conditionWait';
 /**
  * Opens provided url
  * @param {string} url - url to navigate
- * @example open 'https://google.com'
+ * @example I open 'https://google.com'
  */
 When('I open {text} url', async function (url: string|Promise<string>) {
     await browser.url(await url);
@@ -15,7 +15,7 @@ When('I open {text} url', async function (url: string|Promise<string>) {
  * Type text to element
  * @param {Element} element - element to type
  * @param {string} value - value to type
- * @example type 'wikipedia' to 'Google Input'
+ * @example I type 'wikipedia' to 'Google Input'
  */
 When('I type {string} to {element}', async function (value: string, element: Element<'async'>) {
     await conditionWait(await element, conditionValidations.VISIBLE, config.browser.timeout.visible);
@@ -25,7 +25,7 @@ When('I type {string} to {element}', async function (value: string, element: Ele
 /**
  * Click element
  * @param {Element} element - element to click
- * @example click 'Google Button'
+ * @example I click 'Google Button'
  */
 When('I click {element}', async function (element: Element<'async'>) {
     await conditionWait(await element, conditionValidations.VISIBLE, config.browser.timeout.visible);
@@ -35,7 +35,7 @@ When('I click {element}', async function (element: Element<'async'>) {
 /**
  * Double click element
  * @param {Element} element - double element to click
- * @example double click 'Google Button'
+ * @example I double click 'Google Button'
  */
 When('I double click {element}', async function (element: Element<'async'>) {
     await conditionWait(await element, conditionValidations.VISIBLE, config.browser.timeout.visible);
@@ -45,7 +45,7 @@ When('I double click {element}', async function (element: Element<'async'>) {
 /**
  * Right click element
  * @param {Element} element - element to right click
- * @example right click 'Google Button'
+ * @example I right click 'Google Button'
  */
 When('I right click {element}', async function (element: Element<'async'>) {
     await conditionWait(await element, conditionValidations.VISIBLE, config.browser.timeout.visible);
@@ -55,7 +55,7 @@ When('I right click {element}', async function (element: Element<'async'>) {
 /**
  * Clear input
  * @param {Element} element - element to clear
- * @example clear 'Google Input'
+ * @example I clear 'Google Input'
  */
 When('I clear {element}', async function (element: Element<'async'>) {
     await conditionWait(await element, conditionValidations.VISIBLE, config.browser.timeout.visible);
@@ -66,7 +66,7 @@ When('I clear {element}', async function (element: Element<'async'>) {
  * Click on element with desired text in collection
  * @param {string} expectedText - text to click
  * @param {ElementArray} collection - collection to search text
- * @example click 'google' text in 'Search Engines' collection
+ * @example I click 'google' text in 'Search Engines' collection
  */
 When(
     'I click {text} in {element} collection',
@@ -83,7 +83,7 @@ When(
 
 /**
  * Switch to parent frame
- * @example switch to parent frame
+ * @example I switch to parent frame
  */
 When('I switch to parent frame', async function () {
     await browser.switchToParentFrame();
@@ -92,7 +92,7 @@ When('I switch to parent frame', async function () {
 /**
  * Switch to frame by index
  * @param {number} index - index to switch
- * @example switch to 2 frame
+ * @example I switch to 2 frame
  */
 When('I switch to {int} frame', async function (index: number) {
     await browser.switchToFrame(index);
@@ -101,7 +101,7 @@ When('I switch to {int} frame', async function (index: number) {
 /**
  * Switch to window by index
  * @param {number} index - index to switch
- * @example switch to 2 window
+ * @example I switch to 2 window
  */
 When('I switch to {int} window', async function (index: number) {
     await browser.waitUntil(
@@ -115,7 +115,7 @@ When('I switch to {int} window', async function (index: number) {
 /**
  * Switch to window by text
  * @param {string} matcher - window matcher (url or title)
- * @example switch to 'google.com' window
+ * @example I switch to 'google.com' window
  */
 When('I switch to {string} window', async function (matcher: string) {
     await browser.switchWindow(matcher);
@@ -123,7 +123,7 @@ When('I switch to {string} window', async function (matcher: string) {
 
 /**
  * Refresh current page
- * @example refresh page
+ * @example I refresh page
  */
 When('I refresh page', async function () {
     await browser.refresh();
@@ -132,7 +132,7 @@ When('I refresh page', async function () {
 /**
  * Press button
  * @param {string} key - key to press
- * @example press 'Enter' key
+ * @example I press 'Enter' key
  */
 When('I press {string} key', async function (key: string) {
     await browser.keys(key);
@@ -141,7 +141,7 @@ When('I press {string} key', async function (key: string) {
 /**
  * Hover over element
  * @param {Element} element - element to hover over
- * @example hover over 'Google Button'
+ * @example I hover over 'Google Button'
  */
 When('I hover over {element}', async function (element: Element<'async'>) {
     await conditionWait(await element, conditionValidations.VISIBLE, config.browser.timeout.visible);

@@ -2,13 +2,15 @@ import { conditionWait } from './conditionWait';
 import { valueWait } from './valueWait';
 import { po } from '@qavajs/po';
 import memory from '@qavajs/memory';
-import { Element } from "webdriverio";
+import { Element, ElementArray } from 'webdriverio';
 
-export async function aliasTransformer(alias: string) {
+export type Locator = () => Promise<Element<'async'> | ElementArray>;
+
+export async function aliasTransformer(alias: string): Promise<Element<'async'> | ElementArray> {
     return po.getElement(await memory.getValue(alias))
 }
 
-export function lazyAliasTransformer(alias: string) {
+export function locatorTransformer(alias: string): Locator {
     return async () => po.getElement(await memory.getValue(alias))
 }
 

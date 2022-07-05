@@ -1,24 +1,37 @@
 import { defineParameterType } from '@cucumber/cucumber';
-import { aliasTransformer, conditionWaitTransformer, valueWaitTransformer, lazyAliasTransformer } from './parameterTypeTransformer';
+import { aliasTransformer, conditionWaitTransformer, valueWaitTransformer, locatorTransformer } from './parameterTypeTransformer';
 
+/**
+ * Resolves into wdio element
+ * @returns {Element<'async'>}
+ */
 defineParameterType({
     name: 'element',
     regexp: /'(.+)'/,
     transformer: aliasTransformer
 });
 
+/**
+ * Resolves into function that return wdio element
+ */
 defineParameterType({
-    name: 'lazyElement',
+    name: 'locator',
     regexp: /'(.+)'/,
-    transformer: lazyAliasTransformer
+    transformer: locatorTransformer
 });
 
+/**
+ * Resolves into function that perform element condition wait
+ */
 defineParameterType({
     name: 'conditionWait',
     regexp: /(.+)/,
     transformer: conditionWaitTransformer
 });
 
+/**
+ * Resolves into function that perform element value wait
+ */
 defineParameterType({
     name: 'valueWait',
     regexp: /(.+)/,

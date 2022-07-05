@@ -1,5 +1,5 @@
 # @qavajs/steps-wdio
-Step library to work with webdriver io using DSL page object
+Step library to work with webdriverio using DSL page object
 
 ```javascript
 const App = require('./page_object');
@@ -22,6 +22,15 @@ module.exports = {
     }
 }
 ```
+## Parameter Types
+
+[types](docs/parameter_types.md)
 
 ## Steps
-[implemented steps](docs/steps.md)
+[action steps](docs/action_steps.md)
+
+[validation steps](docs/validation_steps.md)
+
+[wait steps](docs/wait_steps.md)
+
+[memory steps](docs/memory_steps.md)

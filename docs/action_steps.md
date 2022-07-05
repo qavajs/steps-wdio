@@ -1,6 +1,6 @@
-# Steps
+# Action Steps
 
-### I open {memory} url &#9989;
+### I open {text} url &#9989;
 
 Opens provided url
 
@@ -47,22 +47,6 @@ Clear element
 example:
 ```gherkin
    When I clear 'Google Button'
-```
----
-### I expect text of {element} element{reverse} to {validation} {memory} &#9989;
-
-Verify that text of element satisfies condition
-
-|   param    |  type   |    description     |
-|:----------:|:-------:|:------------------:|
-|  element   | Element |  element to clear  |
-|  reverse   | boolean | reverse validation |
-| validation | string  |  validation type   |
-|   value    | string  |  expected result   |
-
-example:
-```gherkin
-   Then I expect text of '#1 of Search Results' to be equal 'google'
 ```
 ---
 ### template &#9989;&#10060;
