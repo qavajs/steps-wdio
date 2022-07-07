@@ -2,9 +2,10 @@
   "name": "@qavajs/steps-wdio",
   "version": "0.0.3",
   "description": "steps to interact with wdio",
-  "main": "lib/index.ts",
+  "main": "./index.js",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "test": "jest --coverage"
   },
   "repository": {
     "type": "git",
@@ -19,8 +20,13 @@
   },
   "homepage": "https://github.com/qavajs/steps-wdio#readme",
   "devDependencies": {
-    "@types/chai": "^4.3.1",
     "@cucumber/cucumber": "^8.2.2",
+    "@types/chai": "^4.3.1",
+    "@types/jest": "^28.1.4",
+    "jest": "^28.1.2",
+    "ts-jest": "^28.0.5"
+  },
+  "dependencies": {
     "@qavajs/memory": "^1.0.0",
     "@qavajs/po": "^1.0.0",
     "webdriverio": "^7.20.1"

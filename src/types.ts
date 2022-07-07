@@ -1,5 +1,7 @@
 import { defineParameterType } from '@cucumber/cucumber';
 import { aliasTransformer, conditionWaitTransformer, valueWaitTransformer, locatorTransformer } from './parameterTypeTransformer';
+import { conditionWaitRegexp } from './conditionWait';
+import { valueWaitRegexp } from './valueWait';
 
 /**
  * Resolves into wdio element
@@ -8,7 +10,8 @@ import { aliasTransformer, conditionWaitTransformer, valueWaitTransformer, locat
 defineParameterType({
     name: 'element',
     regexp: /'(.+)'/,
-    transformer: aliasTransformer
+    transformer: aliasTransformer,
+    useForSnippets: false
 });
 
 /**
@@ -17,7 +20,8 @@ defineParameterType({
 defineParameterType({
     name: 'locator',
     regexp: /'(.+)'/,
-    transformer: locatorTransformer
+    transformer: locatorTransformer,
+    useForSnippets: false
 });
 
 /**
@@ -25,8 +29,9 @@ defineParameterType({
  */
 defineParameterType({
     name: 'conditionWait',
-    regexp: /(.+)/,
-    transformer: conditionWaitTransformer
+    regexp: conditionWaitRegexp,
+    transformer: conditionWaitTransformer,
+    useForSnippets: false
 });
 
 /**
@@ -34,6 +39,7 @@ defineParameterType({
  */
 defineParameterType({
     name: 'valueWait',
-    regexp: /(.+)/,
-    transformer: valueWaitTransformer
+    regexp: valueWaitRegexp,
+    transformer: valueWaitTransformer,
+    useForSnippets: false
 });
