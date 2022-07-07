@@ -1,4 +1,5 @@
 import {conditionWaitTransformer} from '../src/parameterTypeTransformer';
+import {conditionWait} from '../src/conditionWait';
 import {test, jest} from '@jest/globals';
 import {Element} from 'webdriverio';
 
@@ -23,7 +24,6 @@ const mocks: any = {
     waitForExist: jest.fn(),
     waitForClickable: jest.fn(),
     waitForDisplayed: jest.fn()
-
 }
 
 const presentTests: Array<TestParams> = [
@@ -157,7 +157,19 @@ test.each([...presentTests, ...clickableTests, ...visibleTests, ...invisibleTest
     });
 });
 
-
 test('should throw an error if validation is not implemented', async () => {
     expect(() => conditionWaitTransformer('to be cool')).toThrowError('to be cool wait is not implemented')
+});
+
+test('should use default reverse and timeout', async () => {
+    await conditionWait(
+        {waitForDisplayed: mocks.waitForDisplayed} as Element<'async'>,
+        'visible'
+    );
+    expect(mocks.waitForDisplayed).toBeCalledTimes(1);
+    expect(mocks.waitForDisplayed).toBeCalledWith({
+        reverse: false,
+        timeout: 10000,
+        timeoutMsg: 'Element is not visible'
+    });
 });
