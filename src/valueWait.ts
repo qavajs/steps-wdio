@@ -5,6 +5,13 @@ export const valueValidations = {
     BELOW: 'below'
 }
 
+const notClause = '(not )?';
+const toBeClause = 'to (?:be )?';
+const validationClause = `(${Object.values(valueValidations).join('|')})`;
+
+export const valueWaitRegexp = new RegExp(`(${notClause}${toBeClause}${validationClause})`);
+export const valueWaitExtractRegexp = new RegExp(`^${notClause}${toBeClause}${validationClause}$`);
+
 const waits = {
     [valueValidations.EQUAL]: async (valueFn: Function, expected: any) => (await valueFn()) == expected,
     [valueValidations.CONTAIN]: async (valueFn: Function, expected: any) => (await valueFn()).includes(expected),
@@ -26,11 +33,10 @@ export async function valueWait(
     expected: any,
     validationType: string,
     timeout: number = 10000,
-    reverse: boolean = false
+    reverse: boolean
 ) {
-    const timeoutMsg: string = `Value is${reverse ? ' ' : ' not'} ${validationType} ${expected}`;
+    const timeoutMsg: string = `Value is${reverse ? '' : ' not'} ${validationType} ${expected}`;
     const options = { timeout, timeoutMsg };
     const waitFn = waits[validationType];
-    if (!waitFn) throw new Error(`${validationType} validation is not implemented`);
     await browser.waitUntil(async () => reverse !== await waitFn(valueFn, expected), options);
 }

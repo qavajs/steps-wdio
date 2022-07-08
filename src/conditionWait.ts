@@ -7,6 +7,13 @@ export const conditionValidations = {
     INVISIBLE: 'invisible'
 }
 
+const notClause = '(not )?';
+const toBeClause = 'to (?:be )?';
+const validationClause = `(${Object.values(conditionValidations).join('|')})`;
+
+export const conditionWaitRegexp = new RegExp(`(${notClause}${toBeClause}${validationClause})`);
+export const conditionWaitExtractRegexp = new RegExp(`^${notClause}${toBeClause}${validationClause}$`);
+
 const waits = {
     [conditionValidations.PRESENT]: (
         element: Element<'async'>,
@@ -47,8 +54,7 @@ export async function conditionWait(
     timeout: number = 10000,
     reverse: boolean = false
 ) {
-    const timeoutMsg: string = `Element is${reverse ? ' ' : ' not'} ${validationType}`;
+    const timeoutMsg: string = `Element is${reverse ? '' : ' not'} ${validationType}`;
     const waitFn = waits[validationType];
-    if (!waitFn) throw new Error(`${validationType} validation is not implemented`);
     await waitFn(element, reverse, timeout, timeoutMsg);
 }

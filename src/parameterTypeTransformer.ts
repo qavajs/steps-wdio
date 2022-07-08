@@ -1,5 +1,5 @@
-import { conditionWait } from './conditionWait';
-import { valueWait } from './valueWait';
+import { conditionWait, conditionWaitExtractRegexp } from './conditionWait';
+import { valueWait, valueWaitExtractRegexp } from './valueWait';
 import { po } from '@qavajs/po';
 import memory from '@qavajs/memory';
 import { Element, ElementArray } from 'webdriverio';
@@ -15,16 +15,18 @@ export function locatorTransformer(alias: string): Locator {
 }
 
 export function conditionWaitTransformer(condition: string) {
-    const regexp: RegExp = /(not )?to (?:be )?(.+)/;
-    const [ _, reverse, validation ] = condition.match(regexp) as RegExpMatchArray;
+    const match = condition.match(conditionWaitExtractRegexp) as RegExpMatchArray;
+    if (!match) throw new Error(`${condition} wait is not implemented`);
+    const [ _, reverse, validation ] = match;
     return async function (element: Element<'async'>, timeout: number) {
         await conditionWait(element, validation, timeout, Boolean(reverse))
     }
 }
 
 export function valueWaitTransformer(condition: string) {
-    const regexp: RegExp = /(not )?to (?:be )?(.+)/;
-    const [ _, reverse, validation ] = condition.match(regexp) as RegExpMatchArray;
+    const match = condition.match(valueWaitExtractRegexp) as RegExpMatchArray;
+    if (!match) throw new Error(`${condition} wait is not implemented`);
+    const [ _, reverse, validation ] = match;
     return async function (valueFn: Function, expected: any, timeout: number) {
         await valueWait(valueFn, expected, validation, timeout, Boolean(reverse))
     }
