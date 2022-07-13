@@ -17,7 +17,7 @@ When('I open {text} url', async function (url: string|Promise<string>) {
  * @param {string} value - value to type
  * @example I type 'wikipedia' to 'Google Input'
  */
-When('I type {string} to {element}', async function (value: string, element: Element<'async'>) {
+When('I type {text} to {element}', async function (value: string, element: Element<'async'>) {
     await conditionWait(await element, conditionValidations.VISIBLE, config.browser.timeout.visible);
     await (await element).addValue(await value);
 });
