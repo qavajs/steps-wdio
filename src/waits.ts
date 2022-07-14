@@ -10,7 +10,7 @@ import { ElementArray } from 'webdriverio';
  * @example I wait until 'Loading' not to be present
  * @example I wait until 'Search Bar > Submit Button' to be clickable
  */
-When('I wait until {string} {}', async function (alias: string, waitType: string) {
+When('I wait until {string} {wdioConditionWait}', async function (alias: string, waitType: string) {
     const wait = getConditionWait(waitType);
     const element = await getElement(alias) as ElementAsync;
     await wait(element, config.browser.timeout.page);
@@ -25,7 +25,7 @@ When('I wait until {string} {}', async function (alias: string, waitType: string
  * @example I wait until text of 'Header' not to be equal 'Python'
  */
 When(
-    'I wait until text of {string} {} {string}',
+    'I wait until text of {string} {wdioValueWait} {string}',
     async function (alias: string, waitType: string, value: string) {
         const wait = getValueWait(waitType);
         const element = await getElement(alias) as ElementAsync;
@@ -45,7 +45,7 @@ When(
  * @example I wait until number of elements in 'Search Results' collection to be below '51'
  */
 When(
-    'I wait until number of elements in {string} collection {} {string}',
+    'I wait until number of elements in {string} collection {wdioValueWait} {string}',
     async function (alias: string, waitType: string, value: string) {
         const wait = getValueWait(waitType);
         const collection = await getLocator(alias) as Function;
@@ -64,7 +64,7 @@ When(
  * @example I wait until 'value' property of 'Search Input' to be equal 'Javascript'
  */
 When(
-    'I wait until {string} property of {string} {} {string}',
+    'I wait until {string} property of {string} {wdioValueWait} {string}',
     async function (property: string, alias: string, waitType: string, value: string) {
         const propertyName = await getValue(property);
         const wait = getValueWait(waitType);
@@ -84,7 +84,7 @@ When(
  * @example I wait until 'href' attribute of 'Home Link' to be equal '/javascript'
  */
 When(
-    'I wait until {string} property of {string} {} {string}',
+    'I wait until {string} attribute of {string} {wdioValueWait} {string}',
     async function (attribute: string, alias: string, waitType: string, value: string) {
         const attributeName = await getValue(attribute);
         const wait = getValueWait(waitType);

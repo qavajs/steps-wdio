@@ -10,6 +10,7 @@ const toBeClause = 'to (?:be )?';
 const validationClause = `(${Object.values(valueValidations).join('|')})`;
 
 export const valueWaitExtractRegexp = new RegExp(`^${notClause}${toBeClause}${validationClause}$`);
+export const valueWaitRegexp = new RegExp(`(${notClause}${toBeClause}${validationClause})`);
 
 const waits = {
     [valueValidations.EQUAL]: async (valueFn: Function, expected: any) => (await valueFn()) == expected,

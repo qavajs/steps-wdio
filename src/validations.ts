@@ -17,10 +17,10 @@ import { getValidation } from '@qavajs/validation';
  * @example I expect 'Loading' not to be present
  * @example I expect 'Search Bar > Submit Button' to be clickable
  */
-Then('I expect {string} {}', async function (alias: string, condition: string) {
+Then('I expect {string} {wdioConditionWait}', async function (alias: string, condition: string) {
     const element = await getElement(alias) as ElementAsync;
     const wait = getConditionWait(condition);
-    await wait(await element, config.browser.timeout.page);
+    await wait(element, config.browser.timeout.page);
 });
 
 /**
@@ -32,7 +32,7 @@ Then('I expect {string} {}', async function (alias: string, condition: string) {
  * @example I expect text of '#2 of Search Results' does not contain 'yandex'
  */
 Then(
-    'I expect text of {string} {} {string}',
+    'I expect text of {string} {wdioValidation} {string}',
     async function (alias: string, validationType: string, value: any) {
         const expectedValue = await getValue(value);
         const element = await getElement(alias) as ElementAsync;
@@ -53,7 +53,7 @@ Then(
  * @example I expect number of elements in 'Search Results' collection to be below '51'
  */
 Then(
-    'I expect number of elements in {string} collection {} {string}',
+    'I expect number of elements in {string} collection {wdioValidation} {string}',
     async function (alias: string, validationType: string, value: string) {
         const expectedValue = await getValue(value);
         const collection = await getElement(alias) as ElementArray;
@@ -72,14 +72,14 @@ Then(
  * @example I expect 'innerHTML' property of 'Label' to contain '<b>'
  */
 Then(
-    'I expect {string} property of {string} {} {string}',
+    'I expect {string} property of {string} {wdioValidation} {string}',
     async function (property: string, alias: string, validationType: string, value: string) {
         const propertyName = await getValue(property);
         const expectedValue = await getValue(value);
         const element = await getElement(alias) as ElementAsync;
         const validation = getValidation(validationType);
         await conditionWait(element, conditionValidations.PRESENT, config.browser.timeout.visible);
-        const actualValue = element.getProperty(propertyName);
+        const actualValue = await element.getProperty(propertyName);
         validation(actualValue, expectedValue);
     }
 );
@@ -93,14 +93,14 @@ Then(
  * @example I expect 'href' attribute of 'Home Link' to contain '/home'
  */
 Then(
-    'I expect {string} attribute of {string} {} {string}',
+    'I expect {string} attribute of {string} {wdioValidation} {string}',
     async function (attribute: string, alias: string, validationType: string, value: string) {
         const attributeName = await getValue(attribute);
         const expectedValue = await getValue(value);
         const element = await getElement(alias) as ElementAsync;
         const validation = getValidation(validationType);
         await conditionWait(element, conditionValidations.PRESENT, config.browser.timeout.visible);
-        const actualValue = element.getAttribute(attributeName);
+        const actualValue = await element.getAttribute(attributeName);
         validation(actualValue, expectedValue);
     }
 );

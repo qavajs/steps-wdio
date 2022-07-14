@@ -11,7 +11,7 @@ export function getValue(alias: string): any {
     return memory.getValue(alias)
 }
 
-export async function getElement(alias: string): Promise<Element<'async'> | ElementArray> {
+export async function getElement(alias: string): Promise<ElementAsync | ElementArray> {
     return po.getElement(await memory.getValue(alias))
 }
 

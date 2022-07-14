@@ -21,7 +21,7 @@ When('I open {string} url', async function (url: string) {
  */
 When('I type {string} to {string}', async function (value: string, alias: string) {
     const element = await getElement(alias) as ElementAsync;
-    const typeValue = await getValue(alias);
+    const typeValue = await getValue(value);
     await conditionWait(element, conditionValidations.VISIBLE, config.browser.timeout.visible);
     await element.addValue(typeValue);
 });
