@@ -5,16 +5,19 @@ import { po } from '@qavajs/po';
 
 declare global {
     var browser: Browser<'async'>;
+    var driver: Browser<'async'>;
     var config: any;
 }
 
 Before(async function () {
-    config.browser.timeout = {
+    const driverConfig = config.browser ?? config.driver;
+    driverConfig.timeout = {
         defaultTimeouts,
-        ...config.browser.timeout
+        ...driverConfig.timeout
     }
-    global.browser = await remote(config.browser);
-    po.init(browser, { timeout: config.browser.timeout.present });
+    global.browser = await remote(driverConfig);
+    global.driver = global.browser;
+    po.init(browser, { timeout: driverConfig.timeout.present });
     po.register(config.pageObject);
 });
 

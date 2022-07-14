@@ -9,7 +9,6 @@ const notClause = '(not )?';
 const toBeClause = 'to (?:be )?';
 const validationClause = `(${Object.values(valueValidations).join('|')})`;
 
-export const valueWaitRegexp = new RegExp(`(${notClause}${toBeClause}${validationClause})`);
 export const valueWaitExtractRegexp = new RegExp(`^${notClause}${toBeClause}${validationClause}$`);
 
 const waits = {

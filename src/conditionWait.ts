@@ -11,7 +11,6 @@ const notClause = '(not )?';
 const toBeClause = 'to (?:be )?';
 const validationClause = `(${Object.values(conditionValidations).join('|')})`;
 
-export const conditionWaitRegexp = new RegExp(`(${notClause}${toBeClause}${validationClause})`);
 export const conditionWaitExtractRegexp = new RegExp(`^${notClause}${toBeClause}${validationClause}$`);
 
 const waits = {

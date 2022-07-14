@@ -4,17 +4,22 @@ import { po } from '@qavajs/po';
 import memory from '@qavajs/memory';
 import { Element, ElementArray } from 'webdriverio';
 
-export type Locator = () => Promise<Element<'async'> | ElementArray>;
+export type ElementAsync = Element<'async'>;
+export type Locator = () => Promise<ElementAsync | ElementArray>;
 
-export async function aliasTransformer(alias: string): Promise<Element<'async'> | ElementArray> {
+export function getValue(alias: string): any {
+    return memory.getValue(alias)
+}
+
+export async function getElement(alias: string): Promise<Element<'async'> | ElementArray> {
     return po.getElement(await memory.getValue(alias))
 }
 
-export function locatorTransformer(alias: string): Locator {
+export function getLocator(alias: string): Locator {
     return async () => po.getElement(await memory.getValue(alias))
 }
 
-export function conditionWaitTransformer(condition: string) {
+export function getConditionWait(condition: string): Function {
     const match = condition.match(conditionWaitExtractRegexp) as RegExpMatchArray;
     if (!match) throw new Error(`${condition} wait is not implemented`);
     const [ _, reverse, validation ] = match;
@@ -23,7 +28,7 @@ export function conditionWaitTransformer(condition: string) {
     }
 }
 
-export function valueWaitTransformer(condition: string) {
+export function getValueWait(condition: string): Function {
     const match = condition.match(valueWaitExtractRegexp) as RegExpMatchArray;
     if (!match) throw new Error(`${condition} wait is not implemented`);
     const [ _, reverse, validation ] = match;
