@@ -1,25 +1,22 @@
 import { defineParameterType } from '@cucumber/cucumber';
-import { validationRegexp } from '@qavajs/validation';
-import { valueWaitRegexp } from './valueWait';
-import { conditionWaitRegexp } from './conditionWait';
 
 defineParameterType({
     name: 'wdioValidation',
-    regexp: validationRegexp,
+    regexp: /((?:is |do |does |to )?(not |to not )?(?:to )?(?:be )?(equal|have member|match|contain|above|below|greater than|less than|have type)(?:s|es)?)/,
     transformer: p => p,
     useForSnippets: false
 });
 
 defineParameterType({
     name: 'wdioValueWait',
-    regexp: valueWaitRegexp,
+    regexp: /((not )?to (?:be )?(equal|contain|above|below))/,
     transformer: p => p,
     useForSnippets: false
 });
 
 defineParameterType({
     name: 'wdioConditionWait',
-    regexp: conditionWaitRegexp,
+    regexp: /((not )?to (?:be )?(present|clickable|visible|invisible))/,
     transformer: p => p,
     useForSnippets: false
 });
