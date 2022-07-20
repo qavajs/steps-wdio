@@ -6,7 +6,6 @@ const App = require('./page_object');
 module.exports = {
     default: {
         require: [
-            '@qavajs/steps-config-loader',
             '@qavajs/steps-wdio'
         ],
         browser: {
@@ -22,15 +21,3 @@ module.exports = {
     }
 }
 ```
-## Parameter Types
-
-[types](docs/parameter_types.md)
-
-## Steps
-[action steps](docs/action_steps.md)
-
-[validation steps](docs/validation_steps.md)
-
-[wait steps](docs/wait_steps.md)
-
-[memory steps](docs/memory_steps.md)
