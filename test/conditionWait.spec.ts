@@ -1,7 +1,7 @@
-import {conditionWaitTransformer} from '../src/parameterTypeTransformer';
-import {conditionWait} from '../src/conditionWait';
-import {test, jest} from '@jest/globals';
-import {Element} from 'webdriverio';
+import { getConditionWait } from '../src/transformers';
+import { conditionWait } from '../src/conditionWait';
+import { test, jest } from '@jest/globals';
+import { Element } from 'webdriverio';
 
 interface MockElement {
     waitForExist?: Function,
@@ -147,7 +147,7 @@ test.each([...presentTests, ...clickableTests, ...visibleTests, ...invisibleTest
         expectedTimeout,
         timeoutMsg,
     }) => {
-    const waitFn = conditionWaitTransformer(validation);
+    const waitFn = getConditionWait(validation);
     await waitFn(element as Element<'async'>, timeout as number);
     expect(mocks[expectedWait]).toBeCalledTimes(1);
     expect(mocks[expectedWait]).toBeCalledWith({
@@ -158,7 +158,7 @@ test.each([...presentTests, ...clickableTests, ...visibleTests, ...invisibleTest
 });
 
 test('should throw an error if validation is not implemented', async () => {
-    expect(() => conditionWaitTransformer('to be cool')).toThrowError('to be cool wait is not implemented')
+    expect(() => getConditionWait('to be cool')).toThrowError('to be cool wait is not implemented')
 });
 
 test('should use default reverse and timeout', async () => {

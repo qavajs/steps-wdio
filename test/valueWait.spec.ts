@@ -1,4 +1,4 @@
-import {valueWaitTransformer} from '../src/parameterTypeTransformer';
+import { getValueWait } from '../src/transformers';
 import { test, jest } from '@jest/globals';
 
 const waitUntil = jest.fn((fn: Function, options: any) => ({ fn, options }));
@@ -218,7 +218,7 @@ test.each([...equalTests, ...containTests, ...aboveTests, ...belowTests, ...extr
         expectedTimeout,
         timeoutMsg
     }) => {
-        const waitFn = valueWaitTransformer(validation);
+        const waitFn = getValueWait(validation);
         await waitFn(valueFn, valueToCompare, timeout as number);
         const [compareFn, options] = waitUntil.mock.lastCall as [Function, Object];
         expect(waitUntil).toBeCalledTimes(1);
@@ -228,5 +228,5 @@ test.each([...equalTests, ...containTests, ...aboveTests, ...belowTests, ...extr
 
 
 test('should throw an error if validation is not implemented', async () => {
-    expect(() => valueWaitTransformer('to be cool')).toThrowError('to be cool wait is not implemented')
+    expect(() => getValueWait('to be cool')).toThrowError('to be cool wait is not implemented')
 });

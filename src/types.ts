@@ -1,45 +1,22 @@
 import { defineParameterType } from '@cucumber/cucumber';
-import { aliasTransformer, conditionWaitTransformer, valueWaitTransformer, locatorTransformer } from './parameterTypeTransformer';
-import { conditionWaitRegexp } from './conditionWait';
-import { valueWaitRegexp } from './valueWait';
 
-/**
- * Resolves into wdio element
- * @returns {Element<'async'>}
- */
 defineParameterType({
-    name: 'element',
-    regexp: /'(.+)'/,
-    transformer: aliasTransformer,
+    name: 'wdioValidation',
+    regexp: /((?:is |do |does |to )?(not |to not )?(?:to )?(?:be )?(equal|have member|match|contain|above|below|greater than|less than|have type)(?:s|es)?)/,
+    transformer: p => p,
     useForSnippets: false
 });
 
-/**
- * Resolves into function that return wdio element
- */
 defineParameterType({
-    name: 'locator',
-    regexp: /'(.+)'/,
-    transformer: locatorTransformer,
+    name: 'wdioValueWait',
+    regexp: /((not )?to (?:be )?(equal|contain|above|below))/,
+    transformer: p => p,
     useForSnippets: false
 });
 
-/**
- * Resolves into function that perform element condition wait
- */
 defineParameterType({
-    name: 'conditionWait',
-    regexp: conditionWaitRegexp,
-    transformer: conditionWaitTransformer,
-    useForSnippets: false
-});
-
-/**
- * Resolves into function that perform element value wait
- */
-defineParameterType({
-    name: 'valueWait',
-    regexp: valueWaitRegexp,
-    transformer: valueWaitTransformer,
+    name: 'wdioConditionWait',
+    regexp: /((not )?to (?:be )?(present|clickable|visible|invisible))/,
+    transformer: p => p,
     useForSnippets: false
 });
