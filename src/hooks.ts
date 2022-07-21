@@ -13,7 +13,7 @@ Before(async function () {
     config.browser = config.browser ?? config.driver;
     config.browser.timeout = {
         defaultTimeouts,
-        ...config.browse.timeout
+        ...config.browser.timeout
     }
     global.browser = await remote(config.browser);
     global.driver = global.browser;
