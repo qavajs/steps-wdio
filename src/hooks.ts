@@ -10,14 +10,14 @@ declare global {
 }
 
 Before(async function () {
-    const driverConfig = config.browser ?? config.driver;
-    driverConfig.timeout = {
+    config.browser = config.browser ?? config.driver;
+    config.browser.timeout = {
         defaultTimeouts,
-        ...driverConfig.timeout
+        ...config.browse.timeout
     }
-    global.browser = await remote(driverConfig);
+    global.browser = await remote(config.browser);
     global.driver = global.browser;
-    po.init(browser, { timeout: driverConfig.timeout.present });
+    po.init(browser, { timeout: config.browser.timeout.present });
     po.register(config.pageObject);
 });
 
