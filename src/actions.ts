@@ -158,3 +158,39 @@ When('I hover over {string}', async function (alias: string) {
     await conditionWait(element, conditionValidations.VISIBLE, config.browser.timeout.visible);
     await element.moveTo();
 });
+
+/**
+ * Select option with certain text from select element
+ * @param {string} option - option to select
+ * @param {string} alias - alias of select
+ * @example I select '1900' option from 'Registration Form > Date Of Birth'
+ * @example I select '$dateOfBirth' option from 'Registration Form > Date Of Birth' dropdown
+ */
+When('I select {string} option from {string} dropdown', async function (option: string, alias: string) {
+    const optionValue = await getValue(option);
+    const select = await getElement(alias) as ElementAsync;
+    await conditionWait(select, conditionValidations.VISIBLE, config.browser.timeout.visible);
+    await select.selectByVisibleText(optionValue)
+});
+
+/**
+ * Select option with certain text from select element
+ * @param {number} optionIndex - index of option to select
+ * @param {string} alias - alias of select
+ * @example I select 1 option from 'Registration Form > Date Of Birth' dropdown
+ */
+When('I select {int}(st|nd|rd|th) option from {string} dropdown', async function (optionIndex: number, alias: string) {
+    const select = await getElement(alias) as ElementAsync;
+    await conditionWait(select, conditionValidations.VISIBLE, config.browser.timeout.visible);
+    await select.selectByIndex(optionIndex)
+});
+
+/**
+ * Save page screenshot into memory
+ * @param {string} key - key to store value
+ * @example I save screenshot as 'screenshot'
+ */
+When('I save screenshot as {string}', async function(key: string) {
+    const screenshot = await browser.takeScreenshot();
+    memory.setValue(key, screenshot);
+});

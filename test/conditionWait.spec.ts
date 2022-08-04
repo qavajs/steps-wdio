@@ -6,7 +6,8 @@ import { Element } from 'webdriverio';
 interface MockElement {
     waitForExist?: Function,
     waitForClickable?: Function,
-    waitForDisplayed?: Function
+    waitForDisplayed?: Function,
+    waitForEnabled?: Function
 }
 
 type TestParams = {
@@ -23,7 +24,8 @@ type TestParams = {
 const mocks: any = {
     waitForExist: jest.fn(),
     waitForClickable: jest.fn(),
-    waitForDisplayed: jest.fn()
+    waitForDisplayed: jest.fn(),
+    waitForEnabled: jest.fn()
 }
 
 const presentTests: Array<TestParams> = [
@@ -118,6 +120,52 @@ const invisibleTests: Array<TestParams> = [
     }
 ]
 
+const enabledTests: Array<TestParams> = [
+    {
+        name: 'to be enabled',
+        validation: 'to be enabled',
+        element: {waitForEnabled: mocks.waitForEnabled},
+        expectedWait: 'waitForEnabled',
+        reverse: false,
+        timeout: 1,
+        expectedTimeout: 1,
+        timeoutMsg: 'Element is not enabled',
+    },
+    {
+        name: 'not to be enabled',
+        validation: 'not to be enabled',
+        element: {waitForEnabled: mocks.waitForEnabled},
+        expectedWait: 'waitForEnabled',
+        reverse: true,
+        timeout: 1,
+        expectedTimeout: 1,
+        timeoutMsg: 'Element is enabled',
+    }
+];
+
+const disabledTests: Array<TestParams> = [
+    {
+        name: 'to be disabled',
+        validation: 'to be disabled',
+        element: {waitForEnabled: mocks.waitForEnabled},
+        expectedWait: 'waitForEnabled',
+        reverse: true,
+        timeout: 1,
+        expectedTimeout: 1,
+        timeoutMsg: 'Element is not disabled',
+    },
+    {
+        name: 'not to be disabled',
+        validation: 'not to be disabled',
+        element: {waitForEnabled: mocks.waitForEnabled},
+        expectedWait: 'waitForEnabled',
+        reverse: false,
+        timeout: 1,
+        expectedTimeout: 1,
+        timeoutMsg: 'Element is disabled',
+    }
+];
+
 const extraTests: Array<TestParams> = [
     {
         name: 'default timeout',
@@ -135,9 +183,18 @@ beforeEach(() => {
     mocks.waitForExist.mockReset();
     mocks.waitForClickable.mockReset();
     mocks.waitForDisplayed.mockReset();
+    mocks.waitForEnabled.mockReset();
 });
 
-test.each([...presentTests, ...clickableTests, ...visibleTests, ...invisibleTests, ...extraTests])('$name', async (
+test.each([
+    ...presentTests,
+    ...clickableTests,
+    ...visibleTests,
+    ...invisibleTests,
+    ...enabledTests,
+    ...disabledTests,
+    ...extraTests,
+])('$name', async (
     {
         validation,
         element,

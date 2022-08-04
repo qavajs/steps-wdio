@@ -16,7 +16,7 @@ defineParameterType({
 
 defineParameterType({
     name: 'wdioConditionWait',
-    regexp: /((not )?to (?:be )?(present|clickable|visible|invisible))/,
+    regexp: /((not )?to (?:be )?(present|clickable|visible|invisible|enabled|disabled))/,
     transformer: p => p,
     useForSnippets: false
 });

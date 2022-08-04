@@ -4,7 +4,9 @@ export const conditionValidations = {
     PRESENT: 'present',
     CLICKABLE: 'clickable',
     VISIBLE: 'visible',
-    INVISIBLE: 'invisible'
+    INVISIBLE: 'invisible',
+    ENABLED: 'enabled',
+    DISABLED: 'disabled'
 }
 
 const notClause = '(not )?';
@@ -38,7 +40,19 @@ const waits = {
         reverse: boolean,
         timeout: number,
         timeoutMsg: string
-    ) => element.waitForDisplayed({reverse: !reverse, timeout, timeoutMsg})
+    ) => element.waitForDisplayed({reverse: !reverse, timeout, timeoutMsg}),
+    [conditionValidations.ENABLED]: (
+        element: Element<'async'>,
+        reverse: boolean,
+        timeout: number,
+        timeoutMsg: string
+    ) => element.waitForEnabled({reverse, timeout, timeoutMsg}),
+    [conditionValidations.DISABLED]: (
+        element: Element<'async'>,
+        reverse: boolean,
+        timeout: number,
+        timeoutMsg: string
+    ) => element.waitForEnabled({reverse: !reverse, timeout, timeoutMsg})
 }
 /**
  * Wait for condition
