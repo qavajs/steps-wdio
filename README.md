@@ -1,6 +1,11 @@
 # @qavajs/steps-wdio
 Step library to work with webdriverio using DSL page object
 
+## installation
+
+`npm install @qavajs/steps-wdio`
+
+## configuration
 ```javascript
 const App = require('./page_object');
 module.exports = {
