@@ -56,3 +56,68 @@ When('I save number of elements in {string} collection as {string}', async funct
     const value = collection.length;
     memory.setValue(key, value);
 });
+
+/**
+ * Save array of texts of collection to memory
+ * @param {string} alias - collection to get values
+ * @param {string} key - key to store value
+ * @example I save text of every element of 'Search Results' collection as 'searchResults'
+ */
+When(
+    'I save text of every element of {string} collection as {string}',
+    async function (alias: string, key: string) {
+        const collection = await getElement(alias) as ElementArray;
+        const values = await Promise.all(collection.map(element => element.getText()));
+        memory.setValue(key, values);
+    }
+);
+
+/**
+ * Save array of attributes of collection to memory
+ * @param {string} alias - collection to get values
+ * @param {string} key - key to store value
+ * @example I save 'checked' attribute of every element of 'Search > Checkboxes' collection as 'checkboxes'
+ */
+When(
+    'I save {string} attribute of every element of {string} collection as {string}',
+    async function (attribute: string, alias: string, key: string) {
+        const collection = await getElement(alias) as ElementArray;
+        const values = await Promise.all(collection.map(element => element.getAttribute(attribute)));
+        memory.setValue(key, values);
+    }
+);
+
+/**
+ * Save array of property of collection to memory
+ * @param {string} alias - collection to get values
+ * @param {string} key - key to store value
+ * @example I save 'href' property of every element of 'Search > Links' collection as 'hrefs'
+ */
+When(
+    'I save {string} property of every element of {string} collection as {string}',
+    async function (property: string, alias: string, key: string) {
+        const collection = await getElement(alias) as ElementArray;
+        const values = await Promise.all(collection.map(element => element.getProperty(property)));
+        memory.setValue(key, values);
+    }
+);
+
+/**
+ * Save current url to memory
+ * @param {string} key - key to store value
+ * @example I save current url as 'currentUrl'
+ */
+When('I save current url as {string}', async function (key: string) {
+    const url = await browser.getUrl();
+    memory.setValue(key, url);
+});
+
+/**
+ * Save current page title to memory
+ * @param {string} key - key to store value
+ * @example I save page title as 'currentTitle'
+ */
+When('I save page title as {string}', async function (key: string) {
+    const title = await browser.getTitle();
+    memory.setValue(key, title);
+});

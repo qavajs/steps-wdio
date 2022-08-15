@@ -1,5 +1,5 @@
 # @qavajs/steps-wdio
-Step library to work with webdriverio using DSL page object
+Step library to work with webdriverio in qava framework
 
 ## installation
 
