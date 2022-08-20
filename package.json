@@ -29,7 +29,7 @@
   "dependencies": {
     "@qavajs/memory": "^1.0.0",
     "@qavajs/po": "^1.0.0",
-    "@qavajs/validation": "^0.0.1",
+    "@qavajs/validation": "^0.0.2",
     "webdriverio": "^7.20.1"
   }
 }
