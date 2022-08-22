@@ -78,7 +78,7 @@ Then(
         const expectedValue = await getValue(value);
         const element = await getElement(alias) as ElementAsync;
         const validation = getValidation(validationType);
-        await conditionWait(element, conditionValidations.PRESENT, config.browser.timeout.visible);
+        await conditionWait(element, conditionValidations.PRESENT, config.browser.timeout.present);
         const actualValue = await element.getProperty(propertyName);
         validation(actualValue, expectedValue);
     }
@@ -99,9 +99,106 @@ Then(
         const expectedValue = await getValue(value);
         const element = await getElement(alias) as ElementAsync;
         const validation = getValidation(validationType);
-        await conditionWait(element, conditionValidations.PRESENT, config.browser.timeout.visible);
+        await conditionWait(element, conditionValidations.PRESENT, config.browser.timeout.present);
         const actualValue = await element.getAttribute(attributeName);
         validation(actualValue, expectedValue);
+    }
+);
+
+/**
+ * Verify that current url satisfies condition
+ * @param {string} validationType - validation
+ * @param {string} expected - expected value
+ * @example I expect current url contains 'wikipedia'
+ * @example I expect current url equals 'https://wikipedia.org'
+ */
+Then(
+    'I expect current url {wdioValidation} {string}',
+    async function (validationType: string, expected: string) {
+        const validation = getValidation(validationType);
+        const expectedUrl = await getValue(expected);
+        const actualUrl = await browser.getUrl();
+        validation(actualUrl, expectedUrl);
+    }
+);
+
+/**
+ * Verify that page title satisfies condition
+ * @param {string} validationType - validation
+ * @param {string} expected - expected value
+ * @example I expect page title equals 'Wikipedia'
+ */
+Then(
+    'I expect page title {wdioValidation} {string}',
+    async function (validationType: string, expected: string) {
+        const validation = getValidation(validationType);
+        const expectedTitle = await getValue(expected);
+        const actualTitle = await browser.getTitle();
+        validation(actualTitle, expectedTitle);
+    }
+);
+
+/**
+ * Verify that all texts in collection satisfy condition
+ * @param {string} alias - collection to get texts
+ * @param {string} validationType - validation
+ * @param {string} value - expected result
+ * @example I expect text of every element in 'Search Results' collection equals to 'google'
+ * @example I expect text of every element in 'Search Results' collection does not contain 'yandex'
+ */
+Then(
+    'I expect text of every element in {string} collection {wdioValidation} {string}',
+    async function (alias: string, validationType: string, value: string) {
+        const expectedValue = await getValue(value);
+        const collection = await getElement(alias) as ElementArray;
+        const validation = getValidation(validationType);
+        for (const element of collection) {
+            await conditionWait(await element, conditionValidations.PRESENT, config.browser.timeout.present);
+            const elementText: string = await (await element).getText();
+            validation(elementText, expectedValue);
+        }
+    }
+);
+
+/**
+ * Verify that all particular attributes in collection satisfy condition
+ * @param {string} alias - collection to get attrs
+ * @param {string} validationType - validation
+ * @param {string} value - expected result
+ * @example I expect 'href' attribute of every element in 'Search Results' collection to contain 'google'
+ */
+Then(
+    'I expect {string} attribute of every element in {string} collection {wdioValidation} {string}',
+    async function (attribute: string, alias: string, validationType: string, value: string) {
+        const expectedValue = await getValue(value);
+        const collection = await getElement(alias) as ElementArray;
+        const validation = getValidation(validationType);
+        for (const element of collection) {
+            await conditionWait(await element, conditionValidations.PRESENT, config.browser.timeout.present);
+            const value: string = await (await element).getAttribute(attribute);
+            validation(value, expectedValue);
+        }
+    }
+);
+
+/**
+ * Verify that all particular properties in collection satisfy condition
+ * @param {string} alias - collection to get props
+ * @param {string} validationType - validation
+ * @param {string} value - expected result
+ * @example I expect 'href' property of every element in 'Search Results' collection to contain 'google'
+ */
+Then(
+    'I expect {string} property of every element in {string} collection {wdioValidation} {string}',
+    async function (property: string, alias: string, validationType: string, value: string) {
+        const expectedValue = await getValue(value);
+        const collection = await getElement(alias) as ElementArray;
+        const validation = getValidation(validationType);
+        for (const element of collection) {
+            await conditionWait(await element, conditionValidations.PRESENT, config.browser.timeout.present);
+            const value: string = await (await element).getAttribute(property);
+            validation(value, expectedValue);
+        }
     }
 );
 
