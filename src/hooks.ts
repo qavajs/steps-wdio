@@ -25,7 +25,7 @@ Before(async function () {
 BeforeStep(async function () {
     if (config.screenshot === ScreenshotEvent.BEFORE_STEP) {
         try {
-            this.attach(await browser.takeScreenshot(), 'image/png');
+            this.attach(await browser.takeScreenshot(), 'base64:image/png');
         } catch (err) {
             console.warn(err)
         }
@@ -38,7 +38,7 @@ AfterStep(async function (step) {
             (config.screenshot === ScreenshotEvent.ON_FAIL && step.result.status === Status.FAILED) ||
             config.screenshot === ScreenshotEvent.AFTER_STEP
         ) {
-            this.attach(await browser.takeScreenshot(), 'image/png');
+            this.attach(await browser.takeScreenshot(), 'base64:image/png');
         }
     } catch (err) {
         console.warn(err)
