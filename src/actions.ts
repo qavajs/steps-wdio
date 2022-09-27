@@ -109,6 +109,16 @@ When('I switch to {int} frame', async function (index: number) {
 });
 
 /**
+ * Switch to frame by alias
+ * @param {string} alias - po alias
+ * @example I switch to 'Checkout Iframe' frame
+ */
+When('I switch to {string} frame', async function (alias: string) {
+    const element = await getElement(alias) as ElementAsync;
+    await browser.switchToFrame(element);
+});
+
+/**
  * Switch to window by index
  * @param {number} index - index to switch
  * @example I switch to 2 window
