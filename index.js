@@ -6,3 +6,4 @@ require('./lib/waits.js');
 require('./lib/validations.js');
 require('./lib/cookies.js');
 require('./lib/localSessionStorage.js');
+require('./lib/mobile.js');
