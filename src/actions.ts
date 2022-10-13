@@ -192,15 +192,14 @@ When('I select {string} option from {string} dropdown', async function (option: 
 When('I select {int}(st|nd|rd|th) option from {string} dropdown', async function (optionIndex: number, alias: string) {
     const select = await getElement(alias) as ElementAsync;
     await conditionWait(select, conditionValidations.VISIBLE, config.browser.timeout.visible);
-    await select.selectByIndex(optionIndex)
+    await select.selectByIndex(optionIndex - 1)
 });
 
 /**
- * Save page screenshot into memory
- * @param {string} key - key to store value
- * @example I save screenshot as 'screenshot'
+ * Wait
+ * @param {number} ms - milliseconds
+ * @example I wait 1000 ms
  */
-When('I save screenshot as {string}', async function(key: string) {
-    const screenshot = await browser.takeScreenshot();
-    memory.setValue(key, screenshot);
+When('I wait {int} ms', async function (ms) {
+    await browser.pause(ms);
 });

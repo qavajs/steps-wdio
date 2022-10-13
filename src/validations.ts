@@ -196,7 +196,7 @@ Then(
         const validation = getValidation(validationType);
         for (const element of collection) {
             await conditionWait(await element, conditionValidations.PRESENT, config.browser.timeout.present);
-            const value: string = await (await element).getAttribute(property);
+            const value: string = await (await element).getProperty(property);
             validation(value, expectedValue);
         }
     }

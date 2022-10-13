@@ -121,3 +121,13 @@ When('I save page title as {string}', async function (key: string) {
     const title = await browser.getTitle();
     memory.setValue(key, title);
 });
+
+/**
+ * Save page screenshot into memory
+ * @param {string} key - key to store value
+ * @example I save screenshot as 'screenshot'
+ */
+When('I save screenshot as {string}', async function(key: string) {
+    const screenshot = await browser.takeScreenshot();
+    memory.setValue(key, screenshot);
+});
