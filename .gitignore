@@ -1,4 +1,4 @@
 node_modules/
 lib/
 coverage/
-report.xml
+test-e2e/report.xml
