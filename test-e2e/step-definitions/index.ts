@@ -7,7 +7,3 @@ declare global {
     var driver: Browser<'async'>;
     var config: any;
 }
-
-Then('validate screenshot', function () {
-    const screenshot = memory.getValue('$screenshot');
-});
