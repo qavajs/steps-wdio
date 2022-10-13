@@ -14,7 +14,7 @@ export default {
         }
     },
     format: [
-        '@qavajs/xunit-formatter:report.xml'
+        '@qavajs/xunit-formatter:test-e2e/report.xml'
     ],
     memory: new Memory(),
     pageObject: new App(),
