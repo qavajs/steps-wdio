@@ -23,17 +23,17 @@
   "devDependencies": {
     "@cucumber/cucumber": "^8.2.2",
     "@qavajs/cli": "^0.0.9",
-    "@qavajs/xunit-formatter": "^0.0.1",
-    "@types/chai": "^4.3.1",
-    "@types/jest": "^28.1.4",
-    "jest": "^28.1.2",
-    "ts-jest": "^28.0.5",
+    "@qavajs/xunit-formatter": "^0.0.2",
+    "@types/chai": "^4.3.3",
+    "@types/jest": "^29.1.2",
+    "jest": "^29.2.0",
+    "ts-jest": "^29.0.3",
     "ts-node": "^10.9.1"
   },
   "dependencies": {
     "@qavajs/memory": "^1.1.0",
     "@qavajs/po": "^1.0.2",
     "@qavajs/validation": "^0.0.2",
-    "webdriverio": "^7.20.1"
+    "webdriverio": "^7.25.2"
   }
 }
