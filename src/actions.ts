@@ -203,3 +203,13 @@ When('I select {int}(st|nd|rd|th) option from {string} dropdown', async function
 When('I wait {int} ms', async function (ms) {
     await browser.pause(ms);
 });
+
+/**
+ * Scroll to element
+ * @param {string} alias - alias of element
+ * @example I scroll to 'Element'
+ */
+When('I scroll to {string}', async function (alias) {
+    const element = await getElement(alias) as ElementAsync;
+    await element.scrollIntoView();
+})
