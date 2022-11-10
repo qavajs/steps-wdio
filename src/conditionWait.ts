@@ -6,7 +6,8 @@ export const conditionValidations = {
     VISIBLE: 'visible',
     INVISIBLE: 'invisible',
     ENABLED: 'enabled',
-    DISABLED: 'disabled'
+    DISABLED: 'disabled',
+    IN_VIEWPORT: 'in viewport'
 }
 
 const notClause = '(not )?';
@@ -52,7 +53,15 @@ const waits = {
         reverse: boolean,
         timeout: number,
         timeoutMsg: string
-    ) => element.waitForEnabled({reverse: !reverse, timeout, timeoutMsg})
+    ) => element.waitForEnabled({reverse: !reverse, timeout, timeoutMsg}),
+    [conditionValidations.IN_VIEWPORT]: (
+        element: Element<'async'>,
+        reverse: boolean,
+        timeout: number,
+        timeoutMsg: string
+    ) => element.waitUntil(async function(this: Element<'async'>) {
+        return (await this.isDisplayedInViewport() !== reverse)
+    }, {timeout, timeoutMsg})
 }
 /**
  * Wait for condition
