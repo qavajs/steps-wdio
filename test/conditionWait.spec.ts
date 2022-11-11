@@ -7,7 +7,9 @@ interface MockElement {
     waitForExist?: Function,
     waitForClickable?: Function,
     waitForDisplayed?: Function,
-    waitForEnabled?: Function
+    waitForEnabled?: Function,
+    waitUntil?: Function,
+    isDisplayedInViewport?: Function
 }
 
 type TestParams = {
@@ -25,7 +27,8 @@ const mocks: any = {
     waitForExist: jest.fn(),
     waitForClickable: jest.fn(),
     waitForDisplayed: jest.fn(),
-    waitForEnabled: jest.fn()
+    waitForEnabled: jest.fn(),
+    waitUntil: jest.fn()
 }
 
 const presentTests: Array<TestParams> = [
@@ -212,6 +215,23 @@ test.each([
         timeout: expectedTimeout,
         timeoutMsg
     });
+});
+
+test('to be in viewport', async () => {
+    const element = {
+        waitUntil: mocks.waitUntil,
+        isDisplayedInViewport: async () => false
+    };
+    const timeout = 1;
+    const waitFn = getConditionWait('to be in viewport');
+    await waitFn(element as Element<'async'>, timeout as number);
+    expect(mocks.waitUntil).toBeCalledTimes(1);
+    const firstCall = mocks.waitUntil.mock.calls[0];
+    expect(await firstCall[0].apply(element)).toEqual(false);
+    expect(firstCall[1]).toEqual({
+        timeout,
+        timeoutMsg: 'Element is not in viewport'
+    })
 });
 
 test('should throw an error if validation is not implemented', async () => {
