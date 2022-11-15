@@ -9,7 +9,10 @@ export default {
         capabilities: {
             browserName: 'chrome',
             'goog:chromeOptions': {
-                args: ['--headless']
+                args: [
+                    '--headless',
+                    '--window-size=1280,720'
+                ]
             }
         }
     },
