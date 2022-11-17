@@ -212,4 +212,14 @@ When('I wait {int} ms', async function (ms) {
 When('I scroll to {string}', async function (alias) {
     const element = await getElement(alias) as ElementAsync;
     await element.scrollIntoView();
-})
+});
+
+/**
+ * Click browser button
+ * @param {string} button - browser button
+ * @example I click back button
+ * @example I click forward button
+ */
+When('I click {wdioBrowserButton} button', async function (button: 'back' | 'forward') {
+    await browser[button]();
+});

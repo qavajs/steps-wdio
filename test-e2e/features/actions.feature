@@ -73,3 +73,10 @@ Feature: actions
   Scenario: select input by index
     When I select 2 option from 'Select' dropdown
     Then I expect text of 'Action' to be equal 'select two'
+
+  Scenario: browser back and forward
+    When I open '$valuesPage' url
+    When I click back button
+    Then I expect current url to be equal '$actionsPage'
+    When I click forward button
+    Then I expect current url to be equal '$valuesPage'
