@@ -20,3 +20,10 @@ defineParameterType({
     transformer: p => p,
     useForSnippets: false
 });
+
+defineParameterType({
+    name: 'wdioBrowserButton',
+    regexp: /(back|forward)/,
+    transformer: p => p,
+    useForSnippets: false
+});
