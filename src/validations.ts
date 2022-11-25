@@ -64,7 +64,7 @@ Then(
 
 /**
  * Verify that property of element satisfies condition
- * @param {string} property - element to verify
+ * @param {string} property - property to verify
  * @param {string} alias - element to verify
  * @param {string} validationType - validation
  * @param {string} value - expected value
@@ -86,7 +86,7 @@ Then(
 
 /**
  * Verify that attribute of element satisfies condition
- * @param {string} attribute - element to verify
+ * @param {string} attribute - attribute to verify
  * @param {string} alias - element to verify
  * @param {string} validationType - validation
  * @param {string} value - expected value
@@ -199,6 +199,30 @@ Then(
             const value: string = await (await element).getProperty(property);
             validation(value, expectedValue);
         }
+    }
+);
+
+/**
+ * Verify that css property of element satisfies condition
+ * @param {string} property - property to verify
+ * @param {string} alias - element to verify
+ * @param {string} validationType - validation
+ * @param {string} value - expected value
+ * @example I expect 'color' css property of 'Search Input' to be equal 'rgb(42, 42, 42)'
+ * @example I expect 'font-family' css property of 'Label' to contain 'Fira'
+ */
+Then(
+    'I expect {string} css property of {string} {wdioValidation} {string}',
+    async function (property: string, alias: string, validationType: string, value: string) {
+        const propertyName = await getValue(property);
+        const expectedValue = await getValue(value);
+        const element = await getElement(alias) as ElementAsync;
+        const validation = getValidation(validationType);
+        await conditionWait(element, conditionValidations.PRESENT, config.browser.timeout.present);
+        const actualValue = await browser.execute(function (element: any, propertyName: any) {
+            return getComputedStyle(element)[propertyName]
+        }, element, propertyName);
+        validation(actualValue, expectedValue);
     }
 );
 
