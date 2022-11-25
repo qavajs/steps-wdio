@@ -46,7 +46,7 @@ AfterStep(async function (step) {
 });
 
 After(async function () {
-    if (browser) {
+    if (global.browser) {
         await browser.deleteSession();
     }
 });
