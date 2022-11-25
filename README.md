@@ -1,3 +1,5 @@
+[![npm version](https://badge.fury.io/js/@qavajs%2Fsteps-wdio.svg)](https://badge.fury.io/js/@qavajs%2Fsteps-wdio)
+
 # @qavajs/steps-wdio
 Step library to work with webdriverio in qava framework
 
