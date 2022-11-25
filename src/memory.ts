@@ -143,8 +143,8 @@ When('I save screenshot as {string}', async function(key: string) {
 When('I save {string} css property of {string} as {string}', async function (property, alias, key) {
     const element = await getElement(alias) as ElementAsync;
     const propertyName = await getValue(property);
-    const value = await browser.execute(function (element: any, propertyName: any) {
-        return getComputedStyle(element)[propertyName]
-    }, element, propertyName);
+    const value = await browser.execute(function (element: Element, propertyName: string) {
+        return getComputedStyle(element).getPropertyValue(propertyName)
+    }, element as any, propertyName);
     memory.setValue(key, value);
 });

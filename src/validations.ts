@@ -219,9 +219,9 @@ Then(
         const element = await getElement(alias) as ElementAsync;
         const validation = getValidation(validationType);
         await conditionWait(element, conditionValidations.PRESENT, config.browser.timeout.present);
-        const actualValue = await browser.execute(function (element: any, propertyName: any) {
-            return getComputedStyle(element)[propertyName]
-        }, element, propertyName);
+        const actualValue = await browser.execute(function (element: Element, propertyName: string) {
+            return getComputedStyle(element).getPropertyValue(propertyName)
+        }, element as any, propertyName);
         validation(actualValue, expectedValue);
     }
 );
