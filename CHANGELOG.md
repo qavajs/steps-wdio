@@ -1,3 +1,7 @@
+## Current
+- added I wait until current url step
+- added I wait until page title step
+
 ## 0.0.12
 - added I click back/forward button step
 - added I save css property step
