@@ -26,5 +26,5 @@ export default class App {
 
     ScrollElement = $('#scrollElement');
 
-		PressCounter = $('#pressCounter');
+    PressCounter = $('#pressCounter');
 }

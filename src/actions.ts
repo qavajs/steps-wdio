@@ -165,9 +165,9 @@ When('I press {string} key', async function (key: string) {
  * @example I press 'Enter' key 5 times
  */
 When('I press {string} key {int} times', async function (key: string, num: number) {
-  for (let i = 0; i < num; i++) {
-    await browser.keys(key);
-  }
+    for (let i = 0; i < num; i++) {
+      await browser.keys(key);
+    }
 });
 
 /**
