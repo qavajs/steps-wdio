@@ -159,6 +159,18 @@ When('I press {string} key', async function (key: string) {
 });
 
 /**
+ * Press button given number of times
+ * @param {string} key - key to press
+ * @param {number} num - number of times
+ * @example I press 'Enter' key
+ */
+ When('I press {string} key {int} times', async function (key: string, num: number) {
+	for (let i = 0; i < num; i++) {
+		await browser.keys(key);
+	}
+});
+
+/**
  * Hover over element
  * @param {string} alias - element to hover over
  * @example I hover over 'Google Button'

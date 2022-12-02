@@ -62,6 +62,16 @@ Feature: actions
     When I press 'w' key
     Then I expect text of 'Action' to be equal 'keypress'
 
+  Scenario Outline: press <Key> key multiple times
+    When I press '<Key>' key <Times> times
+    Then I expect text of 'Press Counter' to be equal '<Result>'
+
+  Examples:
+      | Key    | Times| Result                 |
+      | Enter  | 1    | pressed Enter 1 times  |
+      | Space  | 5    | pressed Space 5 times  |
+      | Escape | 0    | no press               |
+
   Scenario: hover
     When I hover over 'Button Hover'
     Then I expect text of 'Action' to be equal 'hover'
