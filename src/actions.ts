@@ -162,12 +162,12 @@ When('I press {string} key', async function (key: string) {
  * Press button given number of times
  * @param {string} key - key to press
  * @param {number} num - number of times
- * @example I press 'Enter' key
+ * @example I press 'Enter' key 5 times
  */
- When('I press {string} key {int} times', async function (key: string, num: number) {
-	for (let i = 0; i < num; i++) {
-		await browser.keys(key);
-	}
+When('I press {string} key {int} times', async function (key: string, num: number) {
+  for (let i = 0; i < num; i++) {
+    await browser.keys(key);
+  }
 });
 
 /**
