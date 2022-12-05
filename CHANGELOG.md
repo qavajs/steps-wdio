@@ -1,4 +1,6 @@
 ## Current
+
+## 0.0.13
 - :rocket: added I wait until current url step
 - :rocket: added I wait until page title step
 - :rocket: added capability to set implicit timeout
