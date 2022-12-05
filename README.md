@@ -1,7 +1,7 @@
 [![npm version](https://badge.fury.io/js/@qavajs%2Fsteps-wdio.svg)](https://badge.fury.io/js/@qavajs%2Fsteps-wdio)
 
 # @qavajs/steps-wdio
-Step library to work with webdriverio in qava framework
+Step library to work with webdriverio in qavajs framework
 
 ## installation
 
@@ -18,7 +18,9 @@ module.exports = {
         browser: {
             timeout: {
                 present: 10000,
-                visible: 20000    
+                visible: 20000,
+                page: 10000,
+                implicit: 0 //wdio implicit wait for element
             },
             capabilities: {
                 browserName: 'chrome'
