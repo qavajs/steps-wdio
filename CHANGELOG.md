@@ -1,4 +1,5 @@
 ## Current
+- :rocket: updated wdio version to 8
 
 ## 0.0.13
 - :rocket: added I wait until current url step
