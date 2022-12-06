@@ -22,7 +22,7 @@ jobs:
         if: always()
         with:
           report_paths: './test-e2e/report.xml',
-          fail-on-failure: true
+          fail_on_failure: true
   node18:
     runs-on: ubuntu-latest
     steps:
@@ -39,4 +39,4 @@ jobs:
         if: always()
         with:
           report_paths: './test-e2e/report.xml',
-          fail-on-failure: true
+          fail_on_failure: true
