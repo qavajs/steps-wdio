@@ -211,7 +211,8 @@ When('I wait {int} ms', async function (ms) {
  */
 When('I scroll to {string}', async function (alias) {
     const element = await getElement(alias) as ElementAsync;
-    await element.scrollIntoView();
+    // @ts-ignore
+    await browser.execute((element: Element) => element.scrollIntoView(), element)
 });
 
 /**
