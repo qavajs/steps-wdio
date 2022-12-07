@@ -7,5 +7,17 @@ export default class Memory {
     waitsPage = file(resolve('./test-e2e/apps/waits.html'));
     scrollPage = file(resolve('./test-e2e/apps/scroll.html'));
 
-    array = (...args: Array<any>) => args
+    array = (...args: Array<any>) => args;
+
+    // @ts-ignore
+    setInputValue = () => document.querySelector('#input').value = 'some value';
+
+    // @ts-ignore
+    getActionInnerText = () => document.querySelector("#action").innerText;
+
+    // @ts-ignore
+    clickJS = target => target.click();
+
+    // @ts-ignore
+    getInnerText = target => target.innerText;
 }
