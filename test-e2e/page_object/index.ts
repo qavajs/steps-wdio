@@ -25,4 +25,6 @@ export default class App {
     WaitCollection = $$('#waitCollection > div');
 
     ScrollElement = $('#scrollElement');
+
+    PressCounter = $('#pressCounter');
 }
