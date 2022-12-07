@@ -1,7 +1,7 @@
 import Memory from './memory';
 import App from './page_object';
 
-export default {
+const common = {
     paths: ['test-e2e/features/*.feature'],
     require: ['test-e2e/step-definitions/*.ts', 'src/*.ts'],
     browser: {
@@ -23,4 +23,22 @@ export default {
     pageObject: new App(),
     parallel: 1,
     publishQuiet: true
+}
+
+export default common;
+
+export const debug = {
+    ...common,
+    tags: '@debug',
+    browser: {
+        logLevel: 'warn',
+        capabilities: {
+            browserName: 'chrome',
+            'goog:chromeOptions': {
+                args: [
+                    '--window-size=1280,720'
+                ]
+            }
+        }
+    },
 }

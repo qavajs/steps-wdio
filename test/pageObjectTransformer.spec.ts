@@ -8,7 +8,7 @@ jest.mock('@qavajs/memory', () => ({
 }));
 jest.mock('@qavajs/po', () => ({
     po: {
-        getElement: jest.fn(alias => memory.getValue(alias))
+        getElement: jest.fn((alias: string) => memory.getValue(alias))
     }
 }));
 
