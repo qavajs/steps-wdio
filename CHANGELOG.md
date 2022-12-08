@@ -1,5 +1,6 @@
 ## Current
 - :rocket: updated wdio version to 8
+- :rocket: added I press Y key X times step
 
 ## 0.0.13
 - :rocket: added I wait until current url step
