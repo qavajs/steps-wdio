@@ -1,5 +1,6 @@
 ## Current
 - :rocket: updated wdio version to 8
+- :rocket: added I press Y key X times step
 - :rocket: added I execute steps allow to execute client functions
 
 ## 0.0.13

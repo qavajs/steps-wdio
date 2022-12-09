@@ -20,6 +20,10 @@
     <option value="select two">two</option>
     <option value="select three">three</option>
   </select>
+  <div>
+    <span id="pressCounter">no press</span>
+   <div>
+
   <script>
     const action = document.querySelector('#action');
     const button = document.querySelector('#button');
@@ -28,6 +32,8 @@
     const buttons = document.querySelectorAll('.button');
     const body = document.body;
     const select = document.querySelector('#select');
+    const pressCounter = document.querySelector('#pressCounter');
+    let presses = 0;
 
     button.addEventListener('click', function () {
       action.innerText = 'click';
@@ -57,6 +63,11 @@
 
     body.addEventListener('keypress', function () {
       action.innerText = 'keypress'
+    });
+
+    body.addEventListener('keypress', function (event) {
+      presses++;
+      pressCounter.innerText = `pressed ${event.code} ${presses} times`;		
     });
 
     select.addEventListener('change', function () {
