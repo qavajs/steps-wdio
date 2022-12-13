@@ -1,6 +1,6 @@
 {
   "name": "@qavajs/steps-wdio",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "steps to interact with wdio",
   "main": "./index.js",
   "scripts": {
@@ -35,6 +35,6 @@
   "dependencies": {
     "@qavajs/po": "^1.0.2",
     "@qavajs/validation": "^0.0.2",
-    "webdriverio": "^8.0.8"
+    "webdriverio": "^8.0.12"
   }
 }

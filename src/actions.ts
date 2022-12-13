@@ -152,21 +152,25 @@ When('I refresh page', async function () {
 /**
  * Press button
  * @param {string} key - key to press
- * @example I press 'Enter' key
+ * @example I press 'Enter' key // for selenium
+ * @example I press '$Enter' key // for devtools $Enter is memory value String.fromCharCode(13)
  */
 When('I press {string} key', async function (key: string) {
-    await browser.keys(key);
+    const pressKey = await getValue(key)
+    await browser.keys(pressKey);
 });
 
 /**
  * Press button given number of times
  * @param {string} key - key to press
  * @param {number} num - number of times
- * @example I press 'Enter' key 5 times
+ * @example I press 'Enter' key 5 times // for selenium
+ * @example I press '$Enter' key 4 times // for devtools $Enter is memory value String.fromCharCode(13)
  */
 When('I press {string} key {int} time(s)', async function (key: string, num: number) {
+    const pressKey = await getValue(key)
     for (let i: number = 0; i < num; i++) {
-      await browser.keys(key);
+      await browser.keys(pressKey);
     }
 });
 
