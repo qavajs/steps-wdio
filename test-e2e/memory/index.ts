@@ -7,6 +7,9 @@ export default class Memory {
     waitsPage = file(resolve('./test-e2e/apps/waits.html'));
     scrollPage = file(resolve('./test-e2e/apps/scroll.html'));
 
+    Enter = String.fromCharCode(13);
+    Space = String.fromCharCode(32);
+
     array = (...args: Array<any>) => args;
 
     // @ts-ignore

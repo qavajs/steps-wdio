@@ -58,19 +58,23 @@ Feature: actions
     When I refresh page
     Then I expect text of 'Action' to be equal 'Nothing'
 
-  Scenario: press key
-    When I press 'w' key
+  Scenario Outline: press <Key> key
+    When I press '<Key>' key
     Then I expect text of 'Action' to be equal 'keypress'
+
+    Examples:
+      | Key    |
+      | w      |
+      | $Enter |
 
   Scenario Outline: press <Key> key multiple times
     When I press '<Key>' key <Times> time<Postfix>
     Then I expect text of 'Press Counter' to be equal '<Result>'
 
-  Examples:
-    | Key    | Times| Postfix | Result                 | 
-    | Enter  | 1    |        | pressed Enter 1 times  |
-    | Space  | 5    | s      | pressed Space 5 times  |	
-    | Escape | 0    | s      | no press               |
+    Examples:
+      | Key    | Times | Postfix | Result                |
+      | $Enter | 1     |         | pressed Enter 1 times |
+      | $Space | 5     | s       | pressed Space 5 times |
 
   Scenario: hover
     When I hover over 'Button Hover'
