@@ -62,7 +62,7 @@ When('I set {string} mock to respond {string} with {string}', respondWith);
 When('I set {string} mock to abort with {string} reason', async function (mockKey: string, reason: string) {
     const mock: Mock = await getValue(mockKey);
     const errorCode: ErrorCode = await getValue(reason);
-    mock.abort(errorCode)
+    mock.abort(errorCode);
 });
 
 /**
