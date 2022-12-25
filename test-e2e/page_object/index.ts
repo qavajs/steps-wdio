@@ -27,4 +27,6 @@ export default class App {
     ScrollElement = $('#scrollElement');
 
     PressCounter = $('#pressCounter');
+
+    Users = $$('#users > li');
 }

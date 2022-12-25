@@ -6,6 +6,7 @@ export default class Memory {
     framePage = file(resolve('./test-e2e/apps/frame.html'));
     waitsPage = file(resolve('./test-e2e/apps/waits.html'));
     scrollPage = file(resolve('./test-e2e/apps/scroll.html'));
+    mockPage = file(resolve('./test-e2e/apps/mock.html'));
 
     Enter = String.fromCharCode(13);
     Space = String.fromCharCode(32);
@@ -23,4 +24,12 @@ export default class Memory {
 
     // @ts-ignore
     getInnerText = target => target.innerText;
+
+    userFromMemory = 'Mock 3';
+
+    users = JSON.stringify([
+        {"name": "Memory Mock 1"},
+        {"name": "Memory Mock 2"},
+        {"name": "Memory Mock 3"}
+    ]);
 }
