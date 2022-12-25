@@ -51,6 +51,14 @@ When('I set {string} mock to respond {string} with:', respondWith);
  */
 When('I set {string} mock to respond {string} with {string}', respondWith);
 
+/**
+ * Add mocking rule to abort request with certain reason
+ * @param {string} mockKey - memory key to get mock instance
+ * @param {string} reason - reason string see https://webdriver.io/docs/api/mock/abort
+ * @example
+ * When I create mock for '/yourservice/**' with filter options as 'myServiceMock'
+ * And I set '$myServiceMock' mock to abort with 'Failed' reason
+ */
 When('I set {string} mock to abort with {string} reason', async function (mockKey: string, reason: string) {
     const mock: Mock = await getValue(mockKey);
     const errorCode: ErrorCode = await getValue(reason);
