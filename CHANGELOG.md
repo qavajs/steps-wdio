@@ -1,3 +1,6 @@
+## 0.0.15
+- :rocket: added mock steps
+
 ## 0.0.14
 - :rocket: updated wdio version to 8
 - :rocket: added I press Y key X times step

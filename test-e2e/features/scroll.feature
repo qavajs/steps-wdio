@@ -1,4 +1,4 @@
-Feature: actions
+Feature: scroll
 
   Background:
     When I open '$scrollPage' url

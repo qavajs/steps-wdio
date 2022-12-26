@@ -8,3 +8,4 @@ require('./lib/cookies.js');
 require('./lib/localSessionStorage.js');
 require('./lib/mobile.js');
 require('./lib/execute.js');
+require('./lib/mock.js');
