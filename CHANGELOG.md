@@ -1,3 +1,6 @@
+## Current
+- :rocket: added scroll by offset steps
+
 ## 0.0.15
 - :rocket: added mock steps
 
