@@ -2,6 +2,7 @@ import { When } from '@cucumber/cucumber';
 import { ElementArray } from 'webdriverio';
 import { conditionValidations, conditionWait } from './conditionWait';
 import { getValue, getElement, ElementAsync } from './transformers';
+import { parseCoords } from './utils';
 
 /**
  * Opens provided url
@@ -239,4 +240,33 @@ When('I scroll to {string}', async function (alias) {
  */
 When('I click {wdioBrowserButton} button', async function (button: 'back' | 'forward') {
     await browser[button]();
+});
+
+/**
+ * Scroll by provided offset
+ * @param {string} - offset string in 'x, y' format
+ * @example
+ * When I scroll by '0, 100'
+ */
+When('I scroll by {string}', async function (offset: string) {
+    const [x, y] = parseCoords(await getValue(offset));
+    await browser.execute(function (x: number, y: number) {
+        window.scrollBy(x, y);
+    }, x, y);
+});
+
+/**
+ * Scroll by provided offset in element
+ * @param {string} - offset string in 'x, y' format
+ * @param {string} - element alias
+ * @example
+ * When I scroll by '0, 100' in 'Overflow Container'
+ */
+When('I scroll by {string} in {string}', async function (offset: string, alias: string) {
+    const [x, y] = parseCoords(await getValue(offset));
+    const element = await getElement(alias) as ElementAsync;
+    await conditionWait(element, conditionValidations.VISIBLE, config.browser.timeout.visible);
+    await browser.execute(function (element: any, x: number, y: number) {
+        element.scrollBy(x, y);
+    }, element, x, y);
 });

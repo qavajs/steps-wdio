@@ -1,4 +1,4 @@
-import { $, $$, Component } from '@qavajs/po';
+import { $, $$ } from '@qavajs/po';
 export default class App {
     SimpleTextElement = $('#textValue');
     SimpleTextListItems = $$('#textValueList li');
@@ -29,4 +29,6 @@ export default class App {
     PressCounter = $('#pressCounter');
 
     Users = $$('#users > li');
+
+    OverflowContainer = $('#overflowContainer');
 }

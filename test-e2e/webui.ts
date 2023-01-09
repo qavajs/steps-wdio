@@ -29,7 +29,6 @@ export default common;
 
 export const debug = {
     ...common,
-    tags: '@debug',
     browser: {
         logLevel: 'warn',
         capabilities: {
