@@ -6,8 +6,8 @@
   "scripts": {
     "build": "tsc",
     "test": "jest --coverage",
-    "test:e2e": "ts-node --esm --project tsconfig.json node_modules/.bin/qavajs run --config test-e2e/webui.ts",
-    "debug:e2e": "ts-node --esm --project tsconfig.json node_modules/.bin/qavajs run --config test-e2e/webui.ts --profile debug"
+    "test:e2e": "ts-node --esm --project tsconfig.json node_modules/@qavajs/cli/bin/qavajs.js run --config test-e2e/webui.ts",
+    "debug:e2e": "ts-node --esm --project tsconfig.json node_modules/@qavajs/cli/bin/qavajs.js run --config test-e2e/webui.ts --profile debug"
   },
   "repository": {
     "type": "git",

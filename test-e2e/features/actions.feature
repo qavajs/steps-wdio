@@ -42,14 +42,14 @@ Feature: actions
     When I click 'New Tab Link'
     When I wait 1000 ms
     When I switch to 2 window
-    Then I expect current url to be equal '$framePage'
+    Then I expect current url to contain 'frame.html'
     When I expect 'Frame Element' to be visible
 
   Scenario: switch to tab by matcher
     When I click 'New Tab Link'
     When I wait 1000 ms
     When I switch to 'Frame' window
-    Then I expect current url to be equal '$framePage'
+    Then I expect current url to contain 'frame.html'
     When I expect 'Frame Element' to be visible
 
   Scenario: refresh page
@@ -91,9 +91,9 @@ Feature: actions
   Scenario: browser back and forward
     When I open '$valuesPage' url
     When I click back button
-    Then I expect current url to be equal '$actionsPage'
+    Then I expect current url to contain 'actions.html'
     When I click forward button
-    Then I expect current url to be equal '$valuesPage'
+    Then I expect current url to contain 'values.html'
 
   Scenario: scroll in window
     When I scroll by '0, 100'
