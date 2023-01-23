@@ -5,8 +5,8 @@ import { po } from '@qavajs/po';
 import { ScreenshotEvent } from './screenshotEvent';
 
 declare global {
-    var browser: Browser<'async'>;
-    var driver: Browser<'async'>;
+    var browser: Browser;
+    var driver: Browser;
     var config: any;
 }
 

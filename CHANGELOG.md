@@ -1,5 +1,7 @@
-## Current
+## 0.0.16
 - :rocket: added scroll by offset steps
+- :rocket: updated po dependency to support ignoreHierarchy options
+
 
 ## 0.0.15
 - :rocket: added mock steps

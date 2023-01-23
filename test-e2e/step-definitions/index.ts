@@ -4,8 +4,8 @@ import { Browser } from 'webdriverio';
 import { expect } from 'chai';
 
 declare global {
-    var browser: Browser<'async'>;
-    var driver: Browser<'async'>;
+    var browser: Browser;
+    var driver: Browser;
     var config: any;
 }
 
