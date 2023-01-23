@@ -1,11 +1,10 @@
-import { ElementArray } from 'webdriverio';
+import { Element, ElementArray } from 'webdriverio';
 import { Then } from '@cucumber/cucumber';
 import { conditionWait, conditionValidations } from './conditionWait';
 import {
     getValue,
     getElement,
-    getConditionWait,
-    ElementAsync
+    getConditionWait
 } from './transformers';
 import { getValidation } from '@qavajs/validation';
 
@@ -18,7 +17,7 @@ import { getValidation } from '@qavajs/validation';
  * @example I expect 'Search Bar > Submit Button' to be clickable
  */
 Then('I expect {string} {wdioConditionWait}', async function (alias: string, condition: string) {
-    const element = await getElement(alias) as ElementAsync;
+    const element = await getElement(alias) as Element;
     const wait = getConditionWait(condition);
     await wait(element, config.browser.timeout.page);
 });
@@ -35,7 +34,7 @@ Then(
     'I expect text of {string} {wdioValidation} {string}',
     async function (alias: string, validationType: string, value: any) {
         const expectedValue = await getValue(value);
-        const element = await getElement(alias) as ElementAsync;
+        const element = await getElement(alias) as Element;
         const validation = getValidation(validationType);
         await conditionWait(element, conditionValidations.VISIBLE, config.browser.timeout.visible);
         const elementText: string = await element.getText();
@@ -76,7 +75,7 @@ Then(
     async function (property: string, alias: string, validationType: string, value: string) {
         const propertyName = await getValue(property);
         const expectedValue = await getValue(value);
-        const element = await getElement(alias) as ElementAsync;
+        const element = await getElement(alias) as Element;
         const validation = getValidation(validationType);
         await conditionWait(element, conditionValidations.PRESENT, config.browser.timeout.present);
         const actualValue = await element.getProperty(propertyName);
@@ -97,7 +96,7 @@ Then(
     async function (attribute: string, alias: string, validationType: string, value: string) {
         const attributeName = await getValue(attribute);
         const expectedValue = await getValue(value);
-        const element = await getElement(alias) as ElementAsync;
+        const element = await getElement(alias) as Element;
         const validation = getValidation(validationType);
         await conditionWait(element, conditionValidations.PRESENT, config.browser.timeout.present);
         const actualValue = await element.getAttribute(attributeName);
@@ -196,7 +195,7 @@ Then(
         const validation = getValidation(validationType);
         for (const element of collection) {
             await conditionWait(await element, conditionValidations.PRESENT, config.browser.timeout.present);
-            const value: string = await (await element).getProperty(property);
+            const value: string = await (await element).getProperty(property) as string;
             validation(value, expectedValue);
         }
     }
@@ -216,11 +215,11 @@ Then(
     async function (property: string, alias: string, validationType: string, value: string) {
         const propertyName = await getValue(property);
         const expectedValue = await getValue(value);
-        const element = await getElement(alias) as ElementAsync;
+        const element = await getElement(alias) as Element;
         const validation = getValidation(validationType);
         await conditionWait(element, conditionValidations.PRESENT, config.browser.timeout.present);
         const actualValue = await browser.execute(function (element: Element, propertyName: string) {
-            return getComputedStyle(element).getPropertyValue(propertyName)
+            return getComputedStyle(element as any).getPropertyValue(propertyName)
         }, element as any, propertyName);
         validation(actualValue, expectedValue);
     }

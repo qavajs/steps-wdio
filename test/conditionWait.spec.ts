@@ -208,7 +208,7 @@ test.each([
         timeoutMsg,
     }) => {
     const waitFn = getConditionWait(validation);
-    await waitFn(element as Element<'async'>, timeout as number);
+    await waitFn(element as Element, timeout as number);
     expect(mocks[expectedWait]).toBeCalledTimes(1);
     expect(mocks[expectedWait]).toBeCalledWith({
         reverse,
@@ -224,7 +224,7 @@ test('to be in viewport', async () => {
     };
     const timeout = 1;
     const waitFn = getConditionWait('to be in viewport');
-    await waitFn(element as Element<'async'>, timeout as number);
+    await waitFn(element as Element, timeout as number);
     expect(mocks.waitUntil).toBeCalledTimes(1);
     const firstCall = mocks.waitUntil.mock.calls[0];
     expect(await firstCall[0].apply(element)).toEqual(false);
@@ -240,7 +240,7 @@ test('should throw an error if validation is not implemented', async () => {
 
 test('should use default reverse and timeout', async () => {
     await conditionWait(
-        {waitForDisplayed: mocks.waitForDisplayed} as Element<'async'>,
+        {waitForDisplayed: mocks.waitForDisplayed} as Element,
         'visible'
     );
     expect(mocks.waitForDisplayed).toBeCalledTimes(1);

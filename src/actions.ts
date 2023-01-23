@@ -1,7 +1,7 @@
 import { When } from '@cucumber/cucumber';
-import { ElementArray } from 'webdriverio';
+import { Element, ElementArray } from 'webdriverio';
 import { conditionValidations, conditionWait } from './conditionWait';
-import { getValue, getElement, ElementAsync } from './transformers';
+import { getValue, getElement } from './transformers';
 import { parseCoords } from './utils';
 
 /**
@@ -21,7 +21,7 @@ When('I open {string} url', async function (url: string) {
  * @example I type 'wikipedia' to 'Google Input'
  */
 When('I type {string} to {string}', async function (value: string, alias: string) {
-    const element = await getElement(alias) as ElementAsync;
+    const element = await getElement(alias) as Element;
     const typeValue = await getValue(value);
     await conditionWait(element, conditionValidations.VISIBLE, config.browser.timeout.visible);
     await element.addValue(typeValue);
@@ -33,7 +33,7 @@ When('I type {string} to {string}', async function (value: string, alias: string
  * @example I click 'Google Button'
  */
 When('I click {string}', async function (alias: string) {
-    const element = await getElement(alias) as ElementAsync;
+    const element = await getElement(alias) as Element;
     await conditionWait(element, conditionValidations.VISIBLE, config.browser.timeout.visible);
     await element.click();
 });
@@ -44,7 +44,7 @@ When('I click {string}', async function (alias: string) {
  * @example I double click 'Google Button'
  */
 When('I double click {string}', async function (alias: string) {
-    const element = await getElement(alias) as ElementAsync;
+    const element = await getElement(alias) as Element;
     await conditionWait(element, conditionValidations.VISIBLE, config.browser.timeout.visible);
     await element.doubleClick();
 });
@@ -55,7 +55,7 @@ When('I double click {string}', async function (alias: string) {
  * @example I right click 'Google Button'
  */
 When('I right click {string}', async function (alias: string) {
-    const element = await getElement(alias) as ElementAsync;
+    const element = await getElement(alias) as Element;
     await conditionWait(element, conditionValidations.VISIBLE, config.browser.timeout.visible);
     await element.click({button: 'right'});
 })
@@ -66,7 +66,7 @@ When('I right click {string}', async function (alias: string) {
  * @example I clear 'Google Input'
  */
 When('I clear {string}', async function (alias: string) {
-    const element = await getElement(alias) as ElementAsync;
+    const element = await getElement(alias) as Element;
     await conditionWait(element, conditionValidations.VISIBLE, config.browser.timeout.visible);
     await element.clearValue();
 });
@@ -115,7 +115,7 @@ When('I switch to {int} frame', async function (index: number) {
  * @example I switch to 'Checkout Iframe' frame
  */
 When('I switch to {string} frame', async function (alias: string) {
-    const element = await getElement(alias) as ElementAsync;
+    const element = await getElement(alias) as Element;
     await browser.switchToFrame(element);
 });
 
@@ -181,7 +181,7 @@ When('I press {string} key {int} time(s)', async function (key: string, num: num
  * @example I hover over 'Google Button'
  */
 When('I hover over {string}', async function (alias: string) {
-    const element = await getElement(alias) as ElementAsync;
+    const element = await getElement(alias) as Element;
     await conditionWait(element, conditionValidations.VISIBLE, config.browser.timeout.visible);
     await element.moveTo();
 });
@@ -195,7 +195,7 @@ When('I hover over {string}', async function (alias: string) {
  */
 When('I select {string} option from {string} dropdown', async function (option: string, alias: string) {
     const optionValue = await getValue(option);
-    const select = await getElement(alias) as ElementAsync;
+    const select = await getElement(alias) as Element;
     await conditionWait(select, conditionValidations.VISIBLE, config.browser.timeout.visible);
     await select.selectByVisibleText(optionValue)
 });
@@ -207,7 +207,7 @@ When('I select {string} option from {string} dropdown', async function (option: 
  * @example I select 1 option from 'Registration Form > Date Of Birth' dropdown
  */
 When('I select {int}(st|nd|rd|th) option from {string} dropdown', async function (optionIndex: number, alias: string) {
-    const select = await getElement(alias) as ElementAsync;
+    const select = await getElement(alias) as Element;
     await conditionWait(select, conditionValidations.VISIBLE, config.browser.timeout.visible);
     await select.selectByIndex(optionIndex - 1)
 });
@@ -227,7 +227,7 @@ When('I wait {int} ms', async function (ms) {
  * @example I scroll to 'Element'
  */
 When('I scroll to {string}', async function (alias) {
-    const element = await getElement(alias) as ElementAsync;
+    const element = await getElement(alias) as Element;
     // @ts-ignore
     await browser.execute((element: Element) => element.scrollIntoView(), element)
 });
@@ -264,7 +264,7 @@ When('I scroll by {string}', async function (offset: string) {
  */
 When('I scroll by {string} in {string}', async function (offset: string, alias: string) {
     const [x, y] = parseCoords(await getValue(offset));
-    const element = await getElement(alias) as ElementAsync;
+    const element = await getElement(alias) as Element;
     await conditionWait(element, conditionValidations.VISIBLE, config.browser.timeout.visible);
     await browser.execute(function (element: any, x: number, y: number) {
         element.scrollBy(x, y);

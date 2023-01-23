@@ -1,6 +1,6 @@
 import { When } from '@cucumber/cucumber';
-import { getValue, getElement, ElementAsync, getConditionWait, getValueWait, getLocator } from './transformers';
-import { ElementArray } from 'webdriverio';
+import { getValue, getElement, getConditionWait, getValueWait, getLocator } from './transformers';
+import { Element, ElementArray } from 'webdriverio';
 
 /**
  * Wait for element condition
@@ -12,7 +12,7 @@ import { ElementArray } from 'webdriverio';
  */
 When('I wait until {string} {wdioConditionWait}', async function (alias: string, waitType: string) {
     const wait = getConditionWait(waitType);
-    const element = await getElement(alias) as ElementAsync;
+    const element = await getElement(alias) as Element;
     await wait(element, config.browser.timeout.page);
 });
 
@@ -28,7 +28,7 @@ When(
     'I wait until text of {string} {wdioValueWait} {string}',
     async function (alias: string, waitType: string, value: string) {
         const wait = getValueWait(waitType);
-        const element = await getElement(alias) as ElementAsync;
+        const element = await getElement(alias) as Element;
         const expectedValue = await getValue(value);
         const getValueFn = async () => element.getText();
         await wait(getValueFn, expectedValue, config.browser.timeout.page);
@@ -68,7 +68,7 @@ When(
     async function (property: string, alias: string, waitType: string, value: string) {
         const propertyName = await getValue(property);
         const wait = getValueWait(waitType);
-        const element = await getElement(alias) as ElementAsync;
+        const element = await getElement(alias) as Element;
         const expectedValue = await getValue(value);
         const getValueFn = async () => element.getProperty(propertyName);
         await wait(getValueFn, expectedValue, config.browser.timeout.page);
@@ -88,7 +88,7 @@ When(
     async function (attribute: string, alias: string, waitType: string, value: string) {
         const attributeName = await getValue(attribute);
         const wait = getValueWait(waitType);
-        const element = await getElement(alias) as ElementAsync;
+        const element = await getElement(alias) as Element;
         const expectedValue = await getValue(value);
         const getValueFn = async () => element.getAttribute(attributeName);
         await wait(getValueFn, expectedValue, config.browser.timeout.page);
