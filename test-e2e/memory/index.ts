@@ -32,4 +32,6 @@ export default class Memory {
         {"name": "Memory Mock 2"},
         {"name": "Memory Mock 3"}
     ]);
+
+    uploadFile = resolve('./apps/actions.html');
 }
