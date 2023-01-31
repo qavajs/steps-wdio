@@ -3,6 +3,7 @@ export default class App {
     SimpleTextElement = $('#textValue');
     SimpleTextListItems = $$('#textValueList li');
     SimpleTextInput = $('#textInput');
+    FileInput = $('#fileInput');
 
     Action = $('#action');
     Button = $('#button');
@@ -33,11 +34,16 @@ export default class App {
     OverflowContainer = $('#overflowContainer');
 
     IgnoreHierarchyComponent = $(new IgnoreHierarchyComponent());
+    ComponentWithoutSelector = $(new ComponentWithoutSelector())
 }
 
 // @ts-ignore
 class IgnoreHierarchyComponent {
     selector = '#ignoreHierarchyComponent';
 
+    Input = $('#input', { ignoreHierarchy: true });
+}
+
+class ComponentWithoutSelector {
     Input = $('#input', { ignoreHierarchy: true });
 }

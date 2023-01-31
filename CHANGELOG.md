@@ -1,3 +1,6 @@
+## 0.0.18
+- :rocket: added _I upload file_ step
+- 
 ## 0.0.17
 - :rocket: removed po package dependency
 - :rocket: added util functions exports to build custom steps

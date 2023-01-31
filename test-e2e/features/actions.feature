@@ -110,5 +110,14 @@ Feature: actions
     Then I expect '$scrollY' memory value to be equal '$number(50)'
 
   Scenario: type in ignore hierarchy component
-    When I type 'test value' to 'IgnoreHierarchyComponent > Input'
+    When I type 'test value' to 'Ignore Hierarchy Component > Input'
     Then I expect text of 'Action' to be equal 'test value'
+
+  Scenario: type in component without selector
+    When I type 'test value' to 'Component Without Selector > Input'
+    Then I expect text of 'Action' to be equal 'test value'
+
+  Scenario: upload file
+    When I upload '$uploadFile' file to 'File Input'
+    And I wait 3000 ms
+    Then I expect text of 'Action' to be equal 'file:C:\fakepath\actions.html'
