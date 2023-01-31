@@ -65,6 +65,7 @@ Feature: actions
     Examples:
       | Key    |
       | w      |
+      | Enter  |
       | $Enter |
 
   Scenario Outline: press <Key> key multiple times
@@ -121,3 +122,8 @@ Feature: actions
     When I upload '$uploadFile' file to 'File Input'
     And I wait 3000 ms
     Then I expect text of 'Action' to be equal 'file:C:\fakepath\actions.html'
+
+  Scenario: content editable
+    When I click 'Content Editable Text'
+    And I press 'Backspace' key
+    Then I expect text of 'Content Editable Text' to be equal 'this is content editable tex'
