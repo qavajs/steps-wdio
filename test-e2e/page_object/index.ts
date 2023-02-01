@@ -32,9 +32,10 @@ export default class App {
     Users = $$('#users > li');
 
     OverflowContainer = $('#overflowContainer');
+    ContentEditableText = $('#contentEditable');
 
     IgnoreHierarchyComponent = $(new IgnoreHierarchyComponent());
-    ComponentWithoutSelector = $(new ComponentWithoutSelector())
+    ComponentWithoutSelector = $(new ComponentWithoutSelector());
 }
 
 // @ts-ignore

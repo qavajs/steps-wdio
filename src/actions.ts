@@ -2,7 +2,7 @@ import { When } from '@cucumber/cucumber';
 import { Element, ElementArray } from 'webdriverio';
 import { conditionValidations, conditionWait } from './conditionWait';
 import { getValue, getElement } from './transformers';
-import { parseCoords } from './utils';
+import { parseCoords, Keys } from './utils';
 
 /**
  * Opens provided url
@@ -157,7 +157,10 @@ When('I refresh page', async function () {
  * @example I press '$Enter' key // for devtools $Enter is memory value String.fromCharCode(13)
  */
 When('I press {string} key', async function (key: string) {
-    const pressKey = await getValue(key)
+    let pressKey: string = await getValue(key);
+    if (pressKey in Keys) { // @ts-ignore
+        pressKey = Keys[pressKey];
+    }
     await browser.keys(pressKey);
 });
 
@@ -169,7 +172,10 @@ When('I press {string} key', async function (key: string) {
  * @example I press '$Enter' key 4 times // for devtools $Enter is memory value String.fromCharCode(13)
  */
 When('I press {string} key {int} time(s)', async function (key: string, num: number) {
-    const pressKey = await getValue(key)
+    let pressKey = await getValue(key);
+    if (pressKey in Keys) { // @ts-ignore
+        pressKey = Keys[pressKey];
+    }
     for (let i: number = 0; i < num; i++) {
       await browser.keys(pressKey);
     }
