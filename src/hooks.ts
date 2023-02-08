@@ -18,7 +18,7 @@ Before(async function () {
     }
     global.browser = await remote(driverConfig);
     global.driver = global.browser;
-    await global.browser.setTimeout({ 'implicit': driverConfig.timeout.implicit });
+    if (driverConfig.timeout.implicit > 0) await global.browser.setTimeout({ 'implicit': driverConfig.timeout.implicit });
     po.init(browser, { timeout: driverConfig.timeout.present });
     po.register(config.pageObject);
 });
