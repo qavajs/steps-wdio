@@ -1,3 +1,6 @@
+## 0.0.19
+- :beetle: fixed browserstack timeout issue
+
 ## 0.0.18
 - :rocket: added _I upload file_ step
 - :beetle: fixed key issue
