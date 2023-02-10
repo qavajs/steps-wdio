@@ -1,3 +1,6 @@
+## 0.0.20
+- :rocket: added _I wait {int} ms_ step
+
 ## 0.0.19
 - :beetle: fixed browserstack timeout issue
 
