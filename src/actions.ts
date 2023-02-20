@@ -219,15 +219,6 @@ When('I select {int}(st|nd|rd|th) option from {string} dropdown', async function
 });
 
 /**
- * Wait
- * @param {number} ms - milliseconds
- * @example I wait 1000 ms
- */
-When('I wait {int} ms', async function (ms) {
-    await browser.pause(ms);
-});
-
-/**
  * Scroll to element
  * @param {string} alias - alias of element
  * @example I scroll to 'Element'
@@ -289,3 +280,29 @@ When('I upload {string} file to {string}', async function (value: string, alias:
     await element.setValue(typeValue);
 });
 
+/**
+ * Accept alert
+ * Should be used afterwards the step 'I wait for alert'
+ * @example I accept alert
+ */
+When('I accept alert', async function () {
+    await browser.acceptAlert();
+});
+
+/**
+ * Dismiss alert
+ * Should be used afterwards the step 'I wait for alert'
+ * @example I dismiss alert
+ */
+When('I dismiss alert', async function () {
+    await browser.dismissAlert();
+});
+
+/**
+ * I type {string} to alert
+ * Should be used afterwards the step 'I wait for alert'
+ * @example I type 'coffee' to alert
+ */
+When('I type {string} to alert', async function (value: string) {
+    await browser.sendAlertText(value);
+});

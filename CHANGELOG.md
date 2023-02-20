@@ -1,3 +1,6 @@
+## 0.0.20
+- :rocket: added JS alert steps
+
 ## 0.0.19
 - :beetle: fixed browserstack timeout issue
 
