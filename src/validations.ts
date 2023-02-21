@@ -236,5 +236,4 @@ Then('I expect text of alert {wdioValidation} {string}', async function (validat
   const alertText = await browser.getAlertText();
   const validation = getValidation(validationType);
   validation(alertText, expectedValue, alertText);
-   }
-);
+   });
