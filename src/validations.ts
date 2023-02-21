@@ -225,4 +225,15 @@ Then(
     }
 );
 
-
+/**
+ * Verify that text of an alert meets expectation
+ * Should be used afterwards the step 'I wait for alert'
+ * @param {string} validationType - validation
+ * @param {string} value - expected text value
+ * @example I expect text of alert does not contain 'coffee'
+ */
+Then('I expect text of alert {wdioValidation} {string}', async function (validationType: string, expectedValue: string) {
+  const alertText = await browser.getAlertText();
+  const validation = getValidation(validationType);
+  validation(alertText, expectedValue, alertText);
+   });

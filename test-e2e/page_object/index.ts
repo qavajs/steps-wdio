@@ -6,6 +6,8 @@ export default class App {
     FileInput = $('#fileInput');
 
     Action = $('#action');
+    AlertButton = $('#confirm');
+    PromptButton = $('#prompt');
     Button = $('#button');
     ButtonHover = $('#buttonHover');
     Input = $('#input');
