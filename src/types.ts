@@ -27,3 +27,10 @@ defineParameterType({
     transformer: p => p,
     useForSnippets: false
 });
+
+defineParameterType({
+    name: 'wdioTimeout',
+    regexp: /| \(timeout: (\d+)\)/,
+    transformer: p => p ? parseInt(p) : null,
+    useForSnippets: false
+});

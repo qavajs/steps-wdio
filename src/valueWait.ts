@@ -35,7 +35,7 @@ export async function valueWait(
     timeout: number = 10000,
     reverse: boolean
 ) {
-    const timeoutMsg: string = `Value is${reverse ? '' : ' not'} ${validationType} ${expected}`;
+    const timeoutMsg: string = `Value is${reverse ? '' : ' not'} ${validationType} '${expected}'`;
     const options = { timeout, timeoutMsg };
     const waitFn = waits[validationType];
     await browser.waitUntil(async () => reverse !== await waitFn(valueFn, expected), options);
