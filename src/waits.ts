@@ -15,32 +15,39 @@ When('I wait {int} ms', async function (ms: number) {
  * Wait for element condition
  * @param {string} alias - element to wait condition
  * @param {string} wait - wait condition
+ * @param {number|null} [timeout] - custom timeout in ms
  * @example I wait until 'Header' to be visible
  * @example I wait until 'Loading' not to be present
  * @example I wait until 'Search Bar > Submit Button' to be clickable
+ * @example I wait until 'Search Bar > Submit Button' to be clickable (timeout: 2500)
  */
-When('I wait until {string} {wdioConditionWait}', async function (alias: string, waitType: string) {
-    const wait = getConditionWait(waitType);
-    const element = await getElement(alias) as Element;
-    await wait(element, config.browser.timeout.page);
-});
+When(
+    'I wait until {string} {wdioConditionWait}{wdioTimeout}',
+    async function (alias: string, waitType: string, timeout: number | null) {
+        const wait = getConditionWait(waitType);
+        const element = await getElement(alias) as Element;
+        await wait(element, timeout ? timeout : config.browser.timeout.page);
+    }
+);
 
 /**
  * Wait for element text condition
  * @param {string} alias - element to wait condition
  * @param {string} wait - wait condition
  * @param {string} value - expected value to wait
+ * @param {number|null} [timeout] - custom timeout in ms
  * @example I wait until text of 'Header' to be equal 'Javascript'
  * @example I wait until text of 'Header' not to be equal 'Python'
+ * @example I wait until text of 'Header' not to be equal 'Python' (timeout: 4000)
  */
 When(
-    'I wait until text of {string} {wdioValueWait} {string}',
-    async function (alias: string, waitType: string, value: string) {
+    'I wait until text of {string} {wdioValueWait} {string}{wdioTimeout}',
+    async function (alias: string, waitType: string, value: string, timeout: number | null) {
         const wait = getValueWait(waitType);
         const element = await getElement(alias) as Element;
         const expectedValue = await getValue(value);
         const getValueFn = async () => element.getText();
-        await wait(getValueFn, expectedValue, config.browser.timeout.page);
+        await wait(getValueFn, expectedValue, timeout ? timeout : config.browser.timeout.page);
     }
 );
 
@@ -49,18 +56,20 @@ When(
  * @param {string} alias - element to wait condition
  * @param {string} wait - wait condition
  * @param {string} value - expected value to wait
+ * @param {number|null} [timeout] - custom timeout in ms
  * @example I wait until number of elements in 'Search Results' collection to be equal '50'
  * @example I wait until number of elements in 'Search Results' collection to be above '49'
  * @example I wait until number of elements in 'Search Results' collection to be below '51'
+ * @example I wait until number of elements in 'Search Results' collection to be below '51' (timeout: 3000)
  */
 When(
-    'I wait until number of elements in {string} collection {wdioValueWait} {string}',
-    async function (alias: string, waitType: string, value: string) {
+    'I wait until number of elements in {string} collection {wdioValueWait} {string}{wdioTimeout}',
+    async function (alias: string, waitType: string, value: string, timeout: number | null) {
         const wait = getValueWait(waitType);
         const collection = await getLocator(alias) as Function;
         const expectedValue = await getValue(value);
         const getValueFn = async () => (await collection() as ElementArray).length;
-        await wait(getValueFn, expectedValue, config.browser.timeout.page);
+        await wait(getValueFn, expectedValue, timeout ? timeout : config.browser.timeout.page);
     }
 );
 
@@ -70,17 +79,19 @@ When(
  * @param {string} alias - element to wait condition
  * @param {string} wait - wait condition
  * @param {string} value - expected value to wait
+ * @param {number|null} [timeout] - custom timeout in ms
  * @example I wait until 'value' property of 'Search Input' to be equal 'Javascript'
+ * @example I wait until 'value' property of 'Search Input' to be equal 'Javascript' (timeout: 5000)
  */
 When(
-    'I wait until {string} property of {string} {wdioValueWait} {string}',
-    async function (property: string, alias: string, waitType: string, value: string) {
+    'I wait until {string} property of {string} {wdioValueWait} {string}{wdioTimeout}',
+    async function (property: string, alias: string, waitType: string, value: string, timeout: number | null) {
         const propertyName = await getValue(property);
         const wait = getValueWait(waitType);
         const element = await getElement(alias) as Element;
         const expectedValue = await getValue(value);
         const getValueFn = async () => element.getProperty(propertyName);
-        await wait(getValueFn, expectedValue, config.browser.timeout.page);
+        await wait(getValueFn, expectedValue, timeout ? timeout : config.browser.timeout.page);
     }
 );
 
@@ -90,17 +101,19 @@ When(
  * @param {string} alias - element to wait condition
  * @param {string} wait - wait condition
  * @param {string} value - expected value to wait
+ * @param {number|null} [timeout] - custom timeout in ms
  * @example I wait until 'href' attribute of 'Home Link' to be equal '/javascript'
+ * @example I wait until 'href' attribute of 'Home Link' to be equal '/javascript' (timeout: 5000)
  */
 When(
-    'I wait until {string} attribute of {string} {wdioValueWait} {string}',
-    async function (attribute: string, alias: string, waitType: string, value: string) {
+    'I wait until {string} attribute of {string} {wdioValueWait} {string}{wdioTimeout}',
+    async function (attribute: string, alias: string, waitType: string, value: string, timeout: number | null) {
         const attributeName = await getValue(attribute);
         const wait = getValueWait(waitType);
         const element = await getElement(alias) as Element;
         const expectedValue = await getValue(value);
         const getValueFn = async () => element.getAttribute(attributeName);
-        await wait(getValueFn, expectedValue, config.browser.timeout.page);
+        await wait(getValueFn, expectedValue, timeout ? timeout : config.browser.timeout.page);
     }
 );
 
@@ -108,16 +121,18 @@ When(
  * Wait for url condition
  * @param {string} wait - wait condition
  * @param {string} value - expected value to wait
+ * @param {number|null} [timeout] - custom timeout in ms
  * @example I wait until current url to be equal 'https://qavajs.github.io/'
  * @example I wait until current url not to contain 'java'
+ * @example I wait until current url not to contain 'java' (timeout: 3000)
  */
 When(
-    'I wait until current url {wdioValueWait} {string}',
-    async function (waitType: string, value: string) {
+    'I wait until current url {wdioValueWait} {string}{wdioTimeout}',
+    async function (waitType: string, value: string, timeout: number | null) {
         const wait = getValueWait(waitType);
         const expectedValue = await getValue(value);
         const getValueFn = async () => browser.getUrl();
-        await wait(getValueFn, expectedValue, config.browser.timeout.page);
+        await wait(getValueFn, expectedValue, timeout ? timeout : config.browser.timeout.page);
     }
 );
 
@@ -125,16 +140,18 @@ When(
  * Wait for title condition
  * @param {string} wait - wait condition
  * @param {string} value - expected value to wait
+ * @param {number|null} [timeout] - custom timeout in ms
  * @example I wait until page title to be equal 'qavajs'
  * @example I wait until page title not to contain 'java'
+ * @example I wait until page title to be equal 'qavajs' (timeout: 2000)
  */
 When(
-    'I wait until page title {wdioValueWait} {string}',
-    async function (waitType: string, value: string) {
+    'I wait until page title {wdioValueWait} {string}{wdioTimeout}',
+    async function (waitType: string, value: string, timeout: number | null) {
         const wait = getValueWait(waitType);
         const expectedValue = await getValue(value);
         const getValueFn = async () => browser.getTitle();
-        await wait(getValueFn, expectedValue, config.browser.timeout.page);
+        await wait(getValueFn, expectedValue, timeout ? timeout : config.browser.timeout.page);
     }
 );
 
@@ -145,7 +162,7 @@ When(
 When('I wait for alert', async function () {
   const options = {
     timeout: config.browser.timeout.present,
-    timeoutMsg: `Alert has not been shown for ${config.browser.timeout.present} ms`,
+    timeoutMsg: `Alert has not been shown for ${config.browser.timeout.page} ms`,
     interval: 2000,
   };
   await browser.waitUntil(async () => {

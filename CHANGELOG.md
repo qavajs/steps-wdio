@@ -1,3 +1,6 @@
+## 0.0.21
+- :rocket: added custom timeout parameter
+
 ## 0.0.20
 - :rocket: added JS alert steps
 
