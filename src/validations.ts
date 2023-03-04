@@ -6,7 +6,7 @@ import {
     getElement,
     getConditionWait
 } from './transformers';
-import { getValidation } from '@qavajs/validation';
+import {getValidation} from '@qavajs/validation';
 
 /**
  * Verify element condition
@@ -38,6 +38,8 @@ Then(
         const validation = getValidation(validationType);
         await conditionWait(element, conditionValidations.VISIBLE, config.browser.timeout.visible);
         const elementText: string = await element.getText();
+        this.log(`AR: ${elementText}`);
+        this.log(`ER: ${expectedValue}`);
         validation(elementText, expectedValue);
     }
 );
@@ -57,6 +59,8 @@ Then(
         const expectedValue = await getValue(value);
         const collection = await getElement(alias) as ElementArray;
         const validation = getValidation(validationType);
+        this.log(`AR: ${collection.length}`);
+        this.log(`ER: ${expectedValue}`);
         validation(collection.length, expectedValue);
     }
 );
@@ -79,6 +83,8 @@ Then(
         const validation = getValidation(validationType);
         await conditionWait(element, conditionValidations.PRESENT, config.browser.timeout.present);
         const actualValue = await element.getProperty(propertyName);
+        this.log(`AR: ${actualValue}`);
+        this.log(`ER: ${expectedValue}`);
         validation(actualValue, expectedValue);
     }
 );
@@ -100,6 +106,8 @@ Then(
         const validation = getValidation(validationType);
         await conditionWait(element, conditionValidations.PRESENT, config.browser.timeout.present);
         const actualValue = await element.getAttribute(attributeName);
+        this.log(`AR: ${actualValue}`);
+        this.log(`ER: ${expectedValue}`);
         validation(actualValue, expectedValue);
     }
 );
@@ -117,6 +125,8 @@ Then(
         const validation = getValidation(validationType);
         const expectedUrl = await getValue(expected);
         const actualUrl = await browser.getUrl();
+        this.log(`AR: ${actualUrl}`);
+        this.log(`ER: ${expectedUrl}`);
         validation(actualUrl, expectedUrl);
     }
 );
@@ -133,6 +143,8 @@ Then(
         const validation = getValidation(validationType);
         const expectedTitle = await getValue(expected);
         const actualTitle = await browser.getTitle();
+        this.log(`AR: ${actualTitle}`);
+        this.log(`ER: ${expectedTitle}`);
         validation(actualTitle, expectedTitle);
     }
 );
@@ -221,6 +233,8 @@ Then(
         const actualValue = await browser.execute(function (element: Element, propertyName: string) {
             return getComputedStyle(element as any).getPropertyValue(propertyName)
         }, element as any, propertyName);
+        this.log(`AR: ${actualValue}`);
+        this.log(`ER: ${expectedValue}`);
         validation(actualValue, expectedValue);
     }
 );
@@ -233,7 +247,10 @@ Then(
  * @example I expect text of alert does not contain 'coffee'
  */
 Then('I expect text of alert {wdioValidation} {string}', async function (validationType: string, expectedValue: string) {
-  const alertText = await browser.getAlertText();
-  const validation = getValidation(validationType);
-  validation(alertText, expectedValue, alertText);
-   });
+    const alertText = await browser.getAlertText();
+    const expected = await getValue(expectedValue);
+    const validation = getValidation(validationType);
+    this.log(`AR: ${alertText}`);
+    this.log(`ER: ${expected}`);
+    validation(alertText, expected);
+});
