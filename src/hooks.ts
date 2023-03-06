@@ -18,6 +18,7 @@ Before(async function () {
     }
     global.browser = await remote(driverConfig);
     global.driver = global.browser;
+    this.log(`browser instance started:\n${JSON.stringify(driverConfig, null, 2)}`);
     if (driverConfig.timeout.implicit > 0) await global.browser.setTimeout({ 'implicit': driverConfig.timeout.implicit });
     po.init(browser, { timeout: driverConfig.timeout.present });
     po.register(config.pageObject);
@@ -49,5 +50,6 @@ AfterStep(async function (step) {
 After(async function () {
     if (global.browser) {
         await browser.deleteSession();
+        this.log('browser instance closed');
     }
 });

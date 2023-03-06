@@ -17,11 +17,13 @@ const common = {
         }
     },
     format: [
-        '@qavajs/xunit-formatter:test-e2e/report.xml'
+        '@qavajs/xunit-formatter:test-e2e/report.xml',
+        'json:test-e2e/report.json'
     ],
     memory: new Memory(),
     pageObject: new App(),
-    parallel: 1,
+    parallel: 4,
+    retry: 1,
     publishQuiet: true
 }
 

@@ -1,4 +1,3 @@
-@debug
 Feature: waits
 
   Background:
