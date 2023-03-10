@@ -30,7 +30,7 @@ defineParameterType({
 
 defineParameterType({
     name: 'wdioTimeout',
-    regexp: /| \(timeout: (\d+)\)/,
+    regexp: /(?:\(timeout: (\d+)\))?/,
     transformer: p => p ? parseInt(p) : null,
     useForSnippets: false
 });

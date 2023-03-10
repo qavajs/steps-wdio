@@ -13,12 +13,13 @@ const App = require('./page_object');
 module.exports = {
     default: {
         require: [
-            '@qavajs/steps-wdio'
+            'node_modules/@qavajs/steps-wdio'
         ],
         browser: {
             timeout: {
                 present: 10000,
                 visible: 20000,
+                clickable: 15000,
                 page: 10000,
                 implicit: 0 //wdio implicit wait for element
             },

@@ -28,15 +28,48 @@ When('I type {string} to {string}', async function (value: string, alias: string
 });
 
 /**
+ * Click implementation
+ * @param alias - alias of element to click
+ * @param enableWait - enable clickability wait
+ */
+async function click(alias: string, enableWait: boolean): Promise<void> {
+    const element = await getElement(alias) as Element;
+    if (enableWait) {
+        await conditionWait(element, conditionValidations.CLICKABLE, config.browser.timeout.clickable);
+    }
+    await element.click();
+}
+
+/**
  * Click element
  * @param {string} alias - element to click
  * @example I click 'Google Button'
  */
 When('I click {string}', async function (alias: string) {
-    const element = await getElement(alias) as Element;
-    await conditionWait(element, conditionValidations.VISIBLE, config.browser.timeout.visible);
-    await element.click();
+    await click(alias, true);
 });
+
+/**
+ * Click element with disabled actionability wait
+ * @param {string} alias - element to click
+ * @example I click 'Google Button' (disable actionability wait)
+ */
+When('I click {string} \\(disable actionability wait)', async function (alias: string) {
+    await click(alias, false);
+});
+
+/**
+ * Double click implementation
+ * @param alias - alias of element to click
+ * @param enableWait - enable clickability wait
+ */
+async function doubleClick(alias: string, enableWait: boolean): Promise<void> {
+    const element = await getElement(alias) as Element;
+    if (enableWait) {
+        await conditionWait(element, conditionValidations.CLICKABLE, config.browser.timeout.clickable);
+    }
+    await element.doubleClick();
+}
 
 /**
  * Double click element
@@ -44,10 +77,30 @@ When('I click {string}', async function (alias: string) {
  * @example I double click 'Google Button'
  */
 When('I double click {string}', async function (alias: string) {
-    const element = await getElement(alias) as Element;
-    await conditionWait(element, conditionValidations.VISIBLE, config.browser.timeout.visible);
-    await element.doubleClick();
+    await doubleClick(alias, true);
 });
+
+/**
+ * Double click element with disabled actionability wait
+ * @param {string} alias - double element to click
+ * @example I double click 'Google Button' (disable actionability wait)
+ */
+When('I double click {string} \\(disable actionability wait)', async function (alias: string) {
+    await doubleClick(alias, false);
+});
+
+/**
+ * Right click implementation
+ * @param alias - alias of element to click
+ * @param enableWait - enable clickability wait
+ */
+async function rightClick(alias: string, enableWait: boolean): Promise<void> {
+    const element = await getElement(alias) as Element;
+    if (enableWait) {
+        await conditionWait(element, conditionValidations.CLICKABLE, config.browser.timeout.clickable);
+    }
+    await element.click({button: 'right'});
+}
 
 /**
  * Right click element
@@ -55,10 +108,17 @@ When('I double click {string}', async function (alias: string) {
  * @example I right click 'Google Button'
  */
 When('I right click {string}', async function (alias: string) {
-    const element = await getElement(alias) as Element;
-    await conditionWait(element, conditionValidations.VISIBLE, config.browser.timeout.visible);
-    await element.click({button: 'right'});
-})
+    await rightClick(alias, true);
+});
+
+/**
+ * Right click element with disabled actionability check
+ * @param {string} alias - element to right click
+ * @example I right click 'Google Button'
+ */
+When('I right click {string} \\(disable actionability wait)', async function (alias: string) {
+    await rightClick(alias, false);
+});
 
 /**
  * Clear input

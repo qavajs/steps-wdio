@@ -22,7 +22,7 @@ When('I wait {int} ms', async function (ms: number) {
  * @example I wait until 'Search Bar > Submit Button' to be clickable (timeout: 2500)
  */
 When(
-    'I wait until {string} {wdioConditionWait}{wdioTimeout}',
+    'I wait until {string} {wdioConditionWait}( ){wdioTimeout}',
     async function (alias: string, waitType: string, timeout: number | null) {
         const wait = getConditionWait(waitType);
         const element = await getElement(alias) as Element;
@@ -41,7 +41,7 @@ When(
  * @example I wait until text of 'Header' not to be equal 'Python' (timeout: 4000)
  */
 When(
-    'I wait until text of {string} {wdioValueWait} {string}{wdioTimeout}',
+    'I wait until text of {string} {wdioValueWait} {string}( ){wdioTimeout}',
     async function (alias: string, waitType: string, value: string, timeout: number | null) {
         const wait = getValueWait(waitType);
         const element = await getElement(alias) as Element;
@@ -63,7 +63,7 @@ When(
  * @example I wait until number of elements in 'Search Results' collection to be below '51' (timeout: 3000)
  */
 When(
-    'I wait until number of elements in {string} collection {wdioValueWait} {string}{wdioTimeout}',
+    'I wait until number of elements in {string} collection {wdioValueWait} {string}( ){wdioTimeout}',
     async function (alias: string, waitType: string, value: string, timeout: number | null) {
         const wait = getValueWait(waitType);
         const collection = await getLocator(alias) as Function;
@@ -84,7 +84,7 @@ When(
  * @example I wait until 'value' property of 'Search Input' to be equal 'Javascript' (timeout: 5000)
  */
 When(
-    'I wait until {string} property of {string} {wdioValueWait} {string}{wdioTimeout}',
+    'I wait until {string} property of {string} {wdioValueWait} {string}( ){wdioTimeout}',
     async function (property: string, alias: string, waitType: string, value: string, timeout: number | null) {
         const propertyName = await getValue(property);
         const wait = getValueWait(waitType);
@@ -106,7 +106,7 @@ When(
  * @example I wait until 'href' attribute of 'Home Link' to be equal '/javascript' (timeout: 5000)
  */
 When(
-    'I wait until {string} attribute of {string} {wdioValueWait} {string}{wdioTimeout}',
+    'I wait until {string} attribute of {string} {wdioValueWait} {string}( ){wdioTimeout}',
     async function (attribute: string, alias: string, waitType: string, value: string, timeout: number | null) {
         const attributeName = await getValue(attribute);
         const wait = getValueWait(waitType);
@@ -127,7 +127,7 @@ When(
  * @example I wait until current url not to contain 'java' (timeout: 3000)
  */
 When(
-    'I wait until current url {wdioValueWait} {string}{wdioTimeout}',
+    'I wait until current url {wdioValueWait} {string}( ){wdioTimeout}',
     async function (waitType: string, value: string, timeout: number | null) {
         const wait = getValueWait(waitType);
         const expectedValue = await getValue(value);
@@ -146,7 +146,7 @@ When(
  * @example I wait until page title to be equal 'qavajs' (timeout: 2000)
  */
 When(
-    'I wait until page title {wdioValueWait} {string}{wdioTimeout}',
+    'I wait until page title {wdioValueWait} {string}( ){wdioTimeout}',
     async function (waitType: string, value: string, timeout: number | null) {
         const wait = getValueWait(waitType);
         const expectedValue = await getValue(value);
