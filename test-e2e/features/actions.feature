@@ -7,12 +7,24 @@ Feature: actions
     When I click 'Button'
     Then I expect text of 'Action' to be equal 'click'
 
+  Scenario: click with disabled actionability check
+    When I click 'Button' (disable actionability wait)
+    Then I expect text of 'Action' to be equal 'click'
+
   Scenario: right click
     When I right click 'Button'
     Then I expect text of 'Action' to be equal 'rightclick'
 
+  Scenario: right click with disabled actionability check
+    When I right click 'Button' (disable actionability wait)
+    Then I expect text of 'Action' to be equal 'rightclick'
+
   Scenario: double click
     When I double click 'Button'
+    Then I expect text of 'Action' to be equal 'dblclick'
+
+  Scenario: double click with disabled actionability check
+    When I double click 'Button' (disable actionability wait)
     Then I expect text of 'Action' to be equal 'dblclick'
 
   Scenario: type

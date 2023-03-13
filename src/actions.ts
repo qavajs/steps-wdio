@@ -3,6 +3,7 @@ import { Element, ElementArray } from 'webdriverio';
 import { conditionValidations, conditionWait } from './conditionWait';
 import { getValue, getElement } from './transformers';
 import { parseCoords, Keys } from './utils';
+import { click, doubleClick, rightClick } from './click';
 
 /**
  * Opens provided url
@@ -30,35 +31,35 @@ When('I type {string} to {string}', async function (value: string, alias: string
 /**
  * Click element
  * @param {string} alias - element to click
+ * @param {boolean} [disableWait] - disable wait before click
  * @example I click 'Google Button'
+ * @example I click 'Google Button' (disable actionability wait)
  */
-When('I click {string}', async function (alias: string) {
-    const element = await getElement(alias) as Element;
-    await conditionWait(element, conditionValidations.VISIBLE, config.browser.timeout.visible);
-    await element.click();
+When('I click {string}( ){wdioDisableActionabilityCheck}', async function (alias: string, disableWait: boolean) {
+    await click(alias, disableWait);
 });
 
 /**
  * Double click element
  * @param {string} alias - double element to click
+ * @param {boolean} [disableWait] - disable wait before click
  * @example I double click 'Google Button'
+ * @example I double click 'Google Button' (disable actionability wait)
  */
-When('I double click {string}', async function (alias: string) {
-    const element = await getElement(alias) as Element;
-    await conditionWait(element, conditionValidations.VISIBLE, config.browser.timeout.visible);
-    await element.doubleClick();
+When('I double click {string}( ){wdioDisableActionabilityCheck}', async function (alias: string, disableWait: boolean) {
+    await doubleClick(alias, disableWait);
 });
 
 /**
  * Right click element
  * @param {string} alias - element to right click
+ * @param {boolean} [disableWait] - disable wait before click
  * @example I right click 'Google Button'
+ * @example I right click 'Google Button' (disable actionability wait)
  */
-When('I right click {string}', async function (alias: string) {
-    const element = await getElement(alias) as Element;
-    await conditionWait(element, conditionValidations.VISIBLE, config.browser.timeout.visible);
-    await element.click({button: 'right'});
-})
+When('I right click {string}( ){wdioDisableActionabilityCheck}', async function (alias: string, disableWait: boolean) {
+    await rightClick(alias, disableWait);
+});
 
 /**
  * Clear input

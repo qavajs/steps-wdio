@@ -30,7 +30,15 @@ defineParameterType({
 
 defineParameterType({
     name: 'wdioTimeout',
-    regexp: /| \(timeout: (\d+)\)/,
+    regexp: /(?:\(timeout: (\d+)\))?/,
     transformer: p => p ? parseInt(p) : null,
     useForSnippets: false
 });
+
+defineParameterType({
+    name: 'wdioDisableActionabilityCheck',
+    regexp: /(\(disable actionability wait\))?/,
+    transformer: p => !p,
+    useForSnippets: false
+});
+

@@ -1,3 +1,8 @@
+## 0.0.23
+- :rocket: changed actionability wait to clickable in clicks
+- :rocket: added capability to disable actionability check in clicks
+- :beetle: fixed optional params templates in wait steps
+
 ## 0.0.22
 - :rocket: added logs for validation steps
 
