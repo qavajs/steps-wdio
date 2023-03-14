@@ -1,3 +1,6 @@
+## 0.0.24
+- :rocket: added capability to press key with modifiers
+
 ## 0.0.23
 - :rocket: changed actionability wait to clickable in clicks
 - :rocket: added capability to disable actionability check in clicks

@@ -2,7 +2,7 @@ import { When } from '@cucumber/cucumber';
 import { Element, ElementArray } from 'webdriverio';
 import { conditionValidations, conditionWait } from './conditionWait';
 import { getValue, getElement } from './transformers';
-import { parseCoords, Keys } from './utils';
+import { parseCoords, Keys, parseKeySequence } from './utils';
 import { click, doubleClick, rightClick } from './click';
 
 /**
@@ -154,31 +154,27 @@ When('I refresh page', async function () {
 /**
  * Press button
  * @param {string} key - key to press
- * @example I press 'Enter' key // for selenium
- * @example I press '$Enter' key // for devtools $Enter is memory value String.fromCharCode(13)
+ * @example I press 'Enter' key
+ * @example I press 'Ctrl+C' keys
  */
-When('I press {string} key', async function (key: string) {
-    let pressKey: string = await getValue(key);
-    if (pressKey in Keys) { // @ts-ignore
-        pressKey = Keys[pressKey];
-    }
-    await browser.keys(pressKey);
+When('I press {string} key(s)', async function (key: string) {
+    const keySequence: string | string[] = await getValue(key);
+    const keys = parseKeySequence(keySequence);
+    await browser.keys(keys);
 });
 
 /**
  * Press button given number of times
  * @param {string} key - key to press
  * @param {number} num - number of times
- * @example I press 'Enter' key 5 times // for selenium
- * @example I press '$Enter' key 4 times // for devtools $Enter is memory value String.fromCharCode(13)
+ * @example I press 'Enter' key 5 times
+ * @example I press 'Ctrl+V' keys 4 times
  */
-When('I press {string} key {int} time(s)', async function (key: string, num: number) {
-    let pressKey = await getValue(key);
-    if (pressKey in Keys) { // @ts-ignore
-        pressKey = Keys[pressKey];
-    }
+When('I press {string} key(s) {int} time(s)', async function (key: string, num: number) {
+    const keySequence: string | string[] = await getValue(key);
+    const keys = parseKeySequence(keySequence);
     for (let i: number = 0; i < num; i++) {
-      await browser.keys(pressKey);
+      await browser.keys(keys);
     }
 });
 
