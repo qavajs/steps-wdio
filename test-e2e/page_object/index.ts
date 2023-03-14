@@ -31,6 +31,8 @@ export default class App {
 
     PressCounter = $('#pressCounter');
 
+    KeyDump = $('#keywordevent');
+
     Users = $$('#users > li');
 
     OverflowContainer = $('#overflowContainer');

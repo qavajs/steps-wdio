@@ -1,3 +1,5 @@
+const MODIFIER_KEYS = ['Control', 'Shift', 'Alt', 'Command', 'Ctrl'];
+
 /**
  * Parse 'x, y' string to coordinates array
  * @param {string} coords - 'x, y' string
@@ -5,6 +7,21 @@
  */
 export function parseCoords(coords: string): number[] {
     return coords.split(/\s?,\s?/).map((c: string) => parseFloat(c ?? 0))
+}
+
+function getKey(key: string) {
+    if (key in Keys) { // @ts-ignore
+        return Keys[key];
+    }
+    return key
+}
+
+export function parseKeySequence(sequence: string | string[]): string[] {
+    // @ts-ignore
+    if (sequence in Keys) return [Keys[sequence]];
+    if (Array.isArray(sequence)) return sequence;
+    if (MODIFIER_KEYS.some(key => sequence.includes(key))) return sequence.split('+').map(getKey);
+    return sequence.split('');
 }
 
 export enum Keys {
