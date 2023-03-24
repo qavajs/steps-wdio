@@ -21,7 +21,8 @@ module.exports = {
                 visible: 20000,
                 clickable: 15000,
                 page: 10000,
-                implicit: 0 //wdio implicit wait for element
+                implicit: 0, //wdio implicit wait for element,
+                element: 2000 //timeout to element to be accesible 
             },
             capabilities: {
                 browserName: 'chrome'
