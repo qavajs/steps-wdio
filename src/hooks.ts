@@ -20,7 +20,7 @@ Before(async function () {
     global.driver = global.browser;
     this.log(`browser instance started:\n${JSON.stringify(driverConfig, null, 2)}`);
     if (driverConfig.timeout.implicit > 0) await global.browser.setTimeout({ 'implicit': driverConfig.timeout.implicit });
-    po.init(browser, { timeout: driverConfig.timeout.present });
+    po.init(browser, { timeout: driverConfig.timeout.element });
     po.register(config.pageObject);
 });
 
