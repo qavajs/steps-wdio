@@ -1,5 +1,6 @@
 ## 0.0.25
 - :rocket: added _element_ timeout to wait element availability (instead of present that used before)
+- :grey_question: removed node14 from PR pipeline
  
 ## 0.0.24
 - :rocket: added capability to press key with modifiers
