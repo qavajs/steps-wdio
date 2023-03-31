@@ -27,6 +27,10 @@ Feature: actions
     When I double click 'Button' (disable actionability wait)
     Then I expect text of 'Action' to be equal 'dblclick'
 
+  Scenario: force click
+    When I force click 'Button'
+    Then I expect text of 'Action' to be equal 'click'
+
   Scenario: type
     When I type 'test value' to 'Input'
     Then I expect text of 'Action' to be equal 'test value'
