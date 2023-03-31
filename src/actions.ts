@@ -62,6 +62,16 @@ When('I right click {string}( ){wdioDisableActionabilityCheck}', async function 
 });
 
 /**
+ * Click element via script
+ * @param {string} alias - element to click
+ * @example I force click 'Google Button'
+ */
+When('I force click {string}', async function (alias: string) {
+    const element = await getElement(alias);
+    await browser.execute((e: HTMLElement) => e.click(), element as any);
+});
+
+/**
  * Clear input
  * @param {string} alias - element to clear
  * @example I clear 'Google Input'
