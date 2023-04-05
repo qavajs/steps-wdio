@@ -1,5 +1,6 @@
 import { When } from '@cucumber/cucumber';
 import { getValue } from './transformers';
+import memory from '@qavajs/memory';
 
 /**
  * Set cookie
@@ -21,5 +22,6 @@ When('I set {string} cookie as {string}', async function (cookie, value) {
  * @example I save value of 'auth' cookie as 'authCookie'
  */
 When('I save value of {string} cookie as {string}', async function (cookie, key) {
-    memory.setValue(key, await browser.getCookies([await getValue(cookie)]));
+    const cookies = await browser.getCookies([await getValue(cookie)]);
+    memory.setValue(key, cookies.pop());
 });

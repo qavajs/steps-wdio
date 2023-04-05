@@ -40,6 +40,10 @@ export default class App {
 
     IgnoreHierarchyComponent = $(new IgnoreHierarchyComponent());
     ComponentWithoutSelector = $(new ComponentWithoutSelector());
+
+    Cookie = $('#cookie');
+    LocalStorage = $('#localStorage');
+    SessionStorage = $('#sessionStorage');
 }
 
 // @ts-ignore
