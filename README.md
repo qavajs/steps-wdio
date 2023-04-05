@@ -13,7 +13,7 @@ const App = require('./page_object');
 module.exports = {
     default: {
         require: [
-            'node_modules/@qavajs/steps-wdio'
+            'node_modules/@qavajs/steps-wdio/index.js'
         ],
         browser: {
             timeout: {
@@ -44,7 +44,7 @@ Supported events:
 ```javascript
 module.exports = {
     default: {
-        screenshot: 'onFail'
+        screenshot: ['onFail']
     }
 }
 ```

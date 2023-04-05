@@ -1,5 +1,6 @@
 import Memory from './memory';
 import App from './page_object';
+import localServer from './support/server';
 
 const common = {
     paths: ['test-e2e/features/*.feature'],
@@ -21,6 +22,7 @@ const common = {
         '@qavajs/xunit-formatter:test-e2e/report.xml',
         'json:test-e2e/report.json'
     ],
+    service: [localServer],
     memory: new Memory(),
     pageObject: new App(),
     parallel: 4,

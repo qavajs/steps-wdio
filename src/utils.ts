@@ -1,3 +1,5 @@
+import {ScreenshotEvent} from './screenshotEvent';
+
 const MODIFIER_KEYS = ['Control', 'Shift', 'Alt', 'Command', 'Ctrl'];
 
 /**
@@ -22,6 +24,12 @@ export function parseKeySequence(sequence: string | string[]): string[] {
     if (Array.isArray(sequence)) return sequence;
     if (MODIFIER_KEYS.some(key => sequence.includes(key))) return sequence.split('+').map(getKey);
     return sequence.split('');
+}
+
+export function equalOrIncludes(value: string | string[], argument: string) {
+    return Array.isArray(value)
+        ? value.includes(argument)
+        : value === argument;
 }
 
 export enum Keys {

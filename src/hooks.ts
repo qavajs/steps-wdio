@@ -3,6 +3,7 @@ import defaultTimeouts from './defaultTimeouts';
 import { Browser, remote } from 'webdriverio';
 import { po } from '@qavajs/po';
 import { ScreenshotEvent } from './screenshotEvent';
+import { equalOrIncludes } from './utils';
 
 declare global {
     var browser: Browser;
@@ -25,7 +26,8 @@ Before(async function () {
 });
 
 BeforeStep(async function () {
-    if (config.screenshot === ScreenshotEvent.BEFORE_STEP) {
+    const isBeforeStepScreenshot = equalOrIncludes(config.screenshot, ScreenshotEvent.BEFORE_STEP);
+    if (isBeforeStepScreenshot) {
         try {
             this.attach(await browser.takeScreenshot(), 'base64:image/png');
         } catch (err) {
@@ -35,10 +37,12 @@ BeforeStep(async function () {
 });
 
 AfterStep(async function (step) {
+    const isAfterStepScreenshot = equalOrIncludes(config.screenshot, ScreenshotEvent.AFTER_STEP);
+    const isOnFailScreenshot = equalOrIncludes(config.screenshot, ScreenshotEvent.ON_FAIL);
     try {
         if (
-            (config.screenshot === ScreenshotEvent.ON_FAIL && step.result.status === Status.FAILED) ||
-            config.screenshot === ScreenshotEvent.AFTER_STEP
+            (isOnFailScreenshot && step.result.status === Status.FAILED) ||
+            isAfterStepScreenshot
         ) {
             this.attach(await browser.takeScreenshot(), 'base64:image/png');
         }

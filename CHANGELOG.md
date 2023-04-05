@@ -4,8 +4,10 @@ All notable changes to the "@qavajs/steps-wdio" will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-## [Unreleased]
+## [0.0.26]
+- :rocket: added network interceptor steps
 - :rocket: added _I force click_ step
+- :beetle: fixed cookie and local storage steps
 
 ## [0.0.25]
 - :rocket: added _element_ timeout to wait element availability (instead of present that used before)

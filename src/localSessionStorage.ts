@@ -1,5 +1,6 @@
 import { When } from '@cucumber/cucumber';
 import { getValue } from './transformers';
+import memory from '@qavajs/memory';
 
 /**
  * Set value of local/session storage
