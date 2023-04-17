@@ -7,11 +7,14 @@ Feature: waits
     Then I wait until '<element>' <condition>
 
     Examples:
-      | element         | condition         |
-      | Present Element | to be present     |
-      | Detach Element  | not to be present |
-      | Visible Element | to be visible     |
-      | Hidden Element  | to be invisible   |
+      | element                   | condition         |
+      | Present Element           | to be present     |
+      | Detach Element            | not to be present |
+      | Not Existing Element      | not to be present |
+      | #1 of Empty Collection    | not to be present |
+      | #text in Empty Collection | not to be present |
+      | Visible Element           | to be visible     |
+      | Hidden Element            | to be invisible   |
 
   Scenario: wait for text
       Then I wait until text of 'Loading' to be equal '100%'

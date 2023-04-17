@@ -22,6 +22,8 @@ export default class App {
     DetachElement = $('#detach');
     VisibleElement = $('#visible');
     HiddenElement = $('#hidden');
+    NotExistingElement = $('#notExistingElement');
+    EmptyCollection = $$('#emptyCollection');
 
     Loading = $('#loading');
     LoadingInput = $('#loadingInput');

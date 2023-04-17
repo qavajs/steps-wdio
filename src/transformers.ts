@@ -9,8 +9,8 @@ export function getValue(alias: string): any {
     return memory.getValue(alias)
 }
 
-export async function getElement(alias: string): Promise<Element | ElementArray> {
-    return po.getElement(await memory.getValue(alias))
+export async function getElement(alias: string, options?: { immediate: boolean }): Promise<Element | ElementArray> {
+    return po.getElement(await memory.getValue(alias), options)
 }
 
 export function getLocator(alias: string): Locator {

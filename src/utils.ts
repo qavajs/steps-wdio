@@ -1,5 +1,3 @@
-import {ScreenshotEvent} from './screenshotEvent';
-
 const MODIFIER_KEYS = ['Control', 'Shift', 'Alt', 'Command', 'Ctrl'];
 
 /**
@@ -30,6 +28,10 @@ export function equalOrIncludes(value: string | string[], argument: string) {
     return Array.isArray(value)
         ? value.includes(argument)
         : value === argument;
+}
+
+export function isImmediate(validation: string) {
+    return validation.includes('present') && validation.includes('not')
 }
 
 export enum Keys {
