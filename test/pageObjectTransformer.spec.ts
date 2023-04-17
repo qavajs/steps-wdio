@@ -14,7 +14,7 @@ jest.mock('@qavajs/po', () => ({
 
 test('alias transformer should return page object', async () => {
     await getElement('alias');
-    expect(po.getElement).toBeCalledWith('alias1');
+    expect(po.getElement).toBeCalledWith('alias1', undefined);
     expect(memory.getValue).toBeCalledWith('alias');
 });
 
