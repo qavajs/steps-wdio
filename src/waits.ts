@@ -1,6 +1,7 @@
 import { When } from '@cucumber/cucumber';
 import { getValue, getElement, getConditionWait, getValueWait, getLocator } from './transformers';
 import { Element, ElementArray } from 'webdriverio';
+import { isImmediate } from './utils';
 
 /**
  * Explicit wait
@@ -25,7 +26,7 @@ When(
     'I wait until {string} {wdioConditionWait}( ){wdioTimeout}',
     async function (alias: string, waitType: string, timeout: number | null) {
         const wait = getConditionWait(waitType);
-        const element = await getElement(alias) as Element;
+        const element = await getElement(alias, { immediate: isImmediate(waitType) }) as Element;
         await wait(element, timeout ? timeout : config.browser.timeout.page);
     }
 );

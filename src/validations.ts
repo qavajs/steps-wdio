@@ -6,7 +6,8 @@ import {
     getElement,
     getConditionWait
 } from './transformers';
-import {getValidation} from '@qavajs/validation';
+import { getValidation } from '@qavajs/validation';
+import { isImmediate } from './utils';
 
 /**
  * Verify element condition
@@ -17,7 +18,7 @@ import {getValidation} from '@qavajs/validation';
  * @example I expect 'Search Bar > Submit Button' to be clickable
  */
 Then('I expect {string} {wdioConditionWait}', async function (alias: string, condition: string) {
-    const element = await getElement(alias) as Element;
+    const element = await getElement(alias, { immediate: isImmediate(condition) }) as Element;
     const wait = getConditionWait(condition);
     await wait(element, config.browser.timeout.page);
 });

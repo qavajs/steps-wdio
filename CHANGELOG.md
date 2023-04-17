@@ -4,6 +4,9 @@ All notable changes to the "@qavajs/steps-wdio" will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.0.27]
+- :rocket: implemented immediate resolve in case of not present wait 
+
 ## [0.0.26]
 - :rocket: added network interceptor steps
 - :rocket: added _I force click_ step
