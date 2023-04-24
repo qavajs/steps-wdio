@@ -10,3 +10,4 @@ require('./lib/mobile.js');
 require('./lib/execute.js');
 require('./lib/mock.js');
 require('./lib/intercept.js');
+require('./lib/poDefine.js');
