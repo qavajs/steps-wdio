@@ -42,3 +42,10 @@ defineParameterType({
     useForSnippets: false
 });
 
+defineParameterType({
+    name: 'wdioPoType',
+    regexp: /(element|collection)/,
+    transformer: p => p,
+    useForSnippets: false
+});
+

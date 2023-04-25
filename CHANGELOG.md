@@ -4,6 +4,9 @@ All notable changes to the "@qavajs/steps-wdio" will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.0.28]
+- :rocket: implemented steps to dynamically define page object
+
 ## [0.0.27]
 - :rocket: implemented immediate resolve in case of not present wait 
 
