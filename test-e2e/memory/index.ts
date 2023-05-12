@@ -7,6 +7,7 @@ export default class Memory {
     waitsPage = file(resolve('./test-e2e/apps/waits.html'));
     scrollPage = file(resolve('./test-e2e/apps/scroll.html'));
     mockPage = file(resolve('./test-e2e/apps/mock.html'));
+    dragDropPage = file(resolve('./test-e2e/apps/dragdrop.html'));
 
     Enter = String.fromCharCode(13);
     Space = String.fromCharCode(32);

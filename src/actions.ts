@@ -4,6 +4,7 @@ import { conditionValidations, conditionWait } from './conditionWait';
 import { getValue, getElement } from './transformers';
 import { parseCoords, Keys, parseKeySequence } from './utils';
 import { click, doubleClick, rightClick } from './click';
+import { dragAndDrop } from './utils';
 
 /**
  * Opens provided url
@@ -312,4 +313,16 @@ When('I dismiss alert', async function () {
  */
 When('I type {string} to alert', async function (value: string) {
     await browser.sendAlertText(value);
+});
+
+/**
+ * Drag&Drop one element to another
+ * @param {string} elementAlias - element to drag
+ * @param {string} targetAlias - target
+ * @example I drag and drop 'Bishop' to 'E4'
+ */
+When('I drag and drop {string} to {string}', async function (elementAlias, targetAlias) {
+    const element = await getElement(elementAlias) as Element;
+    const target = await getElement(targetAlias) as Element;
+    await browser.execute(dragAndDrop, element as any, target as any);
 });

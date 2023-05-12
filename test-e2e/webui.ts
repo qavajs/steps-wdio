@@ -1,6 +1,7 @@
 import Memory from './memory';
 import App from './page_object';
 import localServer from './support/server';
+import wdioService from '@qavajs/wdio-service-adapter';
 
 const common = {
     paths: ['test-e2e/features/*.feature'],
@@ -36,6 +37,7 @@ export const debug = {
     ...common,
     tags: '@debug',
     retry: 0,
+    parallel: 1,
     browser: {
         logLevel: 'warn',
         capabilities: {
@@ -47,4 +49,16 @@ export const debug = {
             }
         }
     },
+}
+
+export const selenium = {
+    ...common,
+    defaultTimeout: 30000,
+    service: [...common.service, wdioService('@wdio/selenium-standalone-service')]
+}
+
+export const debugSelenium = {
+    ...debug,
+    defaultTimeout: 30000,
+    service: [...common.service, wdioService('@wdio/selenium-standalone-service')]
 }
