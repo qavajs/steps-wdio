@@ -4,6 +4,9 @@ All notable changes to the "@qavajs/steps-wdio" will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.0.30]
+- :rocket: added types to global members
+
 ## [0.0.29]
 - :rocket: added _I drag and drop..._ step
 
