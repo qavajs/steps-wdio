@@ -3,11 +3,11 @@
 # @qavajs/steps-wdio
 Step library to work with webdriverio in qavajs framework
 
-## installation
+## Installation
 
 `npm install @qavajs/steps-wdio`
 
-## configuration
+## Configuration
 ```javascript
 const App = require('./page_object');
 module.exports = {
@@ -33,7 +33,7 @@ module.exports = {
 }
 ```
 
-## screenshot strategy
+## Screenshot Strategy
 @qavajs/steps-wdio has build-in capability to take screenshot on particular event. If you need to add 
 screenshot to your report add _screenshot_ property to profile config.
 Supported events:
@@ -48,3 +48,17 @@ module.exports = {
     }
 }
 ```
+
+## Typescript
+To properly use globals exposed by @qavajs/steps-wdio add corresponding types to tsconfig.json
+```json
+{
+  "compilerOptions": {
+    "types": [
+      "@qavajs/steps-wdio/globals"
+    ]
+  }
+}
+```
+
+
