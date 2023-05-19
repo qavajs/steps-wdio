@@ -24,6 +24,7 @@ When('I open new browser as {string}', async function (browserName: string) {
  * And I switch to 'default' browser
  */
 When('I switch to {string} browser', async function (browserName: string) {
+    if (!global.browsers) throw new Error('No other browser launched');
     const targetBrowser = global.browsers[browserName];
     if (!targetBrowser) throw new Error(`'${browserName}' browser is not defined`);
     global.browser = targetBrowser;
@@ -36,6 +37,7 @@ When('I switch to {string} browser', async function (browserName: string) {
  * When I close to 'browser2' browser
  */
 When('I close {string} browser', async function (browserName: string) {
+    if (!global.browsers) throw new Error('No other browser launched');
     await global.browsers[browserName].deleteSession();
     global.browser = global.browsers.default;
     delete global.browsers[browserName];

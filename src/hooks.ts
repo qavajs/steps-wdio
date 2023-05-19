@@ -11,7 +11,7 @@ declare global {
     var config: any;
     var browsers: {
         [browserName: string]: Browser
-    };
+    } | null;
 }
 
 Before(async function () {
@@ -61,6 +61,7 @@ After(async function () {
             await global.browsers[browserName].deleteSession();
             this.log(`${browserName} browser closed`);
         }
+        global.browsers = null;
     } else if (global.browser) {
         await browser.deleteSession();
         this.log('browser instance closed');
