@@ -326,3 +326,11 @@ When('I drag and drop {string} to {string}', async function (elementAlias, targe
     const target = await getElement(targetAlias) as Element;
     await browser.execute(dragAndDrop, element as any, target as any);
 });
+
+/**
+ * Open new browser tab
+ * @example I open new tab
+ */
+When('I open new tab', async function () {
+    await browser.execute(() => window.open('about:blank', '_blank'));
+});

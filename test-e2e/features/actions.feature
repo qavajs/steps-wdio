@@ -171,3 +171,11 @@ Feature: actions
     When I click "Alert Button"
     And I wait for alert
     Then I expect text of alert to be equal 'Are you robot?'
+
+  Scenario: open new tab
+    When I open new tab
+    And I switch to 2 window
+    And I open '$valuesPage' url
+    Then I expect current url to contain 'values.html'
+    When I switch to 1 window
+    Then I expect current url to contain 'actions.html'
