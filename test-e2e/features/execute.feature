@@ -13,7 +13,7 @@ Feature: execute
 
   Scenario: execute function and save result plain text
     When I click 'Button'
-    When I execute 'document.querySelector("#action").innerText' function and save result as 'innerText'
+    When I execute 'return document.querySelector("#action").innerText' function and save result as 'innerText'
     Then I expect '$innerText' memory value to be equal 'click'
 
   Scenario: execute function and save result plain text
@@ -22,7 +22,7 @@ Feature: execute
     Then I expect '$innerText' memory value to be equal 'click'
 
   Scenario: execute function on element plain text
-    When I execute 'arguments[0].click()' function on 'Button'
+    When I execute 'return arguments[0].click()' function on 'Button'
     Then I expect text of 'Action' to be equal 'click'
 
   Scenario: execute function on element
@@ -30,7 +30,7 @@ Feature: execute
     Then I expect text of 'Action' to be equal 'click'
 
   Scenario: execute function on element plain text and save result
-    When I execute 'arguments[0].innerText' function on 'Button' and save result as 'buttonInnerText'
+    When I execute 'return arguments[0].innerText' function on 'Button' and save result as 'buttonInnerText'
     Then I expect '$buttonInnerText' memory value to be equal 'Click Me!'
 
   Scenario: execute function on element and save result
