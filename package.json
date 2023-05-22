@@ -46,6 +46,6 @@
   },
   "dependencies": {
     "@qavajs/validation": "^0.0.5",
-    "webdriverio": "^8.10.2"
+    "webdriverio": "^8.10.4"
   }
 }
