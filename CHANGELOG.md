@@ -6,6 +6,8 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [0.0.30]
 - :rocket: added types to global members
+- :rocket: added _I open new tab_
+- :rocket: added steps to work with multiple browser contexts
 
 ## [0.0.29]
 - :rocket: added _I drag and drop..._ step

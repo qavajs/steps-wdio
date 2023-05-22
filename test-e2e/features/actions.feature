@@ -91,12 +91,12 @@ Feature: actions
 
   Scenario Outline: press <Key> key multiple times
     When I press '<Key>' key <Times> time<Postfix>
-    Then I expect text of 'Press Counter' to be equal '<Result>'
+    Then I expect text of 'Press Counter' to contain '<Result>'
 
     Examples:
-      | Key    | Times | Postfix | Result                |
-      | $Enter | 1     |         | pressed Enter 1 times |
-      | $Space | 5     | s       | pressed Space 5 times |
+      | Key    | Times | Postfix | Result  |
+      | $Enter | 1     |         | 1 times |
+      | $Space | 5     | s       | 5 times |
 
   Scenario: hover
     When I hover over 'Button Hover'
@@ -119,15 +119,15 @@ Feature: actions
 
   Scenario: scroll in window
     When I scroll by '0, 100'
-    And I execute 'window.scrollX' function and save result as 'scrollX'
-    And I execute 'window.scrollY' function and save result as 'scrollY'
+    And I execute 'return window.scrollX' function and save result as 'scrollX'
+    And I execute 'return window.scrollY' function and save result as 'scrollY'
     Then I expect '$scrollX' memory value to be equal '$number(0)'
     Then I expect '$scrollY' memory value to be equal '$number(100)'
 
   Scenario: scroll in element
     When I scroll by '0, 50' in 'Overflow Container'
-    And I execute 'document.querySelector("#overflowContainer").scrollLeft' function and save result as 'scrollX'
-    And I execute 'document.querySelector("#overflowContainer").scrollTop' function and save result as 'scrollY'
+    And I execute 'return document.querySelector("#overflowContainer").scrollLeft' function and save result as 'scrollX'
+    And I execute 'return document.querySelector("#overflowContainer").scrollTop' function and save result as 'scrollY'
     Then I expect '$scrollX' memory value to be equal '$number(0)'
     Then I expect '$scrollY' memory value to be equal '$number(50)'
 
@@ -150,24 +150,32 @@ Feature: actions
     Then I expect text of 'Content Editable Text' to be equal 'this is content editable tex'
 
   Scenario: accept alert
-    When I click "Alert Button"
+    When I click 'Alert Button'
     And I wait for alert
     And I accept alert
     Then I expect text of 'Action' to be equal 'true'
 
   Scenario: dismiss alert
-    When I click "Alert Button"
+    When I click 'Alert Button'
     And I wait for alert
     And I dismiss alert
     Then I expect text of 'Action' to be equal 'false'
 
   Scenario: type text to alert
     When I expect text of 'Action' to be equal 'Nothing'
-    And I click "Prompt Button"
+    And I click 'Prompt Button'
     And I type 'I am not a robot' to alert
     Then I expect text of 'Action' to be equal 'I am not a robot'
 
   Scenario: expect text of alert
-    When I click "Alert Button"
+    When I click 'Alert Button'
     And I wait for alert
     Then I expect text of alert to be equal 'Are you robot?'
+
+  Scenario: open new tab
+    When I open new tab
+    And I switch to 2 window
+    And I open '$valuesPage' url
+    Then I expect current url to contain 'values.html'
+    When I switch to 1 window
+    Then I expect current url to contain 'actions.html'

@@ -9,6 +9,9 @@ declare global {
     var browser: Browser;
     var driver: Browser;
     var config: any;
+    var browsers: {
+        [browserName: string]: Browser
+    } | null;
 }
 
 Before(async function () {
@@ -16,7 +19,8 @@ Before(async function () {
     driverConfig.timeout = {
         ...defaultTimeouts,
         ...driverConfig.timeout
-    }
+    };
+    global.config.driverConfig = driverConfig;
     global.browser = await remote(driverConfig);
     global.driver = global.browser;
     this.log(`browser instance started:\n${JSON.stringify(driverConfig, null, 2)}`);
@@ -52,7 +56,13 @@ AfterStep(async function (step) {
 });
 
 After(async function () {
-    if (global.browser) {
+    if (global.browsers) {
+        for (const browserName in global.browsers) {
+            await global.browsers[browserName].deleteSession();
+            this.log(`${browserName} browser closed`);
+        }
+        global.browsers = null;
+    } else if (global.browser) {
         await browser.deleteSession();
         this.log('browser instance closed');
     }
