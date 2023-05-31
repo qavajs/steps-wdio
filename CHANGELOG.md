@@ -4,6 +4,9 @@ All notable changes to the "@qavajs/steps-wdio" will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.31.0]
+- :beetle: fixed regexp in dynamic po steps
+
 ## [0.0.30]
 - :rocket: added types to global members
 - :rocket: added _I open new tab_
