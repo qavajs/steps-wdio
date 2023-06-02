@@ -1,7 +1,5 @@
+@debug
 Feature: mock
-
-  Background:
-    Given I restore all mocks
 
   Scenario: mock response multiline
     When I create mock for '**/users' as 'usersService'
