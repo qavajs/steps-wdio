@@ -1,6 +1,6 @@
 import { getConditionWait } from '../src/transformers';
 import { conditionWait } from '../src/conditionWait';
-import { test, jest } from '@jest/globals';
+import { beforeEach, test, vi, expect } from 'vitest';
 import { Element } from 'webdriverio';
 
 interface MockElement {
@@ -24,11 +24,11 @@ type TestParams = {
 };
 
 const mocks: any = {
-    waitForExist: jest.fn(),
-    waitForClickable: jest.fn(),
-    waitForDisplayed: jest.fn(),
-    waitForEnabled: jest.fn(),
-    waitUntil: jest.fn()
+    waitForExist: vi.fn(),
+    waitForClickable: vi.fn(),
+    waitForDisplayed: vi.fn(),
+    waitForEnabled: vi.fn(),
+    waitUntil: vi.fn()
 }
 
 const presentTests: Array<TestParams> = [

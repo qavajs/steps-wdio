@@ -1,7 +1,7 @@
 import { getValueWait } from '../src/transformers';
-import { test, jest } from '@jest/globals';
+import { beforeEach, test, vi, expect } from 'vitest';
 
-const waitUntil = jest.fn((fn: Function, options: any) => ({ fn, options }));
+const waitUntil = vi.fn((fn: Function, options: any) => ({ fn, options }));
 
 //@ts-ignore
 global.browser = {

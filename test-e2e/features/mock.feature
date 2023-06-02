@@ -1,8 +1,5 @@
 Feature: mock
 
-  Background:
-    Given I restore all mocks
-
   Scenario: mock response multiline
     When I create mock for '**/users' as 'usersService'
     And I set '$usersService' mock to respond '200' with:

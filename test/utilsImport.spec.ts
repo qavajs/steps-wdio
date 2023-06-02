@@ -1,5 +1,5 @@
 import { getValue, getValueWait, getConditionWait, getLocator, getElement } from '../utils.js'
-import { test, expect } from '@jest/globals';
+import { test, expect } from 'vitest';
 test.each([
     getValue,
     getValueWait,

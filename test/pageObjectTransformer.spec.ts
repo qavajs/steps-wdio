@@ -1,14 +1,16 @@
-import { test, jest } from '@jest/globals';
+import { test, vi, expect } from 'vitest';
 import { po } from '@qavajs/po';
 import memory from '@qavajs/memory';
 import { getElement, getLocator } from '../src/transformers';
 
-jest.mock('@qavajs/memory', () => ({
-    getValue: jest.fn(alias => alias + '1')
+vi.mock('@qavajs/memory', () => ({
+    default: {
+        getValue: vi.fn(alias => alias + '1')
+    }
 }));
-jest.mock('@qavajs/po', () => ({
+vi.mock('@qavajs/po', () => ({
     po: {
-        getElement: jest.fn((alias: string) => memory.getValue(alias))
+        getElement: vi.fn((alias: string) => memory.getValue(alias))
     }
 }));
 
