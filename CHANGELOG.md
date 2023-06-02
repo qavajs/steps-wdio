@@ -4,6 +4,9 @@ All notable changes to the "@qavajs/steps-wdio" will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.32.0]
+- :rocket: added mouse and keyboard actions steps
+
 ## [0.31.0]
 - :beetle: fixed regexp in dynamic po steps
 

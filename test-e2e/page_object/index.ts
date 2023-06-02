@@ -50,6 +50,9 @@ export default class App {
     DropZone = $('div#div1');
     DragElement = $('div#drag1');
     DragElementInDropZone = $('div#div1 div#drag1');
+
+    EventHandler = $('#mouseEvent');
+    KeyboardEventHandler = $('#keyboardEvent');
 }
 
 // @ts-ignore

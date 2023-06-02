@@ -49,3 +49,11 @@ defineParameterType({
     useForSnippets: false
 });
 
+defineParameterType({
+    name: 'wdioMouseButton',
+    regexp: /(left|right|middle)/,
+    transformer: p => p,
+    useForSnippets: false
+});
+
+
