@@ -1,4 +1,3 @@
-@debug
 Feature: mock
 
   Scenario: mock response multiline
