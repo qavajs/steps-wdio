@@ -1,5 +1,5 @@
 import { When } from '@cucumber/cucumber';
-import { remote } from 'webdriverio';
+import { Browser, remote } from 'webdriverio';
 
 /**
  * Open new browser
@@ -12,7 +12,7 @@ When('I open new browser as {string}', async function (browserName: string) {
         global.browsers = {};
         global.browsers.default = global.browser;
     }
-    global.browsers[browserName] = await remote(config?.driverConfig);
+    global.browsers[browserName] = await remote(config?.driverConfig) as Browser;
 });
 
 /**

@@ -21,7 +21,7 @@ Before(async function () {
         ...driverConfig.timeout
     };
     global.config.driverConfig = driverConfig;
-    global.browser = await remote(driverConfig);
+    global.browser = await remote(driverConfig) as Browser;
     global.driver = global.browser;
     this.log(`browser instance started:\n${JSON.stringify(driverConfig, null, 2)}`);
     if (driverConfig.timeout.implicit > 0) await global.browser.setTimeout({ 'implicit': driverConfig.timeout.implicit });
