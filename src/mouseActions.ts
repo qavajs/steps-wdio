@@ -3,7 +3,7 @@ import { getValue } from './transformers';
 import { parseCoords } from './utils';
 
 /**
- * Press mouse key
+ * Press mouse button
  * @param {string} button - button to press (left, right, middle)
  * @example When I press left mouse button
  */
@@ -12,7 +12,7 @@ When('I press {wdioMouseButton} mouse button', async function (button) {
 });
 
 /**
- * Release mouse key
+ * Release mouse button
  * @param {string} button - button to release (left, right, middle)
  * @example When I release left mouse button
  */
