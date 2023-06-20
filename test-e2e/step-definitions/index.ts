@@ -15,7 +15,12 @@ Then('I expect globals to be defined', function () {
 });
 
 Then('I expect {string} memory value to be equal {string}', async function(actual, expected) {
-    const actualValue = memory.getValue(actual);
-    const expectedValue = memory.getValue(expected);
+    const actualValue = await memory.getValue(actual);
+    const expectedValue = await memory.getValue(expected);
     expect(expectedValue).to.eql(actualValue);
+});
+
+Then('I expect {string} memory value to be defined', async function(actual) {
+    const actualValue = await memory.getValue(actual);
+    expect(actualValue).not.to.be.undefined;
 });

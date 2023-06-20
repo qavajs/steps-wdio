@@ -133,6 +133,18 @@ When('I save screenshot as {string}', async function(key: string) {
 });
 
 /**
+ * Save element screenshot into memory
+ * @param {string} alias - element to get screenshot
+ * @param {string} key - key to store value
+ * @example I save screenshot of 'Header > Logo' as 'screenshot'
+ */
+When('I save screenshot of {string} as {string}', async function(alias: string, key: string) {
+    const element = await getElement(alias) as Element;
+    const screenshot = await browser.takeElementScreenshot(element.elementId);
+    memory.setValue(key, screenshot);
+});
+
+/**
  * Save css property of element to memory
  * @param {string} property - css property to store
  * @param {string} alias - element to get value
