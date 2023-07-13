@@ -4,6 +4,9 @@ All notable changes to the "@qavajs/steps-wdio" will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.34.0]
+- :rocket: added reuseSession capability
+
 ## [0.33.0]
 - :rocket: added _I save screenshot of 'Element'_ step
 
