@@ -13,7 +13,7 @@ Feature: intercept
     When I create interception for '<handler>' as 'usersInterception'
     And I open '$mockPage' url
     And I save '$usersInterception' response as 'response'
-    And I expect '$response.statusCode' memory value to be equal '$number(200)'
+    And I expect '$response.statusCode' memory value to be equal '$js(200)'
 
     Examples:
       | handler  |
