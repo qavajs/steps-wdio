@@ -56,5 +56,5 @@ Feature: validations
     Then I expect every element in '<collection>' collection <condition>
 
     Examples:
-      | collection      | condition     |
+      | collection         | condition     |
       | Present Collection | to be present |
