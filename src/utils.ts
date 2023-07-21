@@ -34,6 +34,12 @@ export function isImmediate(validation: string) {
     return validation.includes('present') && validation.includes('not')
 }
 
+export function checkIfCollection(alias: string, collection: any) {
+    if (!Array.isArray(collection)) {
+        throw new Error(`${alias} is not collection`);
+    }
+}
+
 export function dragAndDrop(source: Element, target: Element) {
     ({
         dragdrop: function (sourceElement: Element, targetElement: Element) {

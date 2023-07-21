@@ -7,7 +7,7 @@ import {
     getConditionWait
 } from './transformers';
 import { getValidation } from '@qavajs/validation';
-import { isImmediate } from './utils';
+import { isImmediate, checkIfCollection } from './utils';
 
 /**
  * Verify element condition
@@ -163,6 +163,7 @@ Then(
     async function (alias: string, validationType: string, value: string) {
         const expectedValue = await getValue(value);
         const collection = await getElement(alias) as ElementArray;
+        checkIfCollection(alias, collection);
         const validation = getValidation(validationType);
         for (const element of collection) {
             await conditionWait(await element, conditionValidations.PRESENT, config.browser.timeout.present);
@@ -171,6 +172,21 @@ Then(
         }
     }
 );
+
+/**
+ * Verify collection condition
+ * @param {string} alias - collection to wait condition
+ * @param {string} condition - wait condition
+ * @example I expect every element in 'Header > Links' collection to be visible
+ * @example I expect every element in 'Loading Bars' collection not to be present
+ */
+Then('I expect every element in {string} collection {wdioConditionWait}', async function (alias: string, condition: string) {
+    const collection = await getElement(alias) as ElementArray;
+    checkIfCollection(alias, collection);
+    const wait = getConditionWait(condition);
+    const conditionWait = (element: Element) => wait(element, config.browser.timeout.page);
+    await Promise.all(collection.map(conditionWait))
+});
 
 /**
  * Verify that all particular attributes in collection satisfy condition
@@ -184,6 +200,7 @@ Then(
     async function (attribute: string, alias: string, validationType: string, value: string) {
         const expectedValue = await getValue(value);
         const collection = await getElement(alias) as ElementArray;
+        checkIfCollection(alias, collection);
         const validation = getValidation(validationType);
         for (const element of collection) {
             await conditionWait(await element, conditionValidations.PRESENT, config.browser.timeout.present);
@@ -205,6 +222,7 @@ Then(
     async function (property: string, alias: string, validationType: string, value: string) {
         const expectedValue = await getValue(value);
         const collection = await getElement(alias) as ElementArray;
+        checkIfCollection(alias, collection);
         const validation = getValidation(validationType);
         for (const element of collection) {
             await conditionWait(await element, conditionValidations.PRESENT, config.browser.timeout.present);
