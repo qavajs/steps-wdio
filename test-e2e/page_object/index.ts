@@ -19,6 +19,7 @@ export default class App {
     NewTabLink = $('#newTabLink');
 
     PresentElement = $('#present');
+    PresentCollection = $$('#present');
     DetachElement = $('#detach');
     VisibleElement = $('#visible');
     HiddenElement = $('#hidden');

@@ -4,6 +4,10 @@ All notable changes to the "@qavajs/steps-wdio" will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.35.0]
+- :rocket: added _I expect every element in {string} collection {wdioConditionWait}_ step
+- :rocket: added check if returned entity is collection in collection validations
+
 ## [0.34.0]
 - :rocket: added reuseSession capability
 
