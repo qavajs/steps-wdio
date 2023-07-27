@@ -33,7 +33,7 @@ module.exports = {
 }
 ```
 
-## Screenshot Strategy
+## Screenshots
 @qavajs/steps-wdio has build-in capability to take screenshot on particular event. If you need to add 
 screenshot to your report add _screenshot_ property to profile config.
 Supported events:
@@ -44,7 +44,32 @@ Supported events:
 ```javascript
 module.exports = {
     default: {
-        screenshot: ['onFail']
+        browser: {
+            capabilities: {
+                browserName: 'chrome'
+            },
+            screenshot: ['onFail']
+        }
+    }
+}
+```
+
+## Snapshot
+@qavajs/steps-wdio has build-in capability to take page snapshot on particular event.
+Supported events:
+- onFail
+- beforeStep
+- afterStep
+
+```javascript
+module.exports = {
+    default: {
+        browser: {
+            capabilities: {
+                browserName: 'chrome'
+            },
+            snapshot: ['onFail']
+        }
     }
 }
 ```

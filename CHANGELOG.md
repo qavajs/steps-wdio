@@ -4,6 +4,17 @@ All notable changes to the "@qavajs/steps-wdio" will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+:rocket: - new feature
+:beetle: - bugfix
+:x: - deprecation
+
+## [0.36.0]
+- :rocket: added experimental snapshot attach
+
+Deprecated:
+- :x: screenshot property moved to browser/driver config. 
+Screenshot under root is marked as deprecated and will be removed in future releases. 
+
 ## [0.35.0]
 - :rocket: added _I expect every element in {string} collection {wdioConditionWait}_ step
 - :rocket: added check if returned entity is collection in collection validations

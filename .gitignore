@@ -3,4 +3,5 @@ lib/
 coverage/
 test-e2e/report.xml
 test-e2e/report.json
+test-e2e/report.html
 .idea/

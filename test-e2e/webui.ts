@@ -21,7 +21,8 @@ const common = {
     format: [
         '@qavajs/console-formatter',
         '@qavajs/xunit-formatter:test-e2e/report.xml',
-        'json:test-e2e/report.json'
+        'json:test-e2e/report.json',
+        '@qavajs/html-formatter:test-e2e/report.html'
     ],
     service: [localServer],
     memory: new Memory(),
@@ -47,7 +48,9 @@ export const debug = {
                     '--window-size=1280,720'
                 ]
             }
-        }
+        },
+        snapshot: ['afterStep'],
+        screenshot: ['afterStep'],
     },
 }
 
