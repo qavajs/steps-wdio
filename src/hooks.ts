@@ -15,7 +15,7 @@ declare global {
     } | null;
 }
 
-Before(async function () {
+Before({name: 'driver init'}, async function () {
     const driverConfig = config.browser ?? config.driver;
     driverConfig.timeout = {
         ...defaultTimeouts,
@@ -79,7 +79,7 @@ AfterStep(async function (step) {
     }
 });
 
-After(async function () {
+After({name: 'driver teardown'}, async function () {
     if (global.browsers) {
         for (const browserName in global.browsers) {
             await global.browsers[browserName].deleteSession();

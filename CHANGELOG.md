@@ -8,6 +8,11 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :beetle: - bugfix
 :x: - deprecation
 
+## [0.37.0]
+- :rocket: added _I push {string} file as {string}_ step
+- :rocket: added _I pull {string} file as {string}_ step
+- :rocket: made hooks named
+
 ## [0.36.0]
 - :rocket: added experimental snapshot attach
 

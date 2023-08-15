@@ -1,13 +1,13 @@
 import Memory from './memory';
 import App from './page_object';
 import localServer from './support/server';
-import wdioService from '@qavajs/wdio-service-adapter';
 
 const common = {
     paths: ['test-e2e/features/*.feature'],
     require: ['test-e2e/step-definitions/*.ts', 'src/*.ts'],
     browser: {
         logLevel: 'warn',
+        automationProtocol: 'devtools',
         capabilities: {
             browserName: 'chrome',
             'goog:chromeOptions': {
@@ -41,6 +41,7 @@ export const debug = {
     parallel: 1,
     browser: {
         logLevel: 'warn',
+        automationProtocol: 'devtools',
         capabilities: {
             browserName: 'chrome',
             'goog:chromeOptions': {
@@ -56,12 +57,12 @@ export const debug = {
 
 export const selenium = {
     ...common,
-    defaultTimeout: 30000,
-    service: [...common.service, wdioService('@wdio/selenium-standalone-service')]
+    automationProtocol: 'webdriver',
+    defaultTimeout: 30000
 }
 
 export const debugSelenium = {
     ...debug,
-    defaultTimeout: 30000,
-    service: [...common.service, wdioService('@wdio/selenium-standalone-service')]
+    automationProtocol: 'webdriver',
+    defaultTimeout: 30000
 }

@@ -100,8 +100,35 @@ When('I perform touch action:', async function(actionsTable: DataTable) {
  * Perform touch action saved in memory
  * @param {string} actionsAlias - memory alias which resolves to action sequence  (see https://webdriver.io/docs/api/appium#touchperform)
  * @example
- * I perform touch action '$actions'
+ * When I perform touch action '$actions'
  */
 When('I perform touch action {string}', async function (actionsAlias: string) {
     await driver.touchPerform(await getValue(actionsAlias));
+});
+
+/**
+ * Push file onto device
+ * @param {string} file - file data (base64 or Buffer)
+ * @param {string} path - device path
+ * @example
+ * When I push '$fileData' file as '/data/local/tmp/foo.bar'
+ */
+When('I push {string} file as {string}', async function (file, path) {
+    const fileData = await getValue(file);
+    const devicePath = await getValue(path);
+    const base64Content = fileData instanceof Buffer ? fileData.toString('base64') : fileData;
+    await driver.pushFile(devicePath, base64Content);
+});
+
+/**
+ * Pull file from device (as base64)
+ * @param {string} path - device path
+ * @param {string} memoryKey - memory key to save file
+ * @example
+ * When I pull '/data/local/tmp/foo.bar' file as 'fileData'
+ */
+When('I pull {string} file as {string}', async function (path, memoryKey) {
+    const devicePath = await getValue(path);
+    const fileData = await driver.pullFile(devicePath);
+    memory.setValue(memoryKey, fileData);
 });
