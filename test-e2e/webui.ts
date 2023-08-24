@@ -56,12 +56,18 @@ export const debug = {
 
 export const selenium = {
     ...common,
-    automationProtocol: 'webdriver',
+    browser: {
+        ...common.browser,
+        automationProtocol: 'webdriver',
+    },
     defaultTimeout: 30000
 }
 
 export const debugSelenium = {
     ...debug,
-    automationProtocol: 'webdriver',
+    browser: {
+        ...debug.browser,
+        automationProtocol: 'webdriver',
+    },
     defaultTimeout: 30000
 }

@@ -337,7 +337,7 @@ When('I open new tab', async function () {
 
 /**
  * Click certain coordinates in element
- * @param {string} alias - element to click
+ * @param {string} coords - x, y coordinates to click
  * @param {string} alias - element to click
  * @param {boolean} [disableWait] - disable wait before click
  * @example When I click '0, 20' coordinates in 'Element'
