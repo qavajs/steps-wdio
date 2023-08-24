@@ -29,7 +29,6 @@ const common = {
     pageObject: new App(),
     parallel: 4,
     retry: 1,
-    publishQuiet: true
 }
 
 export default common;

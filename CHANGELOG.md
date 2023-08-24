@@ -8,6 +8,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :beetle: - bugfix
 :x: - deprecation
 
+## [0.38.0]
+- :rocket: added _I click {string} coordinates in {string}_ step
+
 ## [0.37.0]
 - :rocket: added _I push {string} file as {string}_ step
 - :rocket: added _I pull {string} file as {string}_ step

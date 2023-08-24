@@ -6,13 +6,20 @@ import { conditionValidations, conditionWait } from './conditionWait';
  * Click implementation
  * @param alias - alias of element to click
  * @param disableWait - disable clickability wait
+ * @param coords - coordinates to click (counts from top/left corner)
  */
-export async function click(alias: string, disableWait: boolean): Promise<void> {
+export async function click(alias: string, disableWait: boolean, coords?: { x: number, y: number }): Promise<void> {
   const element = await getElement(alias) as Element;
   if (!disableWait) {
     await conditionWait(element, conditionValidations.CLICKABLE, config.browser.timeout.clickable);
   }
-  await element.click();
+  if (coords) {
+    const width = await element.getSize('width');
+    const height = await element.getSize('height');
+    coords.x -= Math.floor(width / 2);
+    coords.y -= Math.floor(height / 2);
+  }
+  await element.click(coords);
 }
 
 /**
