@@ -85,9 +85,9 @@ Feature: actions
       | $Enter |
 
   Scenario: press key with modifier
-   And I press 'Alt+a' key
-   Then I expect text of 'Key Dump' to contain '"keyCode":65'
-   Then I expect text of 'Key Dump' to contain '"altKey":true'
+    And I press 'Alt+a' key
+    Then I expect text of 'Key Dump' to contain '"keyCode":65'
+    Then I expect text of 'Key Dump' to contain '"altKey":true'
 
   Scenario Outline: press <Key> key multiple times
     When I press '<Key>' key <Times> time<Postfix>
@@ -179,3 +179,7 @@ Feature: actions
     Then I expect current url to contain 'values.html'
     When I switch to 1 window
     Then I expect current url to contain 'actions.html'
+
+  Scenario: click on coordinates
+    When I click '3, 3' coordinates in 'Button'
+    Then I expect text of 'Action' to be equal 'click'

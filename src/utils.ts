@@ -9,6 +9,16 @@ export function parseCoords(coords: string): number[] {
     return coords.split(/\s?,\s?/).map((c: string) => parseFloat(c ?? 0))
 }
 
+/**
+ * Parse 'x, y' string to coordinates object
+ * @param {string} coords - 'x, y' string
+ * @return {{x: number, y: number}} - coords object
+ */
+export function parseCoordsAsObject(coords: string): {x: number, y: number} {
+    const [x, y] = coords.split(/\s?,\s?/).map((c: string) => parseFloat(c ?? 0));
+    return { x, y }
+}
+
 function getKey(key: string) {
     if (key in Keys) { // @ts-ignore
         return Keys[key];

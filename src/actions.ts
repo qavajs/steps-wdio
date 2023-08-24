@@ -2,7 +2,7 @@ import { When } from '@cucumber/cucumber';
 import { Element, ElementArray } from 'webdriverio';
 import { conditionValidations, conditionWait } from './conditionWait';
 import { getValue, getElement } from './transformers';
-import { parseCoords, Keys, parseKeySequence } from './utils';
+import {parseCoords, Keys, parseKeySequence, parseCoordsAsObject} from './utils';
 import { click, doubleClick, rightClick } from './click';
 import { dragAndDrop } from './utils';
 
@@ -333,4 +333,18 @@ When('I drag and drop {string} to {string}', async function (elementAlias, targe
  */
 When('I open new tab', async function () {
     await browser.execute(() => { window.open('about:blank', '_blank') });
+});
+
+/**
+ * Click certain coordinates in element
+ * @param {string} coords - x, y coordinates to click
+ * @param {string} alias - element to click
+ * @param {boolean} [disableWait] - disable wait before click
+ * @example When I click '0, 20' coordinates in 'Element'
+ * @example When I click '0, 20' coordinates in 'Element' (disable actionability wait)
+ */
+When('I click {string} coordinates in {string}( ){wdioDisableActionabilityCheck}', async function (coordinates: string, alias: string, disableWait: boolean) {
+    const coords = await getValue(coordinates);
+    const coordsObject = typeof coords === 'string' ? parseCoordsAsObject(coords) : coords;
+    await click(alias, disableWait, coordsObject);
 });

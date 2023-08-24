@@ -29,7 +29,6 @@ const common = {
     pageObject: new App(),
     parallel: 4,
     retry: 1,
-    publishQuiet: true
 }
 
 export default common;
@@ -57,12 +56,18 @@ export const debug = {
 
 export const selenium = {
     ...common,
-    automationProtocol: 'webdriver',
+    browser: {
+        ...common.browser,
+        automationProtocol: 'webdriver',
+    },
     defaultTimeout: 30000
 }
 
 export const debugSelenium = {
     ...debug,
-    automationProtocol: 'webdriver',
+    browser: {
+        ...debug.browser,
+        automationProtocol: 'webdriver',
+    },
     defaultTimeout: 30000
 }
