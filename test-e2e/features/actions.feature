@@ -183,3 +183,10 @@ Feature: actions
   Scenario: click on coordinates
     When I click '3, 3' coordinates in 'Button'
     Then I expect text of 'Action' to be equal 'click'
+
+  Scenario: resize browser's window
+    When I open new tab
+    And I set window size '640,480'
+    Then I expect viewport size to equal '$js({ width: 640, height: 480 })'
+    And I set window size '800,600'
+    Then I expect viewport size to equal '$js({ width: 800, height: 600 })'
