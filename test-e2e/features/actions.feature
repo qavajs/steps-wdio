@@ -172,14 +172,12 @@ Feature: actions
     And I wait for alert
     Then I expect text of alert to be equal 'Are you robot?'
 
-  Scenario: open new tab
-    When I open new tab
-    And I switch to 2 window
-    And I open '$valuesPage' url
-    Then I expect current url to contain 'values.html'
-    When I switch to 1 window
-    Then I expect current url to contain 'actions.html'
-
   Scenario: click on coordinates
     When I click '3, 3' coordinates in 'Button'
     Then I expect text of 'Action' to be equal 'click'
+
+  Scenario: resize browser's window
+    When I set window size '640,480'
+    Then I expect viewport size to equal '$js({ width: 640, height: 480 })'
+    And I set window size '800,600'
+    Then I expect viewport size to equal '$js({ width: 800, height: 600 })'

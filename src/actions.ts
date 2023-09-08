@@ -2,7 +2,7 @@ import { When } from '@cucumber/cucumber';
 import { Element, ElementArray } from 'webdriverio';
 import { conditionValidations, conditionWait } from './conditionWait';
 import { getValue, getElement } from './transformers';
-import {parseCoords, Keys, parseKeySequence, parseCoordsAsObject} from './utils';
+import {parseCoords, parseKeySequence, parseCoordsAsObject} from './utils';
 import { click, doubleClick, rightClick } from './click';
 import { dragAndDrop } from './utils';
 
@@ -347,4 +347,15 @@ When('I click {string} coordinates in {string}( ){wdioDisableActionabilityCheck}
     const coords = await getValue(coordinates);
     const coordsObject = typeof coords === 'string' ? parseCoordsAsObject(coords) : coords;
     await click(alias, disableWait, coordsObject);
+});
+
+/**
+ * Resize browser's window
+ * @param {string} size - desired size
+ * @example I set window size '1366,768'
+ */
+When('I set window size {string}', async function (size: string) {
+    const viewPort = await getValue(size);
+    const {x, y} = parseCoordsAsObject(viewPort);
+    await browser.setWindowSize(x, y);
 });

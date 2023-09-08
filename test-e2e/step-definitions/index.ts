@@ -24,3 +24,9 @@ Then('I expect {string} memory value to be defined', async function(actual) {
     const actualValue = await memory.getValue(actual);
     expect(actualValue).not.to.be.undefined;
 });
+
+Then('I expect viewport size to equal {string}', async function (expectedSize) {
+    const expectedValue = await memory.getValue(expectedSize);
+    const actualValue = await browser.getWindowSize();
+    expect(actualValue).to.deep.equal(expectedValue, 'Viewport size do not match');
+})
