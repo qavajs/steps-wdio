@@ -5,7 +5,6 @@ import { getValue, getElement } from './transformers';
 import {parseCoords, parseKeySequence, parseCoordsAsObject} from './utils';
 import { click, doubleClick, rightClick } from './click';
 import { dragAndDrop } from './utils';
-import memory from "@qavajs/memory";
 
 /**
  * Opens provided url
@@ -356,7 +355,7 @@ When('I click {string} coordinates in {string}( ){wdioDisableActionabilityCheck}
  * @example I set window size '1366,768'
  */
 When('I set window size {string}', async function (size: string) {
-    const viewPort = await memory.getValue(size);
+    const viewPort = await getValue(size);
     const {x, y} = parseCoordsAsObject(viewPort);
     await browser.setWindowSize(x, y);
 });
