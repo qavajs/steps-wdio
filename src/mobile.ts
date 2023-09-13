@@ -1,7 +1,6 @@
 import { DataTable, When } from '@cucumber/cucumber';
 import { conditionValidations, conditionWait } from './conditionWait';
 import { getValue, getElement } from './transformers';
-import { Element } from 'webdriverio';
 
 /**
  * Tap element
@@ -9,7 +8,7 @@ import { Element } from 'webdriverio';
  * @example I tap 'Google Button'
  */
 When('I tap {string}', async function(alias: string) {
-    const element = await getElement(alias) as Element;
+    const element = await getElement(alias) as WebdriverIO.Element;
     await conditionWait(element, conditionValidations.VISIBLE, config.browser.timeout.visible);
     await element.click();
 });

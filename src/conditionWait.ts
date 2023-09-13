@@ -1,5 +1,3 @@
-import { Element } from 'webdriverio';
-
 export const conditionValidations = {
     PRESENT: 'present',
     CLICKABLE: 'clickable',
@@ -19,47 +17,47 @@ export const conditionWaitRegexp = new RegExp(`(${notClause}${toBeClause}${valid
 
 const waits = {
     [conditionValidations.PRESENT]: (
-        element: Element,
+        element: WebdriverIO.Element,
         reverse: boolean,
         timeout: number,
         timeoutMsg: string
     ) => element.waitForExist({reverse, timeout, timeoutMsg}),
     [conditionValidations.CLICKABLE]: (
-        element: Element,
+        element: WebdriverIO.Element,
         reverse: boolean,
         timeout: number,
         timeoutMsg: string
     ) => element.waitForClickable({reverse, timeout, timeoutMsg}),
     [conditionValidations.VISIBLE]: (
-        element: Element,
+        element: WebdriverIO.Element,
         reverse: boolean,
         timeout: number,
         timeoutMsg: string
     ) => element.waitForDisplayed({reverse, timeout, timeoutMsg}),
     [conditionValidations.INVISIBLE]: (
-        element: Element,
+        element: WebdriverIO.Element,
         reverse: boolean,
         timeout: number,
         timeoutMsg: string
     ) => element.waitForDisplayed({reverse: !reverse, timeout, timeoutMsg}),
     [conditionValidations.ENABLED]: (
-        element: Element,
+        element: WebdriverIO.Element,
         reverse: boolean,
         timeout: number,
         timeoutMsg: string
     ) => element.waitForEnabled({reverse, timeout, timeoutMsg}),
     [conditionValidations.DISABLED]: (
-        element: Element,
+        element: WebdriverIO.Element,
         reverse: boolean,
         timeout: number,
         timeoutMsg: string
     ) => element.waitForEnabled({reverse: !reverse, timeout, timeoutMsg}),
     [conditionValidations.IN_VIEWPORT]: (
-        element: Element,
+        element: WebdriverIO.Element,
         reverse: boolean,
         timeout: number,
         timeoutMsg: string
-    ) => element.waitUntil(async function(this: Element) {
+    ) => element.waitUntil(async function(this: WebdriverIO.Element) {
         return (await this.isDisplayedInViewport() !== reverse)
     }, {timeout, timeoutMsg})
 }
@@ -72,7 +70,7 @@ const waits = {
  * @return {Promise<void>}
  */
 export async function conditionWait(
-    element: Element,
+    element: WebdriverIO.Element,
     validationType: string,
     timeout: number = 10000,
     reverse: boolean = false

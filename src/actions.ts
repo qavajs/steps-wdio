@@ -1,8 +1,7 @@
 import { When } from '@cucumber/cucumber';
-import { Element, ElementArray } from 'webdriverio';
 import { conditionValidations, conditionWait } from './conditionWait';
 import { getValue, getElement } from './transformers';
-import {parseCoords, parseKeySequence, parseCoordsAsObject} from './utils';
+import { parseCoords, parseKeySequence, parseCoordsAsObject } from './utils';
 import { click, doubleClick, rightClick } from './click';
 import { dragAndDrop } from './utils';
 
@@ -23,7 +22,7 @@ When('I open {string} url', async function (url: string) {
  * @example I type 'wikipedia' to 'Google Input'
  */
 When('I type {string} to {string}', async function (value: string, alias: string) {
-    const element = await getElement(alias) as Element;
+    const element = await getElement(alias) as WebdriverIO.Element;
     const typeValue = await getValue(value);
     await conditionWait(element, conditionValidations.VISIBLE, config.browser.timeout.visible);
     await element.addValue(typeValue);
@@ -78,7 +77,7 @@ When('I force click {string}', async function (alias: string) {
  * @example I clear 'Google Input'
  */
 When('I clear {string}', async function (alias: string) {
-    const element = await getElement(alias) as Element;
+    const element = await getElement(alias) as WebdriverIO.Element;
     await conditionWait(element, conditionValidations.VISIBLE, config.browser.timeout.visible);
     await element.clearValue();
 });
@@ -92,7 +91,7 @@ When('I clear {string}', async function (alias: string) {
 When(
     'I click {string} text in {string} collection',
     async function (value: string, alias: string) {
-        const collection = await getElement(alias) as ElementArray;
+        const collection = await getElement(alias) as WebdriverIO.Element[];
         const expectedText = await getValue(value);
         for (const ePromise of collection) {
             const element = await ePromise;
@@ -127,7 +126,7 @@ When('I switch to {int} frame', async function (index: number) {
  * @example I switch to 'Checkout Iframe' frame
  */
 When('I switch to {string} frame', async function (alias: string) {
-    const element = await getElement(alias) as Element;
+    const element = await getElement(alias) as WebdriverIO.Element;
     await browser.switchToFrame(element);
 });
 
@@ -195,7 +194,7 @@ When('I press {string} key(s) {int} time(s)', async function (key: string, num: 
  * @example I hover over 'Google Button'
  */
 When('I hover over {string}', async function (alias: string) {
-    const element = await getElement(alias) as Element;
+    const element = await getElement(alias) as WebdriverIO.Element;
     await conditionWait(element, conditionValidations.VISIBLE, config.browser.timeout.visible);
     await element.moveTo();
 });
@@ -209,7 +208,7 @@ When('I hover over {string}', async function (alias: string) {
  */
 When('I select {string} option from {string} dropdown', async function (option: string, alias: string) {
     const optionValue = await getValue(option);
-    const select = await getElement(alias) as Element;
+    const select = await getElement(alias) as WebdriverIO.Element;
     await conditionWait(select, conditionValidations.VISIBLE, config.browser.timeout.visible);
     await select.selectByVisibleText(optionValue)
 });
@@ -221,7 +220,7 @@ When('I select {string} option from {string} dropdown', async function (option: 
  * @example I select 1 option from 'Registration Form > Date Of Birth' dropdown
  */
 When('I select {int}(st|nd|rd|th) option from {string} dropdown', async function (optionIndex: number, alias: string) {
-    const select = await getElement(alias) as Element;
+    const select = await getElement(alias) as WebdriverIO.Element;
     await conditionWait(select, conditionValidations.VISIBLE, config.browser.timeout.visible);
     await select.selectByIndex(optionIndex - 1)
 });
@@ -232,9 +231,8 @@ When('I select {int}(st|nd|rd|th) option from {string} dropdown', async function
  * @example I scroll to 'Element'
  */
 When('I scroll to {string}', async function (alias) {
-    const element = await getElement(alias) as Element;
-    // @ts-ignore
-    await browser.execute((element: Element) => element.scrollIntoView(), element)
+    const element = await getElement(alias) as WebdriverIO.Element;
+    await browser.execute((element: WebdriverIO.Element) => element.scrollIntoView(), element)
 });
 
 /**
@@ -269,7 +267,7 @@ When('I scroll by {string}', async function (offset: string) {
  */
 When('I scroll by {string} in {string}', async function (offset: string, alias: string) {
     const [x, y] = parseCoords(await getValue(offset));
-    const element = await getElement(alias) as Element;
+    const element = await getElement(alias) as WebdriverIO.Element;
     await conditionWait(element, conditionValidations.VISIBLE, config.browser.timeout.visible);
     await browser.execute(function (element: any, x: number, y: number) {
         element.scrollBy(x, y);
@@ -283,7 +281,7 @@ When('I scroll by {string} in {string}', async function (offset: string, alias: 
  * @example I upload '/folder/file.txt' to 'File Input'
  */
 When('I upload {string} file to {string}', async function (value: string, alias: string) {
-    const element = await getElement(alias) as Element;
+    const element = await getElement(alias) as WebdriverIO.Element;
     const typeValue = await getValue(value);
     await element.setValue(typeValue);
 });
@@ -322,8 +320,8 @@ When('I type {string} to alert', async function (value: string) {
  * @example I drag and drop 'Bishop' to 'E4'
  */
 When('I drag and drop {string} to {string}', async function (elementAlias, targetAlias) {
-    const element = await getElement(elementAlias) as Element;
-    const target = await getElement(targetAlias) as Element;
+    const element = await getElement(elementAlias) as WebdriverIO.Element;
+    const target = await getElement(targetAlias) as WebdriverIO.Element;
     await browser.execute(dragAndDrop, element as any, target as any);
 });
 
