@@ -26,16 +26,16 @@
   },
   "homepage": "https://github.com/qavajs/steps-wdio#readme",
   "devDependencies": {
-    "@cucumber/cucumber": "^9.5.0",
+    "@cucumber/cucumber": "^9.5.1",
     "@qavajs/cli": "^0.28.0",
-    "@qavajs/console-formatter": "^0.5.0",
+    "@qavajs/console-formatter": "^0.6.0",
     "@qavajs/html-formatter": "^0.14.3",
     "@qavajs/memory": "^1.6.2",
     "@qavajs/po": "^1.6.0",
     "@qavajs/wdio-service-adapter": "^0.0.3",
     "@qavajs/webstorm-adapter": "^8.0.0",
     "@types/chai": "^4.3.6",
-    "devtools": "^8.16.5",
+    "devtools": "^8.16.11",
     "express": "^4.18.2",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2",
@@ -43,6 +43,6 @@
   },
   "dependencies": {
     "@qavajs/validation": "^0.6.0",
-    "webdriverio": "^8.16.6"
+    "webdriverio": "^8.16.11"
   }
 }
