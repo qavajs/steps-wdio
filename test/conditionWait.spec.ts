@@ -1,7 +1,6 @@
 import { getConditionWait } from '../src/transformers';
 import { conditionWait } from '../src/conditionWait';
 import { beforeEach, test, vi, expect } from 'vitest';
-import { Element } from 'webdriverio';
 
 interface MockElement {
     waitForExist?: Function,
