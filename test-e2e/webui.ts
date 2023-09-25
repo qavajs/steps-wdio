@@ -24,6 +24,11 @@ const common = {
         'json:test-e2e/report.json',
         '@qavajs/html-formatter:test-e2e/report.html'
     ],
+    formatOptions: {
+        console: {
+            showLogs: true
+        }
+    },
     service: [localServer],
     memory: new Memory(),
     pageObject: new App(),

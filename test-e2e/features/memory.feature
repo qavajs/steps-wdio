@@ -52,3 +52,7 @@ Feature: memory
   Scenario: page screenshot
     When I save screenshot as 'pageScreenshot'
     And I expect '$pageScreenshot' memory value to be defined
+
+  Scenario: bounding rect
+    When I save bounding rect of 'Simple Text Element' as 'boundingRect'
+    Then I expect '$boundingRect.height' memory value to be equal '$js(20)'

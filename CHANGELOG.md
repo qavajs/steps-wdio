@@ -8,6 +8,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :beetle: - bugfix
 :x: - deprecation
 
+## [0.40.0]
+- :rocket: added _I save bounding rect of {string} as {string}_ step
+
 ## [0.39.0]
 - :rocket: added _I set window size {string}_ step
 

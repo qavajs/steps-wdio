@@ -159,3 +159,20 @@ When('I save {string} css property of {string} as {string}', async function (pro
     }, element as any, propertyName);
     memory.setValue(key, value);
 });
+
+/**
+ * Save bounding client rect to memory
+ * https://developer.mozilla.org/en-US/docs/Web/API/DOMRect
+ * @param {string} alias - element to get value
+ * @param {string} key - key to store value
+ * @example
+ * When I save bounding rect of 'Node' as 'boundingRect'
+ * Then I expect '$boundingRect.width' to equal '42'
+ */
+When('I save bounding rect of {string} as {string}', async function (alias, key) {
+    const element = await getElement(alias) as WebdriverIO.Element;
+    const value = await browser.execute(function (element: WebdriverIO.Element) {
+        return JSON.stringify((element as any).getBoundingClientRect());
+    }, element as any);
+    memory.setValue(key, JSON.parse(value));
+});
