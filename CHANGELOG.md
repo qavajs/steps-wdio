@@ -8,6 +8,10 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :beetle: - bugfix
 :x: - deprecation
 
+## [Unreleased]
+- :rocket: added _match_ value wait
+- :rocket: added _I wait until {string} css property of {string} {playwrightValueWait} {string}( ){playwrightTimeout}_ step
+
 ## [0.40.0]
 - :rocket: added _I save bounding rect of {string} as {string}_ step
 

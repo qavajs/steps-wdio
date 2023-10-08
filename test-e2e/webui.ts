@@ -34,6 +34,7 @@ const common = {
     pageObject: new App(),
     parallel: 4,
     retry: 1,
+    defaultTimeout: 30000
 }
 
 export default common;
