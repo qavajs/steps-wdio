@@ -28,7 +28,7 @@ const equalTests: Array<TestParams> = [
         expectedCompareResult: true,
         timeout: 1,
         expectedTimeout: 1,
-        timeoutMsg: 'Value is not equal 1',
+        timeoutMsg: 'Value is expected to equal 1',
     },
     {
         name: 'not to be equal (positive)',
@@ -38,7 +38,7 @@ const equalTests: Array<TestParams> = [
         expectedCompareResult: true,
         timeout: 1,
         expectedTimeout: 1,
-        timeoutMsg: 'Value is equal 2',
+        timeoutMsg: 'Value is expected to not equal 2',
     },
     {
         name: 'to be equal (negative)',
@@ -48,7 +48,7 @@ const equalTests: Array<TestParams> = [
         expectedCompareResult: false,
         timeout: 1,
         expectedTimeout: 1,
-        timeoutMsg: 'Value is not equal 2',
+        timeoutMsg: 'Value is expected to equal 2',
     },
     {
         name: 'not to be equal (negative)',
@@ -58,7 +58,7 @@ const equalTests: Array<TestParams> = [
         expectedCompareResult: false,
         timeout: 2,
         expectedTimeout: 2,
-        timeoutMsg: 'Value is equal string',
+        timeoutMsg: 'Value is expected to not equal string',
     }
 ];
 
@@ -71,7 +71,7 @@ const containTests: Array<TestParams> = [
         expectedCompareResult: true,
         timeout: 1,
         expectedTimeout: 1,
-        timeoutMsg: 'Value is not contain wo',
+        timeoutMsg: 'Value is expected to contain wo',
     },
     {
         name: 'not to contain (positive)',
@@ -81,7 +81,7 @@ const containTests: Array<TestParams> = [
         expectedCompareResult: true,
         timeout: 1,
         expectedTimeout: 1,
-        timeoutMsg: 'Value is contain di',
+        timeoutMsg: 'Value is expected to not contain di',
     },
     {
         name: 'to contain (negative)',
@@ -91,7 +91,7 @@ const containTests: Array<TestParams> = [
         expectedCompareResult: false,
         timeout: 1,
         expectedTimeout: 1,
-        timeoutMsg: 'Value is not contain di',
+        timeoutMsg: 'Value is expected to contain di',
     },
     {
         name: 'not to contain (negative)',
@@ -101,7 +101,7 @@ const containTests: Array<TestParams> = [
         expectedCompareResult: false,
         timeout: 2,
         expectedTimeout: 2,
-        timeoutMsg: 'Value is contain wo',
+        timeoutMsg: 'Value is expected to not contain wo',
     }
 ];
 
@@ -114,7 +114,7 @@ const aboveTests: Array<TestParams> = [
         expectedCompareResult: true,
         timeout: 1,
         expectedTimeout: 1,
-        timeoutMsg: 'Value is not above 1',
+        timeoutMsg: 'Value is expected to above 1',
     },
     {
         name: 'not to be above (positive)',
@@ -124,7 +124,7 @@ const aboveTests: Array<TestParams> = [
         expectedCompareResult: true,
         timeout: 1,
         expectedTimeout: 1,
-        timeoutMsg: 'Value is above 3',
+        timeoutMsg: 'Value is expected to not above 3',
     },
     {
         name: 'to be above (negative)',
@@ -134,7 +134,7 @@ const aboveTests: Array<TestParams> = [
         expectedCompareResult: false,
         timeout: 4,
         expectedTimeout: 4,
-        timeoutMsg: 'Value is not above 3',
+        timeoutMsg: 'Value is expected to above 3',
     },
     {
         name: 'not to be above (negative)',
@@ -144,7 +144,7 @@ const aboveTests: Array<TestParams> = [
         expectedCompareResult: false,
         timeout: 2,
         expectedTimeout: 2,
-        timeoutMsg: 'Value is above 2',
+        timeoutMsg: 'Value is expected to not above 2',
     }
 ];
 
@@ -157,7 +157,7 @@ const belowTests: Array<TestParams> = [
         expectedCompareResult: true,
         timeout: 1,
         expectedTimeout: 1,
-        timeoutMsg: 'Value is not below 2',
+        timeoutMsg: 'Value is expected to below 2',
     },
     {
         name: 'not to be below (positive)',
@@ -167,7 +167,7 @@ const belowTests: Array<TestParams> = [
         expectedCompareResult: true,
         timeout: 5,
         expectedTimeout: 5,
-        timeoutMsg: 'Value is below 2',
+        timeoutMsg: 'Value is expected to not below 2',
     },
     {
         name: 'to be below (negative)',
@@ -177,7 +177,7 @@ const belowTests: Array<TestParams> = [
         expectedCompareResult: false,
         timeout: 4,
         expectedTimeout: 4,
-        timeoutMsg: 'Value is not below 2',
+        timeoutMsg: 'Value is expected to below 2',
     },
     {
         name: 'not to be below (negative)',
@@ -187,7 +187,7 @@ const belowTests: Array<TestParams> = [
         expectedCompareResult: false,
         timeout: 2,
         expectedTimeout: 2,
-        timeoutMsg: 'Value is below 3',
+        timeoutMsg: 'Value is expected to not below 3',
     }
 ];
 
@@ -200,7 +200,7 @@ const extraTests: Array<TestParams> = [
         expectedCompareResult: true,
         timeout: undefined,
         expectedTimeout: 10000,
-        timeoutMsg: 'Value is not below 2',
+        timeoutMsg: 'Value is expected to below 2',
     }
 ]
 
