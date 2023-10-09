@@ -19,11 +19,17 @@ Feature: waits
   Scenario: wait for text
       Then I wait until text of 'Loading' to be equal '100%'
 
+  Scenario: wait for text (match)
+    Then I wait until text of 'Loading' to match '^\d\d\d%$'
+
   Scenario: wait for property
     Then I wait until 'value' property of 'Loading Input' to be equal '100%'
 
   Scenario: wait for attribute
     Then I wait until 'style' attribute of 'Hidden Element' to contain 'hidden'
+
+  Scenario: wait for css property
+    Then I wait until 'visibility' css property of 'Hidden Element' to equal 'hidden'
 
   Scenario Outline: wait for number of elements in collection
     Then I wait until number of elements in 'Wait Collection' collection <condition> '<expected>'
@@ -58,6 +64,9 @@ Feature: waits
 
   Scenario: wait for attribute with timeout
     Then I wait until 'style' attribute of 'Hidden Element' to contain 'hidden' (timeout: 5000)
+
+  Scenario: wait for css property with timeout
+    Then I wait until 'visibility' css property of 'Hidden Element' to equal 'hidden' (timeout: 5000)
 
   Scenario Outline: wait for number of elements in collection with timeout
     Then I wait until number of elements in 'Wait Collection' collection <condition> '<expected>' (timeout: 5000)

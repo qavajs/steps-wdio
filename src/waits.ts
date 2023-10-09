@@ -26,7 +26,7 @@ When(
     async function (alias: string, waitType: string, timeout: number | null) {
         const wait = getConditionWait(waitType);
         const element = await getElement(alias, { immediate: isImmediate(waitType) }) as WebdriverIO.Element;
-        await wait(element, timeout ? timeout : config.browser.timeout.page);
+        await wait(element, timeout ?? config.browser.timeout.page);
     }
 );
 
@@ -47,7 +47,7 @@ When(
         const element = await getElement(alias) as WebdriverIO.Element;
         const expectedValue = await getValue(value);
         const getValueFn = async () => element.getText();
-        await wait(getValueFn, expectedValue, timeout ? timeout : config.browser.timeout.page);
+        await wait(getValueFn, expectedValue, timeout ?? config.browser.timeout.page);
     }
 );
 
@@ -69,7 +69,7 @@ When(
         const collection = await getLocator(alias) as Function;
         const expectedValue = await getValue(value);
         const getValueFn = async () => (await collection() as WebdriverIO.Element[]).length;
-        await wait(getValueFn, expectedValue, timeout ? timeout : config.browser.timeout.page);
+        await wait(getValueFn, expectedValue, timeout ?? config.browser.timeout.page);
     }
 );
 
@@ -91,7 +91,32 @@ When(
         const element = await getElement(alias) as WebdriverIO.Element;
         const expectedValue = await getValue(value);
         const getValueFn = async () => element.getProperty(propertyName);
-        await wait(getValueFn, expectedValue, timeout ? timeout : config.browser.timeout.page);
+        await wait(getValueFn, expectedValue, timeout ?? config.browser.timeout.page);
+    }
+);
+
+/**
+ * Wait for element css property condition
+ * @param {string} property - css property
+ * @param {string} alias - element to wait condition
+ * @param {string} wait - wait condition
+ * @param {string} value - expected value to wait
+ * @param {number|null} [timeout] - custom timeout in ms
+ * @example I wait until 'color' css property of 'Search Input' to be equal 'rgb(42, 42, 42)'
+ * @example I wait until 'font-family' css property of 'Search Input' to be equal 'Fira' (timeout: 3000)
+ */
+When(
+    'I wait until {string} css property of {string} {wdioValueWait} {string}( ){wdioTimeout}',
+    async function (property: string, alias: string, waitType: string, value: string, timeout: number | null) {
+        const propertyName = await getValue(property);
+        const wait = getValueWait(waitType);
+        const element = () => getElement(alias);
+        const expectedValue = await getValue(value);
+        const getValueFn = async () => browser.execute(
+            function (element: WebdriverIO.Element, propertyName: string) {
+                return getComputedStyle(element as any).getPropertyValue(propertyName)
+            }, await element() as any, propertyName);
+        await wait(getValueFn, expectedValue, timeout ?? config.browser.timeout.page);
     }
 );
 
@@ -113,7 +138,7 @@ When(
         const element = await getElement(alias) as WebdriverIO.Element;
         const expectedValue = await getValue(value);
         const getValueFn = async () => element.getAttribute(attributeName);
-        await wait(getValueFn, expectedValue, timeout ? timeout : config.browser.timeout.page);
+        await wait(getValueFn, expectedValue, timeout ?? config.browser.timeout.page);
     }
 );
 
@@ -132,7 +157,7 @@ When(
         const wait = getValueWait(waitType);
         const expectedValue = await getValue(value);
         const getValueFn = async () => browser.getUrl();
-        await wait(getValueFn, expectedValue, timeout ? timeout : config.browser.timeout.page);
+        await wait(getValueFn, expectedValue, timeout ?? config.browser.timeout.page);
     }
 );
 
@@ -151,7 +176,7 @@ When(
         const wait = getValueWait(waitType);
         const expectedValue = await getValue(value);
         const getValueFn = async () => browser.getTitle();
-        await wait(getValueFn, expectedValue, timeout ? timeout : config.browser.timeout.page);
+        await wait(getValueFn, expectedValue, timeout ?? config.browser.timeout.page);
     }
 );
 
