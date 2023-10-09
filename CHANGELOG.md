@@ -8,11 +8,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :beetle: - bugfix
 :x: - deprecation
 
-## [Unreleased]
+## [0.41.0]
 - :rocket: added _match_ value wait
-- :rocket: added _I wait until {string} css property of {string} {playwrightValueWait} {string}( ){playwrightTimeout}_ step
-
-## [0.40.1]
+- :rocket: added _I wait until {string} css property of {string} {wdioValueWait} {string}( ){wdioTimeout}_ step
 - :beetle: fix `Cannot read properties of undefined (reading 'status')`
 
 ## [0.40.0]
