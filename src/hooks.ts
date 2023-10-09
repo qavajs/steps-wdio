@@ -56,7 +56,7 @@ AfterStep(async function (step) {
     const isOnFailScreenshot = equalOrIncludes(config.driverConfig.screenshot ?? config.screenshot, ScreenshotEvent.ON_FAIL)
     try {
         if (
-            (isOnFailScreenshot && step.result.status === Status.FAILED) ||
+            (isOnFailScreenshot && step.result?.status === Status.FAILED) ||
             isAfterStepScreenshot
         ) {
             this.attach(await browser.takeScreenshot(), 'base64:image/png');
@@ -69,7 +69,7 @@ AfterStep(async function (step) {
     const isOnFailSnapshot = equalOrIncludes(config.driverConfig.snapshot, SnapshotEvent.ON_FAIL);
     try {
         if (
-            (isOnFailSnapshot && step.result.status === Status.FAILED) ||
+            (isOnFailSnapshot && step.result?.status === Status.FAILED) ||
             isAfterStepSnapshot
         ) {
             this.attach(Buffer.from(await browser.executeAsync(getSnapshot)).toString('base64'), 'text/html');

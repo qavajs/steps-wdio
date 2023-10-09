@@ -1,6 +1,6 @@
 {
   "name": "@qavajs/steps-wdio",
-  "version": "0.40.0",
+  "version": "0.40.1",
   "description": "steps to interact with wdio",
   "main": "./index.js",
   "types": "./index.d.ts",
