@@ -181,3 +181,10 @@ Feature: actions
     Then I expect viewport size to equal '$js({ width: 640, height: 480 })'
     And I set window size '800,600'
     Then I expect viewport size to equal '$js({ width: 800, height: 600 })'
+
+  Scenario: close current browser tab
+    When I expect current url to contain 'actions.html'
+    And I open new tab
+    And I switch to 2 window
+    And I close current tab
+    Then I expect current url to contain 'actions.html'

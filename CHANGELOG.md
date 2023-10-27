@@ -8,6 +8,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :beetle: - bugfix
 :x: - deprecation
 
+## [Unreleased]
+- :rocket: added _I close current tab_ step
+
 ## [0.41.0]
 - :rocket: added _match_ value wait
 - :rocket: added _I wait until {string} css property of {string} {wdioValueWait} {string}( ){wdioTimeout}_ step

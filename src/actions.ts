@@ -357,3 +357,11 @@ When('I set window size {string}', async function (size: string) {
     const {x, y} = parseCoordsAsObject(viewPort);
     await browser.setWindowSize(x, y);
 });
+
+/**
+ * Close current browser tab/window
+ * @example I close current tab
+ */
+When('I close current tab', async function () {
+    await browser.closeWindow();
+});
