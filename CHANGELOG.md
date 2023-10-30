@@ -8,7 +8,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :beetle: - bugfix
 :x: - deprecation
 
-## [Unreleased]
+## [0.42.0]
 - :rocket: added _I close current tab_ step
 
 ## [0.41.0]
