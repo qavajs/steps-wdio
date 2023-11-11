@@ -75,7 +75,7 @@ When('I set {string} mock to abort with {string} reason', async function (mockKe
 When('I restore {string} mock', async function (mockKey: string) {
     const mock: Mock = await getValue(mockKey);
     await mock.restore();
-});                                                       []
+});
 
 /**
  * Restore all mocks
