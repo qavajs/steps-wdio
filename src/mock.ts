@@ -1,7 +1,9 @@
 import { When } from '@cucumber/cucumber';
 import { getValue } from './transformers';
 import memory from '@qavajs/memory';
-import { Mock, ErrorCode } from 'webdriverio';
+import { Mock } from 'webdriverio';
+type ErrorReason = ('Failed' | 'Aborted' | 'TimedOut' | 'AccessDenied' | 'ConnectionClosed' | 'ConnectionReset' | 'ConnectionRefused' | 'ConnectionAborted' | 'ConnectionFailed' | 'NameNotResolved' | 'InternetDisconnected' | 'AddressUnreachable' | 'BlockedByClient' | 'BlockedByResponse');
+
 
 /**
  * Create simple mock instance
@@ -61,7 +63,7 @@ When('I set {string} mock to respond {string} with {string}', respondWith);
  */
 When('I set {string} mock to abort with {string} reason', async function (mockKey: string, reason: string) {
     const mock: Mock = await getValue(mockKey);
-    const errorCode: ErrorCode = await getValue(reason);
+    const errorCode: ErrorReason = await getValue(reason);
     mock.abort(errorCode);
 });
 
@@ -72,7 +74,7 @@ When('I set {string} mock to abort with {string} reason', async function (mockKe
  */
 When('I restore {string} mock', async function (mockKey: string) {
     const mock: Mock = await getValue(mockKey);
-    mock.restore();
+    await mock.restore();
 });
 
 /**
