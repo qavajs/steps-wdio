@@ -15,7 +15,6 @@
     "strict": true,
     "skipLibCheck": true,
     "allowJs": true,
-    "sourceMap": true,
-//    "types": ["node", "@wdio/globals/types"]
+    "sourceMap": true
   }
 }
