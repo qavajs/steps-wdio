@@ -8,6 +8,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :beetle: - bugfix
 :x: - deprecation
 
+## [0.43.0]
+- :rocket: enabled logger in po
+
 ## [0.42.0]
 - :rocket: added _I close current tab_ step
 
