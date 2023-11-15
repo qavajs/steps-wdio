@@ -1,17 +1,17 @@
 import { After, AfterStep, Before, BeforeStep, Status } from '@cucumber/cucumber';
 import defaultTimeouts from './defaultTimeouts';
-import { Browser, remote } from 'webdriverio';
+import { remote } from 'webdriverio';
 import { po } from '@qavajs/po';
 import { ScreenshotEvent, SnapshotEvent } from './events';
 import { equalOrIncludes } from './utils';
 import getSnapshot from './client_script/snapshot';
 
 declare global {
-    var browser: Browser;
-    var driver: Browser;
+    var browser: WebdriverIO.Browser;
+    var driver: WebdriverIO.Browser;
     var config: any;
     var browsers: {
-        [browserName: string]: Browser
+        [browserName: string]: WebdriverIO.Browser
     } | null;
 }
 
@@ -23,12 +23,12 @@ Before({name: 'driver init'}, async function () {
     };
     global.config.driverConfig = driverConfig;
     if ((!global.browser && driverConfig.reuseSession) || !driverConfig.reuseSession) {
-        global.browser = await remote(driverConfig) as Browser;
+        global.browser = await remote(driverConfig) as WebdriverIO.Browser;
         global.driver = global.browser;
     }
     this.log(`browser instance started:\n${JSON.stringify(driverConfig, null, 2)}`);
     if (driverConfig.timeout.implicit > 0) await global.browser.setTimeout({ 'implicit': driverConfig.timeout.implicit });
-    po.init(browser, { timeout: driverConfig.timeout.element });
+    po.init(browser, { timeout: driverConfig.timeout.element, logger: this });
     po.register(config.pageObject);
 });
 
