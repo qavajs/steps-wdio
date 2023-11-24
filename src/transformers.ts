@@ -2,13 +2,13 @@ import { conditionWait, conditionWaitExtractRegexp } from './conditionWait';
 import { valueWait, valueWaitExtractRegexp } from './valueWait';
 import { po } from '@qavajs/po';
 import memory from '@qavajs/memory';
-export type Locator = () => Promise<WebdriverIO.Element | WebdriverIO.ElementArray>;
+export type Locator = () => Promise<WebdriverIO.Element | WebdriverIO.Element[]>;
 
 export function getValue(alias: string): any {
     return memory.getValue(alias)
 }
 
-export async function getElement(alias: string, options?: { immediate: boolean }): Promise<WebdriverIO.Element | WebdriverIO.ElementArray> {
+export async function getElement(alias: string, options?: { immediate: boolean }): Promise<WebdriverIO.Element | WebdriverIO.Element[]> {
     return po.getElement(await memory.getValue(alias), options)
 }
 

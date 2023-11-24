@@ -1,6 +1,6 @@
-import { Browser } from 'webdriverio';
+import { } from 'webdriverio';
 
 declare global {
-    var browser: Browser;
-    var driver: Browser;
+    var browser: WebdriverIO.Browser;
+    var driver: WebdriverIO.Browser;
 }

@@ -8,6 +8,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :beetle: - bugfix
 :x: - deprecation
 
+## [0.44.0]
+- :rocket: changed simple expects to poll expects
+
 ## [0.43.0]
 - :rocket: enabled logger in po
 

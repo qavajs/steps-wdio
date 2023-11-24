@@ -22,7 +22,9 @@ module.exports = {
                 clickable: 15000,
                 page: 10000,
                 implicit: 0, //wdio implicit wait for element,
-                element: 2000 //timeout to element to be accesible 
+                element: 2000 ,//timeout to element to be accesible,
+                value: 5000, // expect value timeout
+                valueInterval: 500 //expect value interval
             },
             capabilities: {
                 browserName: 'chrome'
