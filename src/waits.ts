@@ -1,5 +1,6 @@
 import { When } from '@cucumber/cucumber';
-import { getValue, getElement, getConditionWait, getValueWait, getLocator } from './transformers';
+import { getValue, getElement, getConditionWait, getLocator } from './transformers';
+import { getPollValidation } from '@qavajs/validation';
 import { isImmediate } from './utils';
 
 /**
@@ -41,13 +42,16 @@ When(
  * @example I wait until text of 'Header' not to be equal 'Python' (timeout: 4000)
  */
 When(
-    'I wait until text of {string} {wdioValueWait} {string}( ){wdioTimeout}',
+    'I wait until text of {string} {wdioValidation} {string}( ){wdioTimeout}',
     async function (alias: string, waitType: string, value: string, timeout: number | null) {
-        const wait = getValueWait(waitType);
+        const wait = getPollValidation(waitType);
         const element = await getElement(alias) as WebdriverIO.Element;
         const expectedValue = await getValue(value);
         const getValueFn = async () => element.getText();
-        await wait(getValueFn, expectedValue, timeout ?? config.browser.timeout.page);
+        await wait(getValueFn, expectedValue,  {
+            timeout: timeout ?? config.browser.timeout.value,
+            interval: config.browser.timeout.valueInterval
+        });
     }
 );
 
@@ -63,13 +67,16 @@ When(
  * @example I wait until number of elements in 'Search Results' collection to be below '51' (timeout: 3000)
  */
 When(
-    'I wait until number of elements in {string} collection {wdioValueWait} {string}( ){wdioTimeout}',
+    'I wait until number of elements in {string} collection {wdioValidation} {string}( ){wdioTimeout}',
     async function (alias: string, waitType: string, value: string, timeout: number | null) {
-        const wait = getValueWait(waitType);
-        const collection = await getLocator(alias) as Function;
+        const wait = getPollValidation(waitType);
+        const collection = getLocator(alias);
         const expectedValue = await getValue(value);
         const getValueFn = async () => (await collection() as WebdriverIO.Element[]).length;
-        await wait(getValueFn, expectedValue, timeout ?? config.browser.timeout.page);
+        await wait(getValueFn, expectedValue,  {
+            timeout: timeout ?? config.browser.timeout.value,
+            interval: config.browser.timeout.valueInterval
+        });
     }
 );
 
@@ -84,14 +91,17 @@ When(
  * @example I wait until 'value' property of 'Search Input' to be equal 'Javascript' (timeout: 5000)
  */
 When(
-    'I wait until {string} property of {string} {wdioValueWait} {string}( ){wdioTimeout}',
+    'I wait until {string} property of {string} {wdioValidation} {string}( ){wdioTimeout}',
     async function (property: string, alias: string, waitType: string, value: string, timeout: number | null) {
         const propertyName = await getValue(property);
-        const wait = getValueWait(waitType);
+        const wait = getPollValidation(waitType);
         const element = await getElement(alias) as WebdriverIO.Element;
         const expectedValue = await getValue(value);
         const getValueFn = async () => element.getProperty(propertyName);
-        await wait(getValueFn, expectedValue, timeout ?? config.browser.timeout.page);
+        await wait(getValueFn, expectedValue,  {
+            timeout: timeout ?? config.browser.timeout.value,
+            interval: config.browser.timeout.valueInterval
+        });
     }
 );
 
@@ -106,17 +116,20 @@ When(
  * @example I wait until 'font-family' css property of 'Search Input' to be equal 'Fira' (timeout: 3000)
  */
 When(
-    'I wait until {string} css property of {string} {wdioValueWait} {string}( ){wdioTimeout}',
+    'I wait until {string} css property of {string} {wdioValidation} {string}( ){wdioTimeout}',
     async function (property: string, alias: string, waitType: string, value: string, timeout: number | null) {
         const propertyName = await getValue(property);
-        const wait = getValueWait(waitType);
+        const wait = getPollValidation(waitType);
         const element = () => getElement(alias);
         const expectedValue = await getValue(value);
         const getValueFn = async () => browser.execute(
             function (element: WebdriverIO.Element, propertyName: string) {
                 return getComputedStyle(element as any).getPropertyValue(propertyName)
             }, await element() as any, propertyName);
-        await wait(getValueFn, expectedValue, timeout ?? config.browser.timeout.page);
+        await wait(getValueFn, expectedValue,  {
+            timeout: timeout ?? config.browser.timeout.value,
+            interval: config.browser.timeout.valueInterval
+        });
     }
 );
 
@@ -131,14 +144,17 @@ When(
  * @example I wait until 'href' attribute of 'Home Link' to be equal '/javascript' (timeout: 5000)
  */
 When(
-    'I wait until {string} attribute of {string} {wdioValueWait} {string}( ){wdioTimeout}',
+    'I wait until {string} attribute of {string} {wdioValidation} {string}( ){wdioTimeout}',
     async function (attribute: string, alias: string, waitType: string, value: string, timeout: number | null) {
         const attributeName = await getValue(attribute);
-        const wait = getValueWait(waitType);
+        const wait = getPollValidation(waitType);
         const element = await getElement(alias) as WebdriverIO.Element;
         const expectedValue = await getValue(value);
         const getValueFn = async () => element.getAttribute(attributeName);
-        await wait(getValueFn, expectedValue, timeout ?? config.browser.timeout.page);
+        await wait(getValueFn, expectedValue,  {
+            timeout: timeout ?? config.browser.timeout.value,
+            interval: config.browser.timeout.valueInterval
+        });
     }
 );
 
@@ -152,12 +168,15 @@ When(
  * @example I wait until current url not to contain 'java' (timeout: 3000)
  */
 When(
-    'I wait until current url {wdioValueWait} {string}( ){wdioTimeout}',
+    'I wait until current url {wdioValidation} {string}( ){wdioTimeout}',
     async function (waitType: string, value: string, timeout: number | null) {
-        const wait = getValueWait(waitType);
+        const wait = getPollValidation(waitType);
         const expectedValue = await getValue(value);
-        const getValueFn = async () => browser.getUrl();
-        await wait(getValueFn, expectedValue, timeout ?? config.browser.timeout.page);
+        const getValueFn = () => browser.getUrl();
+        await wait(getValueFn, expectedValue,  {
+            timeout: timeout ?? config.browser.timeout.value,
+            interval: config.browser.timeout.valueInterval
+        });
     }
 );
 
@@ -171,12 +190,15 @@ When(
  * @example I wait until page title to be equal 'qavajs' (timeout: 2000)
  */
 When(
-    'I wait until page title {wdioValueWait} {string}( ){wdioTimeout}',
+    'I wait until page title {wdioValidation} {string}( ){wdioTimeout}',
     async function (waitType: string, value: string, timeout: number | null) {
-        const wait = getValueWait(waitType);
+        const wait = getPollValidation(waitType);
         const expectedValue = await getValue(value);
-        const getValueFn = async () => browser.getTitle();
-        await wait(getValueFn, expectedValue, timeout ?? config.browser.timeout.page);
+        const getValueFn = () => browser.getTitle();
+        await wait(getValueFn, expectedValue,  {
+            timeout: timeout ?? config.browser.timeout.value,
+            interval: config.browser.timeout.valueInterval
+        });
     }
 );
 

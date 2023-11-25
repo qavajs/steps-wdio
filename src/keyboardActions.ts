@@ -1,5 +1,5 @@
 import { When } from '@cucumber/cucumber';
-import {parseKeySequence} from './utils';
+import { parseKeySequence } from './utils';
 
 /**
  * Press and hold keyboard key

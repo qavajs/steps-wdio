@@ -8,13 +8,6 @@ defineParameterType({
 });
 
 defineParameterType({
-    name: 'wdioValueWait',
-    regexp: /((not )?to (?:be )?(equal|contain|above|below|match))/,
-    transformer: p => p,
-    useForSnippets: false
-});
-
-defineParameterType({
     name: 'wdioConditionWait',
     regexp: /((not )?to (?:be )?(present|clickable|visible|invisible|enabled|disabled|in viewport))/,
     transformer: p => p,
