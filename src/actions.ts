@@ -150,7 +150,22 @@ When('I switch to {int} window', async function (index: number) {
  * @example I switch to 'google.com' window
  */
 When('I switch to {string} window', async function (matcher: string) {
-    await browser.switchWindow(matcher);
+    const urlOrTitle = await getValue(matcher);
+    await browser.waitUntil(
+        async () => {
+            try {
+                await browser.switchWindow(matcher);
+                return true
+            } catch (err) {
+                return false
+            }
+        },
+        {
+            timeout: config.browser.timeout.page,
+            timeoutMsg: `Page matching ${urlOrTitle} was not found`,
+            interval: 500
+        }
+    );
 });
 
 /**

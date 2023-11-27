@@ -10,6 +10,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [0.44.0]
 - :rocket: changed simple expects to poll expects
+- :rocket: updated _I switch to {string} window step_ to wait window existence
 - :rocket: replaced _wdioValueWait_ type with more generic _wdioValidation_ allowing more wait types
 Breaking change: value waits now depends on _value_ timeout
 
