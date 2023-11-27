@@ -5,7 +5,7 @@ import {
     getElement,
     getConditionWait
 } from './transformers';
-import { getValidation } from '@qavajs/validation';
+import { getValidation, getPollValidation } from '@qavajs/validation';
 import { isImmediate, checkIfCollection } from './utils';
 
 /**
@@ -35,12 +35,13 @@ Then(
     async function (alias: string, validationType: string, value: any) {
         const expectedValue = await getValue(value);
         const element = await getElement(alias) as WebdriverIO.Element;
-        const validation = getValidation(validationType);
+        const validation = getPollValidation(validationType);
         await conditionWait(element, conditionValidations.VISIBLE, config.browser.timeout.visible);
-        const elementText: string = await element.getText();
-        this.log(`AR: ${elementText}`);
-        this.log(`ER: ${expectedValue}`);
-        validation(elementText, expectedValue);
+        const elementText = () => element.getText();
+        await validation(elementText, expectedValue, {
+            timeout: config.browser.timeout.value,
+            interval: config.browser.timeout.valueInterval
+        });
     }
 );
 
@@ -57,11 +58,12 @@ Then(
     'I expect number of elements in {string} collection {wdioValidation} {string}',
     async function (alias: string, validationType: string, value: string) {
         const expectedValue = await getValue(value);
-        const collection = await getElement(alias) as WebdriverIO.Element[];
-        const validation = getValidation(validationType);
-        this.log(`AR: ${collection.length}`);
-        this.log(`ER: ${expectedValue}`);
-        validation(collection.length, expectedValue);
+        const collectionLength = () => getElement(alias).then(collection => (collection as []).length);
+        const validation = getPollValidation(validationType);
+        await validation(collectionLength, expectedValue, {
+            timeout: config.browser.timeout.value,
+            interval: config.browser.timeout.valueInterval
+        });
     }
 );
 
@@ -80,12 +82,13 @@ Then(
         const propertyName = await getValue(property);
         const expectedValue = await getValue(value);
         const element = await getElement(alias) as WebdriverIO.Element;
-        const validation = getValidation(validationType);
         await conditionWait(element, conditionValidations.PRESENT, config.browser.timeout.present);
-        const actualValue = await element.getProperty(propertyName);
-        this.log(`AR: ${actualValue}`);
-        this.log(`ER: ${expectedValue}`);
-        validation(actualValue, expectedValue);
+        const actualValue = () => element.getProperty(propertyName);
+        const validation = getPollValidation(validationType);
+        await validation(actualValue, expectedValue, {
+            timeout: config.browser.timeout.value,
+            interval: config.browser.timeout.valueInterval
+        });
     }
 );
 
@@ -103,12 +106,13 @@ Then(
         const attributeName = await getValue(attribute);
         const expectedValue = await getValue(value);
         const element = await getElement(alias) as WebdriverIO.Element;
-        const validation = getValidation(validationType);
         await conditionWait(element, conditionValidations.PRESENT, config.browser.timeout.present);
-        const actualValue = await element.getAttribute(attributeName);
-        this.log(`AR: ${actualValue}`);
-        this.log(`ER: ${expectedValue}`);
-        validation(actualValue, expectedValue);
+        const actualValue = () => element.getAttribute(attributeName);
+        const validation = getPollValidation(validationType);
+        await validation(actualValue, expectedValue, {
+            timeout: config.browser.timeout.value,
+            interval: config.browser.timeout.valueInterval
+        });
     }
 );
 
@@ -122,12 +126,13 @@ Then(
 Then(
     'I expect current url {wdioValidation} {string}',
     async function (validationType: string, expected: string) {
-        const validation = getValidation(validationType);
         const expectedUrl = await getValue(expected);
-        const actualUrl = await browser.getUrl();
-        this.log(`AR: ${actualUrl}`);
-        this.log(`ER: ${expectedUrl}`);
-        validation(actualUrl, expectedUrl);
+        const actualUrl = () => browser.getUrl();
+        const validation = getPollValidation(validationType);
+        await validation(actualUrl, expectedUrl, {
+            timeout: config.browser.timeout.value,
+            interval: config.browser.timeout.valueInterval
+        });
     }
 );
 
@@ -140,12 +145,13 @@ Then(
 Then(
     'I expect page title {wdioValidation} {string}',
     async function (validationType: string, expected: string) {
-        const validation = getValidation(validationType);
         const expectedTitle = await getValue(expected);
-        const actualTitle = await browser.getTitle();
-        this.log(`AR: ${actualTitle}`);
-        this.log(`ER: ${expectedTitle}`);
-        validation(actualTitle, expectedTitle);
+        const actualTitle = () => browser.getTitle();
+        const validation = getPollValidation(validationType);
+        await validation(actualTitle, expectedTitle, {
+            timeout: config.browser.timeout.value,
+            interval: config.browser.timeout.valueInterval
+        });
     }
 );
 
@@ -246,14 +252,15 @@ Then(
         const propertyName = await getValue(property);
         const expectedValue = await getValue(value);
         const element = await getElement(alias) as WebdriverIO.Element;
-        const validation = getValidation(validationType);
         await conditionWait(element, conditionValidations.PRESENT, config.browser.timeout.present);
-        const actualValue = await browser.execute(function (element: WebdriverIO.Element, propertyName: string) {
+        const actualValue = () => browser.execute(function (element: WebdriverIO.Element, propertyName: string) {
             return getComputedStyle(element as any).getPropertyValue(propertyName)
         }, element as any, propertyName);
-        this.log(`AR: ${actualValue}`);
-        this.log(`ER: ${expectedValue}`);
-        validation(actualValue, expectedValue);
+        const validation = getPollValidation(validationType);
+        await validation(actualValue, expectedValue, {
+            timeout: config.browser.timeout.value,
+            interval: config.browser.timeout.valueInterval
+        });
     }
 );
 
@@ -268,7 +275,5 @@ Then('I expect text of alert {wdioValidation} {string}', async function (validat
     const alertText = await browser.getAlertText();
     const expected = await getValue(expectedValue);
     const validation = getValidation(validationType);
-    this.log(`AR: ${alertText}`);
-    this.log(`ER: ${expected}`);
     validation(alertText, expected);
 });

@@ -4,5 +4,7 @@ export default {
     clickable: 10000,
     page: 10000,
     implicit: 0,
-    element: 2000
+    element: 2000,
+    value: 5000,
+    valueInterval: 500
 }

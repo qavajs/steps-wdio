@@ -56,14 +56,12 @@ Feature: actions
 
   Scenario: switch to tab by index
     When I click 'New Tab Link'
-    When I wait 1000 ms
     When I switch to 2 window
     Then I expect current url to contain 'frame.html'
     When I expect 'Frame Element' to be visible
 
   Scenario: switch to tab by matcher
     When I click 'New Tab Link'
-    When I wait 1000 ms
     When I switch to 'Frame' window
     Then I expect current url to contain 'frame.html'
     When I expect 'Frame Element' to be visible

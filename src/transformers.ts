@@ -1,14 +1,13 @@
 import { conditionWait, conditionWaitExtractRegexp } from './conditionWait';
-import { valueWait, valueWaitExtractRegexp } from './valueWait';
 import { po } from '@qavajs/po';
 import memory from '@qavajs/memory';
-export type Locator = () => Promise<WebdriverIO.Element | WebdriverIO.ElementArray>;
+export type Locator = () => Promise<WebdriverIO.Element | WebdriverIO.Element[]>;
 
 export function getValue(alias: string): any {
     return memory.getValue(alias)
 }
 
-export async function getElement(alias: string, options?: { immediate: boolean }): Promise<WebdriverIO.Element | WebdriverIO.ElementArray> {
+export async function getElement(alias: string, options?: { immediate: boolean }): Promise<WebdriverIO.Element | WebdriverIO.Element[]> {
     return po.getElement(await memory.getValue(alias), options)
 }
 
@@ -21,15 +20,6 @@ export function getConditionWait(condition: string): Function {
     if (!match) throw new Error(`${condition} wait is not implemented`);
     const [ _, reverse, validation ] = match;
     return async function (element: WebdriverIO.Element, timeout: number) {
-        await conditionWait(element, validation, timeout, Boolean(reverse))
-    }
-}
-
-export function getValueWait(condition: string): Function {
-    const match = condition.match(valueWaitExtractRegexp) as RegExpMatchArray;
-    if (!match) throw new Error(`${condition} wait is not implemented`);
-    const [ _, reverse, validation ] = match;
-    return async function (valueFn: Function, expected: any, timeout: number) {
-        await valueWait(valueFn, expected, validation, timeout, Boolean(reverse))
+        await conditionWait(element, validation, timeout, Boolean(reverse));
     }
 }
