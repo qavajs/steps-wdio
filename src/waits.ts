@@ -2,6 +2,7 @@ import { When } from '@cucumber/cucumber';
 import { getValue, getElement, getConditionWait, getLocator } from './transformers';
 import { getPollValidation } from '@qavajs/validation';
 import { isImmediate } from './utils';
+import { conditionValidations, conditionWait } from './conditionWait';
 
 /**
  * Explicit wait
@@ -46,8 +47,9 @@ When(
     async function (alias: string, waitType: string, value: string, timeout: number | null) {
         const wait = getPollValidation(waitType);
         const element = await getElement(alias) as WebdriverIO.Element;
+        await conditionWait(element, conditionValidations.PRESENT, config.browser.timeout.present);
         const expectedValue = await getValue(value);
-        const getValueFn = async () => element.getText();
+        const getValueFn = () => element.getText();
         await wait(getValueFn, expectedValue,  {
             timeout: timeout ?? config.browser.timeout.value,
             interval: config.browser.timeout.valueInterval
@@ -96,8 +98,9 @@ When(
         const propertyName = await getValue(property);
         const wait = getPollValidation(waitType);
         const element = await getElement(alias) as WebdriverIO.Element;
+        await conditionWait(element, conditionValidations.PRESENT, config.browser.timeout.present);
         const expectedValue = await getValue(value);
-        const getValueFn = async () => element.getProperty(propertyName);
+        const getValueFn = () => element.getProperty(propertyName);
         await wait(getValueFn, expectedValue,  {
             timeout: timeout ?? config.browser.timeout.value,
             interval: config.browser.timeout.valueInterval
@@ -149,8 +152,9 @@ When(
         const attributeName = await getValue(attribute);
         const wait = getPollValidation(waitType);
         const element = await getElement(alias) as WebdriverIO.Element;
+        await conditionWait(element, conditionValidations.PRESENT, config.browser.timeout.present);
         const expectedValue = await getValue(value);
-        const getValueFn = async () => element.getAttribute(attributeName);
+        const getValueFn = () => element.getAttribute(attributeName);
         await wait(getValueFn, expectedValue,  {
             timeout: timeout ?? config.browser.timeout.value,
             interval: config.browser.timeout.valueInterval

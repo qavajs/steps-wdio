@@ -1,5 +1,5 @@
 import { When } from '@cucumber/cucumber';
-import { remote } from 'webdriverio';
+const remotePromise = import('webdriverio').then(wdio => wdio.remote);
 
 /**
  * Open new browser
@@ -8,6 +8,7 @@ import { remote } from 'webdriverio';
  * When I open new browser as 'browser2'
  */
 When('I open new browser as {string}', async function (browserName: string) {
+    const remote = await remotePromise;
     if (!global.browsers) {
         global.browsers = {};
         global.browsers.default = global.browser;

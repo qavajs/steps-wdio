@@ -1,7 +1,6 @@
 import { Then } from '@cucumber/cucumber';
 import memory from '@qavajs/memory';
 import { expect } from 'chai';
-import * as WdioTypes from 'webdriverio';
 
 declare global {
     var browser: WebdriverIO.Browser;
