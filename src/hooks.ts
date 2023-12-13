@@ -1,10 +1,10 @@
 import { After, AfterStep, Before, BeforeStep, Status } from '@cucumber/cucumber';
 import defaultTimeouts from './defaultTimeouts';
-import { remote } from 'webdriverio';
 import { po } from '@qavajs/po';
 import { ScreenshotEvent, SnapshotEvent } from './events';
 import { equalOrIncludes } from './utils';
 import getSnapshot from './client_script/snapshot';
+const remotePromise = import('webdriverio').then(wdio => wdio.remote);
 
 declare global {
     var browser: WebdriverIO.Browser;
@@ -16,6 +16,7 @@ declare global {
 }
 
 Before({name: 'driver init'}, async function () {
+    const remote = await remotePromise;
     const driverConfig = config.browser ?? config.driver;
     driverConfig.timeout = {
         ...defaultTimeouts,

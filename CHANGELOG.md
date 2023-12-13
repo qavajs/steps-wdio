@@ -8,6 +8,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :beetle: - bugfix
 :x: - deprecation
 
+## [0.44.1]
+- :rocket: added present validation before value wait to prevent promise rejection without reason error
+
 ## [0.44.0]
 - :rocket: changed simple expects to poll expects
 - :rocket: updated _I switch to {string} window step_ to wait window existence

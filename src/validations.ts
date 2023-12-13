@@ -36,7 +36,7 @@ Then(
         const expectedValue = await getValue(value);
         const element = await getElement(alias) as WebdriverIO.Element;
         const validation = getPollValidation(validationType);
-        await conditionWait(element, conditionValidations.VISIBLE, config.browser.timeout.visible);
+        await conditionWait(element, conditionValidations.PRESENT, config.browser.timeout.present);
         const elementText = () => element.getText();
         await validation(elementText, expectedValue, {
             timeout: config.browser.timeout.value,

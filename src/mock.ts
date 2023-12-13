@@ -1,7 +1,6 @@
 import { When } from '@cucumber/cucumber';
 import { getValue } from './transformers';
 import memory from '@qavajs/memory';
-import { Mock } from 'webdriverio';
 type ErrorReason = ('Failed' | 'Aborted' | 'TimedOut' | 'AccessDenied' | 'ConnectionClosed' | 'ConnectionReset' | 'ConnectionRefused' | 'ConnectionAborted' | 'ConnectionFailed' | 'NameNotResolved' | 'InternetDisconnected' | 'AddressUnreachable' | 'BlockedByClient' | 'BlockedByResponse');
 
 
@@ -18,7 +17,7 @@ When('I create mock for {string} as {string}', async function (urlTemplate: stri
 });
 
 async function respondWith(mockKey: string, statusCode: string, body: string) {
-    const mock: Mock = await getValue(mockKey);
+    const mock = await getValue(mockKey);
     const responseStatusCode: number = parseInt(await getValue(statusCode));
     const responseBody = await getValue(body);
     mock.respond(responseBody, {
@@ -62,7 +61,7 @@ When('I set {string} mock to respond {string} with {string}', respondWith);
  * And I set '$myServiceMock' mock to abort with 'Failed' reason
  */
 When('I set {string} mock to abort with {string} reason', async function (mockKey: string, reason: string) {
-    const mock: Mock = await getValue(mockKey);
+    const mock = await getValue(mockKey);
     const errorCode: ErrorReason = await getValue(reason);
     mock.abort(errorCode);
 });
@@ -73,7 +72,7 @@ When('I set {string} mock to abort with {string} reason', async function (mockKe
  * @example When I restore '$myServiceMock'
  */
 When('I restore {string} mock', async function (mockKey: string) {
-    const mock: Mock = await getValue(mockKey);
+    const mock = await getValue(mockKey);
     await mock.restore();
 });
 
