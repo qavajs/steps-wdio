@@ -27,7 +27,7 @@
   "homepage": "https://github.com/qavajs/steps-wdio#readme",
   "devDependencies": {
     "@cucumber/cucumber": "^10.0.1",
-    "@qavajs/cli": "^0.32.0",
+    "@qavajs/cli": "^0.33.0",
     "@qavajs/console-formatter": "^0.6.0",
     "@qavajs/html-formatter": "^0.15.3",
     "@qavajs/memory": "^1.6.2",
@@ -42,7 +42,7 @@
     "vitest": "^1.0.4"
   },
   "dependencies": {
-    "@qavajs/validation": "^0.7.0",
+    "@qavajs/validation": "^0.7.1",
     "webdriverio": "^8.26.1"
   }
 }
