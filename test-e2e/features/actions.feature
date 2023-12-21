@@ -34,6 +34,10 @@ Feature: actions
   Scenario: type
     When I type 'test value' to 'Input'
     Then I expect text of 'Action' to be equal 'test value'
+  
+  Scenario: type chars
+    When I type 'test value' chars to 'Input'
+    Then I expect text of 'Action' to be equal 'test value'
 
   Scenario: clear
     When I type 'test value' to 'Input'

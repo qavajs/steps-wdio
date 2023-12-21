@@ -29,6 +29,20 @@ When('I type {string} to {string}', async function (value: string, alias: string
 });
 
 /**
+ * Type text to element sending fine-grained keyboard events
+ * @param {string} alias - element to type
+ * @param {string} value - value to type
+ * @example I type 'wikipedia' chars to 'Google Input'
+ */
+When('I type {string} chars to {string}', async function (value: string, alias: string) {
+    const element = await getElement(alias) as WebdriverIO.Element;
+    const typeValue = await getValue(value);
+    await conditionWait(element, conditionValidations.VISIBLE, config.browser.timeout.visible);
+    await element.click();
+    await browser.keys(typeValue);
+});
+
+/**
  * Click element
  * @param {string} alias - element to click
  * @param {boolean} [disableWait] - disable wait before click

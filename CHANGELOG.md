@@ -8,6 +8,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :beetle: - bugfix
 :x: - deprecation
 
+## [0.45.0]
+- :rocket: added _I type {string} chars to {string}_ to send find-grained events
+
 ## [0.44.1]
 - :rocket: added present validation before value wait to prevent promise rejection without reason error
 
