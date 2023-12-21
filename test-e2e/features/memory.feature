@@ -26,7 +26,7 @@ Feature: memory
   Scenario: page title
     Then I save page title as 'memory'
     Then I expect '$memory' memory value to be equal '@qavajs'
-  @debug
+  
   Scenario: collection text of elements
     Then I save text of every element of 'Simple Text List Items' collection as 'memory'
     Then I expect '$memory' memory value to be equal '$array("first value", "second value", "third value")'
