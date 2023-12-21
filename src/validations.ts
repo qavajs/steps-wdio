@@ -190,7 +190,7 @@ Then('I expect every element in {string} collection {wdioConditionWait}', async 
     checkIfCollection(alias, collection);
     const wait = getConditionWait(condition);
     const conditionWait = (element: WebdriverIO.Element) => wait(element, config.browser.timeout.page);
-    await Promise.all(collection.map(conditionWait))
+    await collection.map(conditionWait)
 });
 
 /**

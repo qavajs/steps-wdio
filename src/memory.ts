@@ -66,7 +66,7 @@ When(
     'I save text of every element of {string} collection as {string}',
     async function (alias: string, key: string) {
         const collection = await getElement(alias) as WebdriverIO.Element[];
-        const values = await Promise.all(collection.map(element => element.getText()));
+        const values = await collection.map(element => element.getText());
         memory.setValue(key, values);
     }
 );
@@ -81,7 +81,7 @@ When(
     'I save {string} attribute of every element of {string} collection as {string}',
     async function (attribute: string, alias: string, key: string) {
         const collection = await getElement(alias) as WebdriverIO.Element[];
-        const values = await Promise.all(collection.map(element => element.getAttribute(attribute)));
+        const values = await collection.map(element => element.getAttribute(attribute));
         memory.setValue(key, values);
     }
 );
@@ -96,7 +96,7 @@ When(
     'I save {string} property of every element of {string} collection as {string}',
     async function (property: string, alias: string, key: string) {
         const collection = await getElement(alias) as WebdriverIO.Element[];
-        const values = await Promise.all(collection.map(element => element.getProperty(property)));
+        const values = await collection.map(element => element.getProperty(property));
         memory.setValue(key, values);
     }
 );
