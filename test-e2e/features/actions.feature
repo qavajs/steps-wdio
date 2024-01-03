@@ -150,7 +150,7 @@ Feature: actions
     When I click 'Content Editable Text'
     And I press 'Backspace' key
     Then I expect text of 'Content Editable Text' to be equal 'this is content editable tex'
-
+   @debug
   Scenario: accept alert
     When I click 'Alert Button'
     And I wait for alert
@@ -193,7 +193,7 @@ Feature: actions
 
   Scenario: scroll until visible
     When I hover over 'Infinite Scroll'
-    When I scroll until '#row 34 in Infinite Scroll Items' becomes visible
+    When I scroll until '#row 34 in Infinite Scroll Items' to be visible
 
   Scenario: scroll until visible in element
-    When I scroll in 'Infinite Scroll' until '#row 34 in Infinite Scroll Items' becomes visible
+    When I scroll in 'Infinite Scroll' until '#row 34 in Infinite Scroll Items' to be visible

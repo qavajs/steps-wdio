@@ -9,8 +9,8 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :x: - deprecation
 
 ## [0.46.0]
-- :rocket: added _I scroll until {string} become(s) visible_ step
-- :rocket: added _I scroll in {string} until {string} become(s) visible_ step
+- :rocket: added _I scroll until {string} to be visible_ step
+- :rocket: added _I scroll in {string} until {string} to be visible_ step
 - :rocket: reworked scroll steps to use wheel action
 
 ## [0.45.0]
