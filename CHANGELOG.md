@@ -8,6 +8,11 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :beetle: - bugfix
 :x: - deprecation
 
+## [0.46.0]
+- :rocket: added _I scroll until {string} become(s) visible_ step
+- :rocket: added _I scroll in {string} until {string} become(s) visible_ step
+- :rocket: reworked scroll steps to use wheel action
+
 ## [0.45.0]
 - :rocket: added _I type {string} chars to {string}_ to send find-grained events
 

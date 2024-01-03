@@ -54,6 +54,8 @@ export default class App {
 
     EventHandler = $('#mouseEvent');
     KeyboardEventHandler = $('#keyboardEvent');
+    InfiniteScroll = $('#infiniteScroll');
+    InfiniteScrollItems = $$('#infiniteScroll li');
 }
 
 // @ts-ignore

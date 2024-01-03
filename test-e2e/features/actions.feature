@@ -34,7 +34,7 @@ Feature: actions
   Scenario: type
     When I type 'test value' to 'Input'
     Then I expect text of 'Action' to be equal 'test value'
-  
+
   Scenario: type chars
     When I type 'test value' chars to 'Input'
     Then I expect text of 'Action' to be equal 'test value'
@@ -190,3 +190,10 @@ Feature: actions
     And I switch to 2 window
     And I close current tab
     Then I expect current url to contain 'actions.html'
+
+  Scenario: scroll until visible
+    When I hover over 'Infinite Scroll'
+    When I scroll until '#row 34 in Infinite Scroll Items' becomes visible
+
+  Scenario: scroll until visible in element
+    When I scroll in 'Infinite Scroll' until '#row 34 in Infinite Scroll Items' becomes visible
