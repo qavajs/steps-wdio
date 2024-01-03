@@ -150,7 +150,7 @@ Feature: actions
     When I click 'Content Editable Text'
     And I press 'Backspace' key
     Then I expect text of 'Content Editable Text' to be equal 'this is content editable tex'
-   @debug
+
   Scenario: accept alert
     When I click 'Alert Button'
     And I wait for alert

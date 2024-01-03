@@ -156,11 +156,15 @@
     });
 
     confirm.addEventListener('click', function () {
-        setTimeout(() => action.innerText = window.confirm('Are you robot?'), 3000);
+        setTimeout(() => {
+            action.innerText = window.confirm('Are you robot?')
+        }, 3000);
     });
 
     prompt.addEventListener('click', () => {
-        setTimeout(() => action.innerText = window.prompt('Are you robot?'), 500);
+        setTimeout(() => {
+            action.innerText = window.prompt('Are you robot?', '')
+        }, 500);
     });
 
     mouseEvent.addEventListener('mousedown', function (event) {
