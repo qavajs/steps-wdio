@@ -166,6 +166,7 @@ Feature: actions
   Scenario: type text to alert
     When I expect text of 'Action' to be equal 'Nothing'
     And I click 'Prompt Button'
+    And I wait for alert
     And I type 'I am not a robot' to alert
     Then I expect text of 'Action' to be equal 'I am not a robot'
 
