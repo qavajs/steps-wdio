@@ -2,6 +2,7 @@ Feature: mouse actions
 
   Background:
     When I open '$actionsPage' url
+    And I scroll to 'Event Handler'
     And I hover over 'Event Handler'
 
   Scenario Outline: mouse press and release

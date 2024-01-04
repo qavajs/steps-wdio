@@ -281,10 +281,12 @@ When('I click {wdioBrowserButton} button', async function (button: 'back' | 'for
  * When I scroll by '0, 100'
  */
 When('I scroll by {string}', async function (offset: string) {
-    const [x, y] = parseCoords(await getValue(offset));
-    await browser.execute(function (x: number, y: number) {
-        window.scrollBy(x, y);
-    }, x, y);
+    const [deltaX, deltaY] = parseCoords(await getValue(offset));
+    await browser.action('wheel').scroll({
+        deltaX,
+        deltaY,
+        duration: 100
+    }).perform();
 });
 
 /**
@@ -295,12 +297,60 @@ When('I scroll by {string}', async function (offset: string) {
  * When I scroll by '0, 100' in 'Overflow Container'
  */
 When('I scroll by {string} in {string}', async function (offset: string, alias: string) {
-    const [x, y] = parseCoords(await getValue(offset));
+    const [deltaX, deltaY] = parseCoords(await getValue(offset));
     const element = await getElement(alias) as WebdriverIO.Element;
     await conditionWait(element, conditionValidations.VISIBLE, config.browser.timeout.visible);
-    await browser.execute(function (element: any, x: number, y: number) {
-        element.scrollBy(x, y);
-    }, element, x, y);
+    await element.moveTo();
+    await browser.action('wheel').scroll({
+        deltaX,
+        deltaY,
+        duration: 100
+    }).perform();
+});
+
+/**
+ * Scroll until specified element to be visible
+ * @param {string} - target element
+ * @example
+ * When I scroll until 'Row 99' becomes visible
+ */
+When('I scroll until {string} to be visible', async function (targetAlias: string) {
+    const isVisible = async () => {
+        const element = await getElement(targetAlias, { immediate: true }) as WebdriverIO.Element;
+        return element.isDisplayed();
+    };
+    while (!await isVisible()) {
+        await browser.action('wheel').scroll({
+            deltaX: 0,
+            deltaY: 100,
+            duration: 50
+        }).perform();
+        await browser.pause(50);
+    }
+});
+
+/**
+ * Scroll in container until specified element to be visible
+ * @param {string} - scroll container
+ * @param {string} - target element
+ * @example
+ * When I scroll in 'List' until 'Row 99' to be visible
+ */
+When('I scroll in {string} until {string} to be visible', async function (scrollAlias: string, targetAlias: string) {
+    const element = await getElement(scrollAlias) as WebdriverIO.Element;
+    await element.moveTo();
+    const isVisible = async () => {
+        const element = await getElement(targetAlias, { immediate: true }) as WebdriverIO.Element;
+        return element.isDisplayed();
+    };
+    while (!await isVisible()) {
+        await browser.action('wheel').scroll({
+            deltaX: 0,
+            deltaY: 100,
+            duration: 50
+        }).perform();
+        await browser.pause(50);
+    }
 });
 
 /**
