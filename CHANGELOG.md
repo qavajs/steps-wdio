@@ -8,6 +8,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :beetle: - bugfix
 :x: - deprecation
 
+## [0.47.0]
+- updated dependencies
+
 ## [0.46.0]
 - :rocket: added _I scroll until {string} to be visible_ step
 - :rocket: added _I scroll in {string} until {string} to be visible_ step
