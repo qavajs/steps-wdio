@@ -50,7 +50,9 @@ module.exports = {
             capabilities: {
                 browserName: 'chrome'
             },
-            screenshot: ['onFail']
+            screenshot: {
+                event: ['onFail']
+            }
         }
     }
 }
@@ -70,7 +72,9 @@ module.exports = {
             capabilities: {
                 browserName: 'chrome'
             },
-            snapshot: ['onFail']
+            snapshot: {
+                event: ['onFail']
+            }
         }
     }
 }

@@ -2,7 +2,7 @@ import { After, AfterStep, Before, BeforeStep, Status } from '@cucumber/cucumber
 import defaultTimeouts from './defaultTimeouts';
 import { po } from '@qavajs/po';
 import { ScreenshotEvent, SnapshotEvent } from './events';
-import { equalOrIncludes } from './utils';
+import { equalOrIncludes, getEventValue } from './utils';
 import getSnapshot from './client_script/snapshot';
 const remotePromise = import('webdriverio').then(wdio => wdio.remote);
 
@@ -34,7 +34,8 @@ Before({name: 'driver init'}, async function () {
 });
 
 BeforeStep(async function () {
-    const isBeforeStepScreenshot = equalOrIncludes(config.driverConfig.screenshot ?? config.screenshot, ScreenshotEvent.BEFORE_STEP);
+    const screenshotEvent = getEventValue(config?.driverConfig?.screenshot);
+    const isBeforeStepScreenshot = equalOrIncludes(screenshotEvent, ScreenshotEvent.BEFORE_STEP);
     if (isBeforeStepScreenshot) {
         try {
             this.attach(await browser.takeScreenshot(), 'base64:image/png');
@@ -42,7 +43,8 @@ BeforeStep(async function () {
             console.warn(err)
         }
     }
-    const isBeforeStepSnapshot = equalOrIncludes(config.driverConfig.snapshot, SnapshotEvent.BEFORE_STEP);
+    const snapshotEvent = getEventValue(config?.driverConfig?.snapshot);
+    const isBeforeStepSnapshot = equalOrIncludes(snapshotEvent, SnapshotEvent.BEFORE_STEP);
     if (isBeforeStepSnapshot) {
         try {
             this.attach(Buffer.from(await browser.executeAsync(getSnapshot)).toString('base64'), 'text/html');
@@ -53,8 +55,9 @@ BeforeStep(async function () {
 });
 
 AfterStep(async function (step) {
-    const isAfterStepScreenshot = equalOrIncludes(config.driverConfig.screenshot ?? config.screenshot, ScreenshotEvent.AFTER_STEP);
-    const isOnFailScreenshot = equalOrIncludes(config.driverConfig.screenshot ?? config.screenshot, ScreenshotEvent.ON_FAIL)
+    const screenshotEvent = getEventValue(config?.driverConfig?.screenshot);
+    const isAfterStepScreenshot = equalOrIncludes(screenshotEvent, ScreenshotEvent.AFTER_STEP);
+    const isOnFailScreenshot = equalOrIncludes(screenshotEvent, ScreenshotEvent.ON_FAIL)
     try {
         if (
             (isOnFailScreenshot && step.result?.status === Status.FAILED) ||
@@ -66,8 +69,9 @@ AfterStep(async function (step) {
         console.warn(err)
     }
 
-    const isAfterStepSnapshot = equalOrIncludes(config.driverConfig.snapshot, SnapshotEvent.AFTER_STEP);
-    const isOnFailSnapshot = equalOrIncludes(config.driverConfig.snapshot, SnapshotEvent.ON_FAIL);
+    const snapshotEvent = getEventValue(config?.driverConfig?.snapshot);
+    const isAfterStepSnapshot = equalOrIncludes(snapshotEvent, SnapshotEvent.AFTER_STEP);
+    const isOnFailSnapshot = equalOrIncludes(snapshotEvent, SnapshotEvent.ON_FAIL);
     try {
         if (
             (isOnFailSnapshot && step.result?.status === Status.FAILED) ||
