@@ -40,6 +40,12 @@ export function equalOrIncludes(value: string | string[], argument: string) {
         : value === argument;
 }
 
+export function getEventValue(entity: any) {
+    return entity?.event
+        ? entity.event
+        : entity;
+}
+
 export function isImmediate(validation: string) {
     return validation.includes('present') && validation.includes('not')
 }
