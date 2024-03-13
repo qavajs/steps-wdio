@@ -58,7 +58,7 @@ const waits = {
         timeout: number,
         timeoutMsg: string
     ) => element.waitUntil(async function(this: WebdriverIO.Element) {
-        return (await this.isDisplayedInViewport() !== reverse)
+        return (await this.isDisplayed() !== reverse)
     }, {timeout, timeoutMsg})
 }
 /**

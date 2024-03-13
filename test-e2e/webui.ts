@@ -6,8 +6,7 @@ const common = {
     paths: ['test-e2e/features/*.feature'],
     require: ['test-e2e/step-definitions/*.ts', 'src/*.ts'],
     browser: {
-        logLevel: 'warn',
-        automationProtocol: 'devtools',
+        logLevel: 'trace',
         capabilities: {
             browserName: 'chrome',
             'goog:chromeOptions': {
@@ -16,7 +15,13 @@ const common = {
                     '--window-size=1280,720'
                 ]
             }
-        }
+        },
+        snapshot: {
+            event: ['onFail']
+        },
+        screenshot: {
+            event: ['onFail']
+        },
     },
     format: [
         '@qavajs/console-formatter',
@@ -26,7 +31,8 @@ const common = {
     ],
     formatOptions: {
         console: {
-            showLogs: true
+            showLogs: true,
+            showProgress: false
         }
     },
     service: [localServer],
@@ -43,10 +49,9 @@ export const debug = {
     ...common,
     tags: '@debug',
     retry: 0,
-    parallel: 1,
+    parallel: 4,
     browser: {
-        logLevel: 'warn',
-        automationProtocol: 'devtools',
+        logLevel: 'trace',
         capabilities: {
             browserName: 'chrome',
             'goog:chromeOptions': {
@@ -55,25 +60,11 @@ export const debug = {
                 ]
             }
         },
-        snapshot: ['afterStep'],
-        screenshot: ['afterStep'],
-    },
-}
-
-export const selenium = {
-    ...common,
-    browser: {
-        ...common.browser,
-        automationProtocol: 'webdriver',
-    },
-    defaultTimeout: 30000
-}
-
-export const debugSelenium = {
-    ...debug,
-    browser: {
-        ...debug.browser,
-        automationProtocol: 'webdriver',
-    },
-    defaultTimeout: 30000
+        snapshot: {
+            event: ['onFail']
+        },
+        screenshot: {
+            event: ['onFail']
+        },
+    }
 }

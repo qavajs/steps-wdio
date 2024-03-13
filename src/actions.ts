@@ -131,7 +131,7 @@ When('I switch to parent frame', async function () {
  * @example I switch to 2 frame
  */
 When('I switch to {int} frame', async function (index: number) {
-    await browser.switchToFrame(index);
+    await browser.switchToFrame(index - 1);
 });
 
 /**
@@ -298,13 +298,13 @@ When('I scroll by {string}', async function (offset: string) {
  */
 When('I scroll by {string} in {string}', async function (offset: string, alias: string) {
     const [deltaX, deltaY] = parseCoords(await getValue(offset));
-    const element = await getElement(alias) as WebdriverIO.Element;
-    await conditionWait(element, conditionValidations.VISIBLE, config.browser.timeout.visible);
-    await element.moveTo();
+    const origin = await getElement(alias) as WebdriverIO.Element;
+    await conditionWait(origin, conditionValidations.VISIBLE, config.browser.timeout.visible);
     await browser.action('wheel').scroll({
         deltaX,
         deltaY,
-        duration: 100
+        duration: 100,
+        origin
     }).perform();
 });
 
@@ -337,8 +337,7 @@ When('I scroll until {string} to be visible', async function (targetAlias: strin
  * When I scroll in 'List' until 'Row 99' to be visible
  */
 When('I scroll in {string} until {string} to be visible', async function (scrollAlias: string, targetAlias: string) {
-    const element = await getElement(scrollAlias) as WebdriverIO.Element;
-    await element.moveTo();
+    const origin = await getElement(scrollAlias) as WebdriverIO.Element;
     const isVisible = async () => {
         const element = await getElement(targetAlias, { immediate: true }) as WebdriverIO.Element;
         return element.isDisplayed();
@@ -347,7 +346,8 @@ When('I scroll in {string} until {string} to be visible', async function (scroll
         await browser.action('wheel').scroll({
             deltaX: 0,
             deltaY: 100,
-            duration: 50
+            duration: 50,
+            origin
         }).perform();
         await browser.pause(50);
     }
@@ -390,6 +390,7 @@ When('I dismiss alert', async function () {
  */
 When('I type {string} to alert', async function (value: string) {
     await browser.sendAlertText(value);
+    await browser.acceptAlert();
 });
 
 /**
@@ -443,4 +444,6 @@ When('I set window size {string}', async function (size: string) {
  */
 When('I close current tab', async function () {
     await browser.closeWindow();
+    const windowHandles = await browser.getWindowHandles();
+    await browser.switchToWindow(windowHandles[0]);
 });
