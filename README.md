@@ -106,4 +106,7 @@ module.exports = {
 }
 ```
 
+## Limitations
+- mocks and interception work only with _puppeteer-core_ peer dependency installed
+
 

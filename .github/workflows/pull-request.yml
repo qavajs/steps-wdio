@@ -19,7 +19,7 @@ jobs:
       - run: npm ci
       - run: npm run build
       - run: npm run test
-      - run: npm run test:e2e
+      - run: npm run test:e2e -- --parallel 2
       - name: junit report
         uses: mikepenz/action-junit-report@v3
         if: always()
