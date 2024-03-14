@@ -49,7 +49,7 @@ export const debug = {
     ...common,
     tags: '@debug',
     retry: 0,
-    parallel: 4,
+    parallel: 1,
     browser: {
         logLevel: 'trace',
         capabilities: {
