@@ -217,16 +217,7 @@ When('I press {string} key(s) {int} time(s)', async function (key: string, num: 
     }
 });
 
-/**
- * Hover over element
- * @param {string} alias - element to hover over
- * @example I hover over 'Google Button'
- */
-When('I hover over {string}', async function (alias: string) {
-    const element = await getElement(alias) as WebdriverIO.Element;
-    await conditionWait(element, conditionValidations.VISIBLE, config.browser.timeout.visible);
-    await element.moveTo();
-});
+
 
 /**
  * Select option with certain text from select element
