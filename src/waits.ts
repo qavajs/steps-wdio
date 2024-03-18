@@ -84,6 +84,30 @@ When(
 
 /**
  * Wait for element property condition
+ * @param {string} alias - element to wait condition
+ * @param {string} wait - wait condition
+ * @param {string} value - expected value to wait
+ * @param {number|null} [timeout] - custom timeout in ms
+ * @example I wait until value of 'Search Input' to be equal 'Javascript'
+ * @example I wait until value of 'Search Input' to be equal 'Javascript' (timeout: 5000)
+ */
+When(
+    'I wait until value of {string} {wdioValidation} {string}( ){wdioTimeout}',
+    async function (alias: string, waitType: string, value: string, timeout: number | null) {
+        const wait = getPollValidation(waitType);
+        const element = await getElement(alias) as WebdriverIO.Element;
+        await conditionWait(element, conditionValidations.PRESENT, config.browser.timeout.present);
+        const expectedValue = await getValue(value);
+        const getValueFn = () => element.getProperty('value');
+        await wait(getValueFn, expectedValue,  {
+            timeout: timeout ?? config.browser.timeout.value,
+            interval: config.browser.timeout.valueInterval
+        });
+    }
+);
+
+/**
+ * Wait for element property condition
  * @param {string} property - property
  * @param {string} alias - element to wait condition
  * @param {string} wait - wait condition

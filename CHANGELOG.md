@@ -11,9 +11,14 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ## [Unreleased]
 - :x: removed devtools protocol config
 
+:pencil: - chore
+
+## [0.49.0]
+- :rocket: added value wait and validation 
+
 ## [0.48.0]
 - :x: top level _config.screenshot_ property was removed. Define this property in _config.browser.screenshot_
-- updated wdio version
+- :pencil: updated wdio version
 
 ## [0.47.0]
 - :rocket: updated webdriverio dependency

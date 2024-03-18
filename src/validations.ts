@@ -68,6 +68,29 @@ Then(
 );
 
 /**
+ * Verify value of element
+ * @param {string} alias - element to verify
+ * @param {string} validationType - validation
+ * @param {string} value - expected value
+ * @example I expect value of 'Search Input' to be equal 'text'
+ * @example I expect value of 'Label' to contain '<b>'
+ */
+Then(
+    'I expect value of {string} {wdioValidation} {string}',
+    async function (alias: string, validationType: string, value: string) {
+        const expectedValue = await getValue(value);
+        const element = await getElement(alias) as WebdriverIO.Element;
+        await conditionWait(element, conditionValidations.PRESENT, config.browser.timeout.present);
+        const actualValue = () => element.getProperty('value');
+        const validation = getPollValidation(validationType);
+        await validation(actualValue, expectedValue, {
+            timeout: config.browser.timeout.value,
+            interval: config.browser.timeout.valueInterval
+        });
+    }
+);
+
+/**
  * Verify that property of element satisfies condition
  * @param {string} property - property to verify
  * @param {string} alias - element to verify

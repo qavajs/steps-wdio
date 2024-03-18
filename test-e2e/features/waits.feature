@@ -23,6 +23,9 @@ Feature: waits
     Then I wait until text of 'Loading' to match '^\d\d\d%$'
 
   Scenario: wait for property
+    Then I wait until value of 'Loading Input' to be equal '100%'
+
+  Scenario: wait for property
     Then I wait until 'value' property of 'Loading Input' to be equal '100%'
 
   Scenario: wait for attribute
