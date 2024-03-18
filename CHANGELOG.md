@@ -7,7 +7,10 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :rocket: - new feature
 :beetle: - bugfix
 :x: - deprecation
-        
+
+## [Unreleased]
+- :rocket: added value wait and validation 
+
 ## [0.48.0]
 - :x: top level _config.screenshot_ property was removed. Define this property in _config.browser.screenshot_
 - updated wdio version

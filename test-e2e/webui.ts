@@ -26,7 +26,8 @@ const common = {
     ],
     formatOptions: {
         console: {
-            showLogs: true
+            showLogs: true,
+            showProgress: false
         }
     },
     service: [localServer],
