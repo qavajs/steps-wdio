@@ -92,8 +92,8 @@ To properly use globals exposed by @qavajs/steps-wdio add corresponding types to
 }
 ```
 
-## reuseSession
-reuseSession flag allows to share session between tests in frames of process. But setting of this flag 
+## Reuse Session
+_reuseSession_ flag allows to share session between tests in frames of process. But setting of this flag 
 transfer session control to user.
 
 ```javascript
