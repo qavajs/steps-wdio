@@ -24,9 +24,9 @@
   },
   "homepage": "https://github.com/qavajs/steps-wdio#readme",
   "devDependencies": {
-    "@cucumber/cucumber": "^10.3.1",
+    "@cucumber/cucumber": "^10.3.2",
     "@qavajs/cli": "^0.36.0",
-    "@qavajs/console-formatter": "^0.7.1",
+    "@qavajs/console-formatter": "^0.7.2",
     "@qavajs/html-formatter": "^0.15.4",
     "@qavajs/memory": "^1.7.0",
     "@qavajs/po": "^1.10.0",
@@ -40,7 +40,7 @@
     "puppeteer-core": "^22.5.0"
   },
   "dependencies": {
-    "@qavajs/validation": "^0.7.1",
-    "webdriverio": "^9.0.0-alpha.9"
+    "@qavajs/validation": "^0.8.0",
+    "webdriverio": "^9.0.0-alpha.64"
   }
 }
