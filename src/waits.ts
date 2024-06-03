@@ -1,6 +1,6 @@
 import { When } from '@cucumber/cucumber';
 import { getValue, getElement, getConditionWait, getLocator } from './transformers';
-import {getPollValidation, getValidation} from '@qavajs/validation';
+import { getPollValidation } from '@qavajs/validation';
 import { isImmediate } from './utils';
 import { conditionValidations, conditionWait } from './conditionWait';
 
