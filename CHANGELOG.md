@@ -9,6 +9,10 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :x: - deprecation
 :pencil: - chore
 
+## [0.50.0]
+- :rocket: added _I refresh page until text of {string} {wdioValidation} {string}( ){wdioTimeout}_ step
+- :rocket: added _I refresh page until {string} {wdioConditionWait}( ){wdioTimeout}_ step
+
 ## [0.49.0]
 - :rocket: added value wait and validation 
 

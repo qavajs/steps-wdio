@@ -6,5 +6,6 @@ export default {
     implicit: 0,
     element: 2000,
     value: 5000,
-    valueInterval: 500
+    valueInterval: 500,
+    pageRefreshInterval: 2000
 }
