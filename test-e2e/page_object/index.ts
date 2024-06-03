@@ -56,6 +56,9 @@ export default class App {
     KeyboardEventHandler = $('#keyboardEvent');
     InfiniteScroll = $('#infiniteScroll');
     InfiniteScrollItems = $$('#infiniteScroll li');
+
+    PseudoRandomText = $('#randomText');
+    RandomlyDisabledButton = $('#isDisabledButton');
 }
 
 // @ts-ignore

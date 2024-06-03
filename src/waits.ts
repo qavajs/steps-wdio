@@ -1,6 +1,6 @@
 import { When } from '@cucumber/cucumber';
 import { getValue, getElement, getConditionWait, getLocator } from './transformers';
-import { getPollValidation } from '@qavajs/validation';
+import {getPollValidation, getValidation} from '@qavajs/validation';
 import { isImmediate } from './utils';
 import { conditionValidations, conditionWait } from './conditionWait';
 
@@ -244,3 +244,54 @@ When('I wait for alert', async function () {
     return Boolean(await browser.getAlertText());
   }, options);
 });
+
+/**
+ * Refresh page unless element matches condition
+ * @param {string} alias - element to wait condition
+ * @param {string} wait - wait condition
+ * @param {number|null} [timeout] - custom timeout in ms
+ * @example I refresh page until 'Internal Server Error Box' to be visible
+ * @example I refresh page until 'Submit Button' to be enabled
+ * @example I refresh page until 'Place Order Button' to be clickable (timeout: 3000)
+ */
+When(
+    'I refresh page until {string} {wdioConditionWait}( ){wdioTimeout}',
+    async function (alias: string, waitType: string, timeoutValue: number | null) {
+        const timeout = timeoutValue ?? config.browser.timeout.value;
+        const wait = getConditionWait(waitType);
+        await browser.waitUntil(async () => {
+            await browser.refresh();
+            const element = await getElement(alias);
+            await wait(element, config.browser.timeout.pageRefreshInterval);
+            return true;
+        }, { timeout, interval: config.browser.timeout.pageRefreshInterval });
+    });
+
+/**
+ * Refresh page unless element text matches condition
+ * @param {string} alias - element to wait condition
+ * @param {string} wait - wait condition
+ * @param {string} value - expected value to wait
+ * @param {number|null} [timeout] - custom timeout in ms
+ * @example I refresh page until text of 'Order Status' to be equal 'Processing'
+ * @example I refresh page until text of 'Currency' not contain '$'
+ * @example I refresh page until text of 'My Salary' to match '/5\d{3,}/' (timeout: 3000)
+ */
+When(
+    'I refresh page until text of {string} {wdioValidation} {string}( ){wdioTimeout}',
+    async function (alias: string, validationType: string, value: string, timeoutValue: number | null) {
+        const validation = getPollValidation(validationType);
+        const timeout = timeoutValue ?? config.browser.timeout.value;
+        const expectedValue = await getValue(value);
+        await browser.waitUntil(async () => {
+            await browser.refresh();
+            const element = await getElement(alias) as WebdriverIO.Element;
+            const value = () => element.getText();
+            await validation(value, expectedValue, {
+                timeout: config.browser.timeout.pageRefreshInterval,
+                interval: config.browser.timeout.valueInterval
+            });
+            return true;
+        }, { timeout, interval: config.browser.timeout.pageRefreshInterval });
+    }
+);
