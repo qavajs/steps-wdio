@@ -1,6 +1,6 @@
 {
   "name": "@qavajs/steps-wdio",
-  "version": "0.50.0",
+  "version": "0.51.0",
   "description": "steps to interact with wdio",
   "main": "./index.js",
   "types": "./index.d.ts",
@@ -35,14 +35,14 @@
     "@qavajs/wdio-service-adapter": "^0.0.3",
     "@qavajs/webstorm-adapter": "^8.0.0",
     "@types/chai": "^4.3.16",
-    "devtools": "^8.38.0",
+    "devtools": "^8.38.2",
     "express": "^4.19.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5",
-    "vitest": "^1.6.0"
+    "vitest": "^1.6.0",
+    "@qavajs/validation": "^0.9.0"
   },
   "dependencies": {
-    "@qavajs/validation": "^0.8.0",
-    "webdriverio": "^8.38.0"
+    "webdriverio": "^8.38.2"
   }
 }
