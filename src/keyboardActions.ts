@@ -18,5 +18,5 @@ When('I hold down {string} key', async function (key) {
  */
 When('I release {string} key', async function (key) {
     const [keyToPress] = parseKeySequence(key);
-    await browser.action('key').up(keyToPress).perform(true);
+    await browser.action('key').up(keyToPress).perform();
 });

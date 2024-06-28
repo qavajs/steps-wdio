@@ -1,6 +1,6 @@
 {
   "name": "@qavajs/steps-wdio",
-  "version": "0.51.0",
+  "version": "0.50.0",
   "description": "steps to interact with wdio",
   "main": "./index.js",
   "types": "./index.d.ts",
@@ -8,9 +8,7 @@
     "build": "tsc",
     "test": "vitest run",
     "test:e2e": "qavajs run --config test-e2e/webui.ts",
-    "debug:e2e": "qavajs run --config test-e2e/webui.ts --profile debug",
-    "test:e2e:selenium": "qavajs run --config test-e2e/webui.ts --profile selenium",
-    "debug:e2e:selenium": "qavajs run --config test-e2e/webui.ts --profile debugSelenium"
+    "debug:e2e": "qavajs run --config test-e2e/webui.ts --profile debug"
   },
   "repository": {
     "type": "git",
@@ -27,22 +25,22 @@
   "homepage": "https://github.com/qavajs/steps-wdio#readme",
   "devDependencies": {
     "@cucumber/cucumber": "^10.8.0",
-    "@qavajs/cli": "^0.38.0",
+    "@qavajs/cli": "^0.39.0",
     "@qavajs/console-formatter": "^0.7.2",
     "@qavajs/html-formatter": "^0.15.4",
     "@qavajs/memory": "^1.7.0",
     "@qavajs/po": "^1.10.0",
+    "@qavajs/validation": "^0.9.0",
     "@qavajs/wdio-service-adapter": "^0.0.3",
     "@qavajs/webstorm-adapter": "^8.0.0",
     "@types/chai": "^4.3.16",
-    "devtools": "^8.38.2",
-    "express": "^4.19.2",
+    "express": "^4.18.3",
+    "puppeteer-core": "^22.12.1",
     "ts-node": "^10.9.2",
-    "typescript": "^5.4.5",
-    "vitest": "^1.6.0",
-    "@qavajs/validation": "^0.9.0"
+    "typescript": "^5.5.2",
+    "vitest": "^1.6.0"
   },
   "dependencies": {
-    "webdriverio": "^8.38.2"
+    "webdriverio": "^9.0.0-alpha.321"
   }
 }

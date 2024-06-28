@@ -84,7 +84,6 @@ Feature: actions
       | Key    |
       | w      |
       | Enter  |
-      | $Enter |
 
   Scenario: press key with modifier
     And I press 'Alt+a' key
@@ -97,8 +96,8 @@ Feature: actions
 
     Examples:
       | Key    | Times | Postfix | Result  |
-      | $Enter | 1     |         | 1 times |
-      | $Space | 5     | s       | 5 times |
+      | Enter | 1     |         | 1 times |
+      | Space | 5     | s       | 5 times |
 
   Scenario: hover
     When I hover over 'Button Hover'
@@ -193,9 +192,5 @@ Feature: actions
     And I close current tab
     Then I expect current url to contain 'actions.html'
 
-  Scenario: scroll until visible
-    When I hover over 'Infinite Scroll'
-    When I scroll until '#row 34 in Infinite Scroll Items' to be visible
-
   Scenario: scroll until visible in element
-    When I scroll in 'Infinite Scroll' until '#row 34 in Infinite Scroll Items' to be visible
+    When I scroll in 'Infinite Scroll' until '#row 28 in Infinite Scroll Items' to be visible

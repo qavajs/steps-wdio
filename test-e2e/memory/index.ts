@@ -29,10 +29,10 @@ export default class Memory {
     userFromMemory = 'Mock 3';
 
     users = JSON.stringify([
-        {"name": "Memory Mock 1"},
-        {"name": "Memory Mock 2"},
-        {"name": "Memory Mock 3"}
+        {name: 'Memory Mock 1'},
+        {name: 'Memory Mock 2'},
+        {name: 'Memory Mock 3'}
     ]);
 
-    uploadFile = resolve('./apps/actions.html');
+    uploadFile = resolve('./test-e2e/apps/actions.html');
 }

@@ -7,6 +7,10 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :rocket: - new feature
 :beetle: - bugfix
 :x: - deprecation
+
+## [Unreleased]
+- :x: removed devtools protocol config
+
 :pencil: - chore
 
 ## [0.51.0]

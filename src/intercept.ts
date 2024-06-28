@@ -8,17 +8,17 @@ import memory from '@qavajs/memory';
  * @param {string} key - memory key to save
  * @example I create interception for '**\/api/qavajs' as 'intercept'
  */
-When('I create interception for {string} as {string}', async function (predicate: string, key: string) {
-    const predicateValue = await getValue(predicate);
-    const mock = await browser.mock(predicateValue);
-    const interception = new Promise((resolve) => {
-        mock.respond((response) => {
-            resolve(response)
-            return response.body
-        })
-    })
-    memory.setValue(key, interception);
-});
+// When('I create interception for {string} as {string}', async function (predicate: string, key: string) {
+//     const predicateValue = await getValue(predicate);
+//     const mock = await browser.mock(predicateValue);
+//     const interception = new Promise((resolve) => {
+//         mock.respond((response) => {
+//             resolve(response)
+//             return response.body
+//         })
+//     })
+//     memory.setValue(key, interception);
+// });
 
 /**
  * Wait for interception response

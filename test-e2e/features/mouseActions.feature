@@ -21,6 +21,7 @@ Feature: mouse actions
 
   Scenario: mouse move
     Then I move mouse to '10, 10'
+    Then I move mouse to '-10, -10'
     And I expect text of 'Event Handler' to contain '"type":"mousemove"'
 
   Scenario Outline: mouse wheel
