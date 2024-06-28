@@ -13,6 +13,10 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 :pencil: - chore
 
+## [0.51.0]
+Breaking change: moved _@qavajs/validation_ to peer dependencies
+After update please install latest version of @qavajs/validation package
+
 ## [0.50.0]
 - :rocket: added _I refresh page until text of {string} {wdioValidation} {string}( ){wdioTimeout}_ step
 - :rocket: added _I refresh page until {string} {wdioConditionWait}( ){wdioTimeout}_ step
