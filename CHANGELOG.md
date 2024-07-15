@@ -9,6 +9,10 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :x: - deprecation
 :pencil: - chore
 
+## [0.52.0]
+- :rocket: added _I click {string} until text of {string} {wdioValidation} {string}( ){wdioTimeout}_ step
+- :rocket: added _I click {string} until value of {string} {wdioValidation} {string}( ){wdioTimeout}_ step
+
 ## [0.51.0]
 Breaking change: moved _@qavajs/validation_ to peer dependencies
 After update please install latest version of @qavajs/validation package

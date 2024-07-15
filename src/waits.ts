@@ -3,6 +3,7 @@ import { getValue, getElement, getConditionWait, getLocator } from './transforme
 import { getPollValidation } from '@qavajs/validation';
 import { isImmediate } from './utils';
 import { conditionValidations, conditionWait } from './conditionWait';
+import defaultTimeouts from "./defaultTimeouts";
 
 /**
  * Explicit wait
@@ -295,3 +296,74 @@ When(
         }, { timeout, interval: config.browser.timeout.pageRefreshInterval });
     }
 );
+
+/**
+ * Repeatedly click an element unless element text matches condition
+ * @param {string} aliasToClick - element to wait condition
+ * @param {string} aliasToCheck - element to wait condition
+ * @param {string} wait - wait condition
+ * @param {string} text - expected value to wait
+ * @param {number|null} [timeout] - custom timeout in ms
+ * @example I click 'Send Message Button' until text of 'Information Alert' to be equal 'Your account has been banned'
+ * @example I click 'Add To Cart Button' until text of 'Shopping Cart Total' to match '/\$5\d{3,}/' (timeout: 3000)
+ */
+When(
+  'I click {string} until text of {string} {wdioValidation} {string}( ){wdioTimeout}',
+  async function (
+    aliasToClick: string,
+    aliasToCheck: string,
+    validationType: string,
+    value: string,
+    timeoutValue: number | null,
+  ) {
+    const elementToClick = await getElement(aliasToClick) as WebdriverIO.Element;
+    const elementToCheck = await getElement(aliasToCheck) as WebdriverIO.Element;
+    const timeout = timeoutValue ?? config.browser.timeout.value;
+    const expectedText = await getValue(value);
+    const poll = getPollValidation(validationType);
+    await poll(
+      async () => {
+        await elementToClick.click();
+        return elementToCheck.getText();
+      },
+      expectedText,
+      {timeout, interval: defaultTimeouts.actionInterval},
+    );
+  },
+);
+
+/**
+ * Repeatedly click an element unless element value attribute matches condition
+ * @param {string} aliasToClick - element to wait condition
+ * @param {string} aliasToCheck - element to wait condition
+ * @param {string} wait - wait condition
+ * @param {string} value - expected value to wait
+ * @param {number|null} [timeout] - custom timeout in ms
+ * @example I click 'Plus Button' until value of 'Quantity Input' to be equal '9'
+ * @example I click 'Suggest Button' until value of 'Repository Name Input' to match '/\w{5,}/' (timeout: 30000)
+ */
+When(
+  'I click {string} until value of {string} {wdioValidation} {string}( ){wdioTimeout}',
+  async function (
+    aliasToClick: string,
+    aliasToCheck: string,
+    validationType: string,
+    value: string,
+    timeoutValue: number | null,
+  ) {
+    const elementToClick = await getElement(aliasToClick) as WebdriverIO.Element;
+    const elementToCheck = await getElement(aliasToCheck) as WebdriverIO.Element;
+    const timeout = timeoutValue ?? config.browser.timeout.value;
+    const expectedValue = await getValue(value);
+    const poll = getPollValidation(validationType);
+    await poll(
+      async () => {
+        await elementToClick.click();
+        return elementToCheck.getValue();
+      },
+      expectedValue,
+      {timeout, interval: defaultTimeouts.actionInterval},
+    );
+  },
+);
+

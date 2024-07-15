@@ -59,6 +59,10 @@ export default class App {
 
     PseudoRandomText = $('#randomText');
     RandomlyDisabledButton = $('#isDisabledButton');
+    FlipCoin = $('#flipCoin');
+    Coin= $('#coin');
+    DigitInput = $('#digitInput');
+    PlusButton = $('#plusButton');
 }
 
 // @ts-ignore

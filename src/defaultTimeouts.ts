@@ -7,5 +7,6 @@ export default {
     element: 2000,
     value: 5000,
     valueInterval: 500,
+    actionInterval: 1000,
     pageRefreshInterval: 2000
 }
