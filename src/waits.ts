@@ -3,7 +3,6 @@ import { getValue, getElement, getConditionWait, getLocator } from './transforme
 import { getPollValidation } from '@qavajs/validation';
 import { isImmediate } from './utils';
 import { conditionValidations, conditionWait } from './conditionWait';
-import defaultTimeouts from "./defaultTimeouts";
 
 /**
  * Explicit wait
@@ -310,26 +309,26 @@ When(
 When(
   'I click {string} until text of {string} {wdioValidation} {string}( ){wdioTimeout}',
   async function (
-    aliasToClick: string,
-    aliasToCheck: string,
-    validationType: string,
-    value: string,
-    timeoutValue: number | null,
-  ) {
-    const elementToClick = await getElement(aliasToClick) as WebdriverIO.Element;
-    const elementToCheck = await getElement(aliasToCheck) as WebdriverIO.Element;
-    const timeout = timeoutValue ?? config.browser.timeout.value;
-    const expectedText = await getValue(value);
-    const poll = getPollValidation(validationType);
-    await poll(
-      async () => {
-        await elementToClick.click();
-        return elementToCheck.getText();
-      },
-      expectedText,
-      {timeout, interval: defaultTimeouts.actionInterval},
-    );
-  },
+      aliasToClick: string,
+      aliasToCheck: string,
+      validationType: string,
+      value: string,
+      timeoutValue: number | null,
+    ) {
+      const elementToClick = await getElement(aliasToClick) as WebdriverIO.Element;
+      const elementToCheck = await getElement(aliasToCheck) as WebdriverIO.Element;
+      const timeout = timeoutValue ?? config.browser.timeout.value;
+      const expectedText = await getValue(value);
+      const poll = getPollValidation(validationType);
+      await poll(
+        async () => {
+            await elementToClick.click();
+            return elementToCheck.getText();
+        },
+        expectedText,
+        {timeout, interval: config.browser.timeout.actionInterval},
+      );
+    },
 );
 
 /**
@@ -345,25 +344,24 @@ When(
 When(
   'I click {string} until value of {string} {wdioValidation} {string}( ){wdioTimeout}',
   async function (
-    aliasToClick: string,
-    aliasToCheck: string,
-    validationType: string,
-    value: string,
-    timeoutValue: number | null,
-  ) {
-    const elementToClick = await getElement(aliasToClick) as WebdriverIO.Element;
-    const elementToCheck = await getElement(aliasToCheck) as WebdriverIO.Element;
-    const timeout = timeoutValue ?? config.browser.timeout.value;
-    const expectedValue = await getValue(value);
-    const poll = getPollValidation(validationType);
-    await poll(
-      async () => {
-        await elementToClick.click();
-        return elementToCheck.getValue();
-      },
-      expectedValue,
-      {timeout, interval: defaultTimeouts.actionInterval},
-    );
-  },
+      aliasToClick: string,
+      aliasToCheck: string,
+      validationType: string,
+      value: string,
+      timeoutValue: number | null,
+      ) {
+      const elementToClick = await getElement(aliasToClick) as WebdriverIO.Element;
+      const elementToCheck = await getElement(aliasToCheck) as WebdriverIO.Element;
+      const timeout = timeoutValue ?? config.browser.timeout.value;
+      const expectedValue = await getValue(value);
+      const poll = getPollValidation(validationType);
+      await poll(
+          async () => {
+              await elementToClick.click();
+              return elementToCheck.getValue();
+          },
+          expectedValue,
+          {timeout, interval: config.browser.timeout.actionInterval},
+      );
+    },
 );
-
