@@ -25,8 +25,16 @@
 <div id="waitCollection"></div>
 <div id="randomText"></div>
 <button id="isDisabledButton">Disabled/Enabled</button>
+<div id="coin">Undisclosed</div>
+<button id="flipCoin">Flip Coin</button>
+<div id="inputContainer">
+    <button id="plusButton">+</button>
+    <label for="digitInput"></label>
+    <input type="text" id="digitInput" value="0">
+</div>
 
 <script>
+    let counter = 0;
     const timeout = 1700;
     const containerPresent = document.querySelector('#containerPresent');
 
@@ -91,6 +99,19 @@
         const button = document.querySelector('#isDisabledButton');
         button.setAttribute('disabled', 'true');
     }
+    const flipCoin = document.querySelector('#flipCoin');
+    const coin = document.querySelector('#coin');
+    const pseudoRandomCoin = ['Tails', 'Tails', 'Heads']
+    const plusButton = document.querySelector('#plusButton');
+    const digitInput = document.querySelector('#digitInput');
+
+    flipCoin.addEventListener('click', function () {
+        coin.innerText = pseudoRandomCoin.shift();
+    });
+
+    plusButton.addEventListener('click', function () {
+        digitInput.setAttribute('value', String(++counter));
+    });
 </script>
 </body>
 </html>
