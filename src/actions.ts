@@ -1,9 +1,8 @@
 import { When } from '@cucumber/cucumber';
 import { conditionValidations, conditionWait } from './conditionWait';
 import { getValue, getElement } from './transformers';
-import { parseCoords, parseKeySequence, parseCoordsAsObject } from './utils';
+import { parseCoords, parseKeySequence, parseCoordsAsObject, dragAndDrop } from './utils';
 import { click, doubleClick, rightClick } from './click';
-import { dragAndDrop } from './utils';
 
 /**
  * Opens provided url
@@ -105,7 +104,7 @@ When('I clear {string}', async function (alias: string) {
 When(
     'I click {string} text in {string} collection',
     async function (value: string, alias: string) {
-        const collection = await getElement(alias) as WebdriverIO.Element[];
+        const collection = await getElement(alias) as WebdriverIO.ElementArray;
         const expectedText = await getValue(value);
         for (const ePromise of collection) {
             const element = await ePromise;

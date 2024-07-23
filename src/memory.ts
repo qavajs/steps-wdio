@@ -51,7 +51,7 @@ When('I save {string} attribute of {string} as {string}', async function (attrib
  * @example I save number of elements in 'Search Results' as 'numberOfSearchResults'
  */
 When('I save number of elements in {string} collection as {string}', async function (alias, key) {
-    const collection = await getElement(alias) as WebdriverIO.Element[];
+    const collection = await getElement(alias) as WebdriverIO.ElementArray;
     const value = collection.length;
     memory.setValue(key, value);
 });
@@ -65,7 +65,7 @@ When('I save number of elements in {string} collection as {string}', async funct
 When(
     'I save text of every element of {string} collection as {string}',
     async function (alias: string, key: string) {
-        const collection = await getElement(alias) as WebdriverIO.Element[];
+        const collection = await getElement(alias) as WebdriverIO.ElementArray;
         const values = await collection.map(element => element.getText());
         memory.setValue(key, values);
     }
@@ -80,7 +80,7 @@ When(
 When(
     'I save {string} attribute of every element of {string} collection as {string}',
     async function (attribute: string, alias: string, key: string) {
-        const collection = await getElement(alias) as WebdriverIO.Element[];
+        const collection = await getElement(alias) as WebdriverIO.ElementArray;
         const values = await collection.map(element => element.getAttribute(attribute));
         memory.setValue(key, values);
     }
@@ -95,7 +95,7 @@ When(
 When(
     'I save {string} property of every element of {string} collection as {string}',
     async function (property: string, alias: string, key: string) {
-        const collection = await getElement(alias) as WebdriverIO.Element[];
+        const collection = await getElement(alias) as WebdriverIO.ElementArray;
         const values = await collection.map(element => element.getProperty(property));
         memory.setValue(key, values);
     }

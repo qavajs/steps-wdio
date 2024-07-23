@@ -1,6 +1,7 @@
 import Memory from './memory';
 import App from './page_object';
 import localServer from './support/server';
+import {IQavajsWdioConfig} from "../src/IQavajsWdioConfig";
 
 const common = {
     paths: ['test-e2e/features/*.feature'],
@@ -20,9 +21,8 @@ const common = {
     },
     format: [
         '@qavajs/console-formatter',
-        'junit:test-e2e/report.xml',
-        'json:test-e2e/report.json',
-        '@qavajs/html-formatter:test-e2e/report.html'
+        ['junit', 'test-e2e/report.xml'],
+        ['@qavajs/html-formatter', 'test-e2e/report.html']
     ],
     formatOptions: {
         console: {
@@ -36,7 +36,7 @@ const common = {
     parallel: 4,
     retry: 1,
     defaultTimeout: 30000
-}
+} as IQavajsWdioConfig
 
 export default common;
 
@@ -61,7 +61,7 @@ export const debug = {
     },
 }
 
-export const selenium = {
+export const webdriver = {
     ...common,
     browser: {
         ...common.browser,
@@ -70,7 +70,7 @@ export const selenium = {
     defaultTimeout: 30000
 }
 
-export const debugSelenium = {
+export const debugWebdriver = {
     ...debug,
     browser: {
         ...debug.browser,

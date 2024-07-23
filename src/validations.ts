@@ -58,7 +58,7 @@ Then(
     'I expect number of elements in {string} collection {wdioValidation} {string}',
     async function (alias: string, validationType: string, value: string) {
         const expectedValue = await getValue(value);
-        const collectionLength = () => getElement(alias).then(collection => (collection as []).length);
+        const collectionLength = () => getElement(alias).then(collection => (collection as WebdriverIO.ElementArray).length);
         const validation = getPollValidation(validationType);
         await validation(collectionLength, expectedValue, {
             timeout: config.browser.timeout.value,
@@ -190,7 +190,7 @@ Then(
     'I expect text of every element in {string} collection {wdioValidation} {string}',
     async function (alias: string, validationType: string, value: string) {
         const expectedValue = await getValue(value);
-        const collection = await getElement(alias) as WebdriverIO.Element[];
+        const collection = await getElement(alias) as WebdriverIO.ElementArray;
         checkIfCollection(alias, collection);
         const validation = getValidation(validationType);
         for (const element of collection) {
@@ -209,7 +209,7 @@ Then(
  * @example I expect every element in 'Loading Bars' collection not to be present
  */
 Then('I expect every element in {string} collection {wdioConditionWait}', async function (alias: string, condition: string) {
-    const collection = await getElement(alias) as WebdriverIO.Element[];
+    const collection = await getElement(alias) as WebdriverIO.ElementArray;
     checkIfCollection(alias, collection);
     const wait = getConditionWait(condition);
     const conditionWait = (element: WebdriverIO.Element) => wait(element, config.browser.timeout.page);
@@ -227,7 +227,7 @@ Then(
     'I expect {string} attribute of every element in {string} collection {wdioValidation} {string}',
     async function (attribute: string, alias: string, validationType: string, value: string) {
         const expectedValue = await getValue(value);
-        const collection = await getElement(alias) as WebdriverIO.Element[];
+        const collection = await getElement(alias) as WebdriverIO.ElementArray;
         checkIfCollection(alias, collection);
         const validation = getValidation(validationType);
         for (const element of collection) {
@@ -249,7 +249,7 @@ Then(
     'I expect {string} property of every element in {string} collection {wdioValidation} {string}',
     async function (property: string, alias: string, validationType: string, value: string) {
         const expectedValue = await getValue(value);
-        const collection = await getElement(alias) as WebdriverIO.Element[];
+        const collection = await getElement(alias) as WebdriverIO.ElementArray;
         checkIfCollection(alias, collection);
         const validation = getValidation(validationType);
         for (const element of collection) {
