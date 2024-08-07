@@ -1,6 +1,7 @@
 import { DataTable, When } from '@cucumber/cucumber';
 import { conditionValidations, conditionWait } from './conditionWait';
 import { getValue, getElement } from './transformers';
+import memory from '@qavajs/memory';
 
 /**
  * Tap element

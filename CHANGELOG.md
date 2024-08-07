@@ -9,6 +9,11 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :x: - deprecation
 :pencil: - chore
 
+## [0.53.0]
+Breaking change:
+- :rocket: include page objects into step bundle
+  Migration guide: replace all po-playwright lib imports `@qavajs/po` to `@qavajs/steps-wdio/po`
+
 ## [0.52.0]
 - :rocket: added _I click {string} until text of {string} {wdioValidation} {string}( ){wdioTimeout}_ step
 - :rocket: added _I click {string} until value of {string} {wdioValidation} {string}( ){wdioTimeout}_ step

@@ -1,7 +1,7 @@
 {
   "name": "@qavajs/steps-wdio",
-  "version": "0.52.0",
-  "description": "steps to interact with wdio",
+  "version": "0.53.0",
+  "description": "steps to interact with webdriverio",
   "main": "./index.js",
   "types": "./index.d.ts",
   "scripts": {
@@ -9,8 +9,8 @@
     "test": "vitest run",
     "test:e2e": "qavajs run --config test-e2e/webui.ts",
     "debug:e2e": "qavajs run --config test-e2e/webui.ts --profile debug",
-    "test:e2e:selenium": "qavajs run --config test-e2e/webui.ts --profile selenium",
-    "debug:e2e:selenium": "qavajs run --config test-e2e/webui.ts --profile debugSelenium"
+    "test:e2e:webdriver": "qavajs run --config test-e2e/webui.ts --profile webdriver",
+    "debug:e2e:webdriver": "qavajs run --config test-e2e/webui.ts --profile debugWebdriver"
   },
   "repository": {
     "type": "git",
@@ -27,22 +27,22 @@
   "homepage": "https://github.com/qavajs/steps-wdio#readme",
   "devDependencies": {
     "@cucumber/cucumber": "^10.8.0",
-    "@qavajs/cli": "^0.38.0",
+    "@qavajs/cli": "^0.40.0",
     "@qavajs/console-formatter": "^0.7.2",
-    "@qavajs/html-formatter": "^0.15.4",
-    "@qavajs/memory": "^1.7.0",
-    "@qavajs/po": "^1.10.0",
+    "@qavajs/html-formatter": "^0.18.1",
+    "@qavajs/memory": "^1.8.0",
     "@qavajs/wdio-service-adapter": "^0.0.3",
     "@qavajs/webstorm-adapter": "^8.0.0",
-    "@types/chai": "^4.3.16",
-    "devtools": "^8.38.2",
+    "@types/chai": "^4.3.17",
+    "devtools": "^8.40.0",
     "express": "^4.19.2",
     "ts-node": "^10.9.2",
-    "typescript": "^5.4.5",
-    "vitest": "^1.6.0",
+    "typescript": "^5.5.4",
+    "vitest": "^2.0.5",
     "@qavajs/validation": "^0.9.0"
   },
   "dependencies": {
-    "webdriverio": "^8.38.2"
+    "webdriverio": "^8.40.0",
+    "@qavajs/po": "^1.11.0"
   }
 }

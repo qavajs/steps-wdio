@@ -3,7 +3,6 @@ import { getValue } from './transformers';
 import memory from '@qavajs/memory';
 type ErrorReason = ('Failed' | 'Aborted' | 'TimedOut' | 'AccessDenied' | 'ConnectionClosed' | 'ConnectionReset' | 'ConnectionRefused' | 'ConnectionAborted' | 'ConnectionFailed' | 'NameNotResolved' | 'InternetDisconnected' | 'AddressUnreachable' | 'BlockedByClient' | 'BlockedByResponse');
 
-
 /**
  * Create simple mock instance
  * @param {string} urlTemplate - minimatch url template to mock

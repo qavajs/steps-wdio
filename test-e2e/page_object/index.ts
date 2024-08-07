@@ -1,4 +1,4 @@
-import { $, $$ } from '@qavajs/po';
+import { $, $$ } from '../../po';
 export default class App {
     SimpleTextElement = $('#textValue');
     SimpleTextListItems = $$('#textValueList li');
@@ -65,7 +65,6 @@ export default class App {
     PlusButton = $('#plusButton');
 }
 
-// @ts-ignore
 class IgnoreHierarchyComponent {
     selector = '#ignoreHierarchyComponent';
 

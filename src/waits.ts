@@ -74,7 +74,7 @@ When(
         const wait = getPollValidation(waitType);
         const collection = getLocator(alias);
         const expectedValue = await getValue(value);
-        const getValueFn = async () => (await collection() as WebdriverIO.Element[]).length;
+        const getValueFn = async () => (await collection() as WebdriverIO.ElementArray).length;
         await wait(getValueFn, expectedValue,  {
             timeout: timeout ?? config.browser.timeout.value,
             interval: config.browser.timeout.valueInterval
