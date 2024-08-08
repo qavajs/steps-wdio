@@ -17,7 +17,7 @@ import { isImmediate, checkIfCollection } from './utils';
  * @example I expect 'Search Bar > Submit Button' to be clickable
  */
 Then('I expect {string} {wdioConditionWait}', async function (alias: string, condition: string) {
-    const element = await getElement(alias, { immediate: isImmediate(condition) }) as WebdriverIO.Element;
+    const element = await getElement(alias, { immediate: isImmediate(condition) });
     const wait = getConditionWait(condition);
     await wait(element, config.browser.timeout.page);
 });
@@ -34,7 +34,7 @@ Then(
     'I expect text of {string} {wdioValidation} {string}',
     async function (alias: string, validationType: string, value: any) {
         const expectedValue = await getValue(value);
-        const element = await getElement(alias) as WebdriverIO.Element;
+        const element = await getElement(alias);
         const validation = getPollValidation(validationType);
         await conditionWait(element, conditionValidations.PRESENT, config.browser.timeout.present);
         const elementText = () => element.getText();
@@ -79,7 +79,7 @@ Then(
     'I expect value of {string} {wdioValidation} {string}',
     async function (alias: string, validationType: string, value: string) {
         const expectedValue = await getValue(value);
-        const element = await getElement(alias) as WebdriverIO.Element;
+        const element = await getElement(alias);
         await conditionWait(element, conditionValidations.PRESENT, config.browser.timeout.present);
         const actualValue = () => element.getProperty('value');
         const validation = getPollValidation(validationType);
@@ -104,7 +104,7 @@ Then(
     async function (property: string, alias: string, validationType: string, value: string) {
         const propertyName = await getValue(property);
         const expectedValue = await getValue(value);
-        const element = await getElement(alias) as WebdriverIO.Element;
+        const element = await getElement(alias);
         await conditionWait(element, conditionValidations.PRESENT, config.browser.timeout.present);
         const actualValue = () => element.getProperty(propertyName);
         const validation = getPollValidation(validationType);
@@ -128,7 +128,7 @@ Then(
     async function (attribute: string, alias: string, validationType: string, value: string) {
         const attributeName = await getValue(attribute);
         const expectedValue = await getValue(value);
-        const element = await getElement(alias) as WebdriverIO.Element;
+        const element = await getElement(alias);
         await conditionWait(element, conditionValidations.PRESENT, config.browser.timeout.present);
         const actualValue = () => element.getAttribute(attributeName);
         const validation = getPollValidation(validationType);
@@ -190,7 +190,7 @@ Then(
     'I expect text of every element in {string} collection {wdioValidation} {string}',
     async function (alias: string, validationType: string, value: string) {
         const expectedValue = await getValue(value);
-        const collection = await getElement(alias) as WebdriverIO.ElementArray;
+        const collection = await getElement(alias);
         checkIfCollection(alias, collection);
         const validation = getValidation(validationType);
         for (const element of collection) {
@@ -209,7 +209,7 @@ Then(
  * @example I expect every element in 'Loading Bars' collection not to be present
  */
 Then('I expect every element in {string} collection {wdioConditionWait}', async function (alias: string, condition: string) {
-    const collection = await getElement(alias) as WebdriverIO.ElementArray;
+    const collection = await getElement(alias);
     checkIfCollection(alias, collection);
     const wait = getConditionWait(condition);
     const conditionWait = (element: WebdriverIO.Element) => wait(element, config.browser.timeout.page);
@@ -227,7 +227,7 @@ Then(
     'I expect {string} attribute of every element in {string} collection {wdioValidation} {string}',
     async function (attribute: string, alias: string, validationType: string, value: string) {
         const expectedValue = await getValue(value);
-        const collection = await getElement(alias) as WebdriverIO.ElementArray;
+        const collection = await getElement(alias);
         checkIfCollection(alias, collection);
         const validation = getValidation(validationType);
         for (const element of collection) {
@@ -249,7 +249,7 @@ Then(
     'I expect {string} property of every element in {string} collection {wdioValidation} {string}',
     async function (property: string, alias: string, validationType: string, value: string) {
         const expectedValue = await getValue(value);
-        const collection = await getElement(alias) as WebdriverIO.ElementArray;
+        const collection = await getElement(alias);
         checkIfCollection(alias, collection);
         const validation = getValidation(validationType);
         for (const element of collection) {
@@ -274,7 +274,7 @@ Then(
     async function (property: string, alias: string, validationType: string, value: string) {
         const propertyName = await getValue(property);
         const expectedValue = await getValue(value);
-        const element = await getElement(alias) as WebdriverIO.Element;
+        const element = await getElement(alias);
         await conditionWait(element, conditionValidations.PRESENT, config.browser.timeout.present);
         const actualValue = () => browser.execute(function (element: WebdriverIO.Element, propertyName: string) {
             return getComputedStyle(element as any).getPropertyValue(propertyName)

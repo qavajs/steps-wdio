@@ -9,7 +9,7 @@ import { getElement, getValue } from './transformers';
  * @example I save text of '#1 of Search Results' as 'firstSearchResult'
  */
 When('I save text of {string} as {string}', async function (alias, key) {
-    const element = await getElement(alias) as WebdriverIO.Element;
+    const element = await getElement(alias);
     const value = await element.getText();
     memory.setValue(key, value);
 });
@@ -23,7 +23,7 @@ When('I save text of {string} as {string}', async function (alias, key) {
  * @example I save '$prop' property of 'Checkbox' as 'checked'
  */
 When('I save {string} property of {string} as {string}', async function (property, alias, key) {
-    const element = await getElement(alias) as WebdriverIO.Element;
+    const element = await getElement(alias);
     const propertyName = await getValue(property);
     const value = await element.getProperty(propertyName);
     memory.setValue(key, value);
@@ -38,7 +38,7 @@ When('I save {string} property of {string} as {string}', async function (propert
  * @example I save '$prop' attribute of 'Link' as 'linkHref'
  */
 When('I save {string} attribute of {string} as {string}', async function (attribute, alias, key) {
-    const element = await getElement(alias) as WebdriverIO.Element;
+    const element = await getElement(alias);
     const attributeName = await getValue(attribute);
     const value = await element.getAttribute(attributeName);
     memory.setValue(key, value);
@@ -51,7 +51,7 @@ When('I save {string} attribute of {string} as {string}', async function (attrib
  * @example I save number of elements in 'Search Results' as 'numberOfSearchResults'
  */
 When('I save number of elements in {string} collection as {string}', async function (alias, key) {
-    const collection = await getElement(alias) as WebdriverIO.ElementArray;
+    const collection = await getElement(alias);
     const value = collection.length;
     memory.setValue(key, value);
 });
@@ -65,7 +65,7 @@ When('I save number of elements in {string} collection as {string}', async funct
 When(
     'I save text of every element of {string} collection as {string}',
     async function (alias: string, key: string) {
-        const collection = await getElement(alias) as WebdriverIO.ElementArray;
+        const collection = await getElement(alias);
         const values = await collection.map(element => element.getText());
         memory.setValue(key, await Promise.all(values));
     }
@@ -80,7 +80,7 @@ When(
 When(
     'I save {string} attribute of every element of {string} collection as {string}',
     async function (attribute: string, alias: string, key: string) {
-        const collection = await getElement(alias) as WebdriverIO.ElementArray;
+        const collection = await getElement(alias);
         const values = await collection.map(element => element.getAttribute(attribute));
         memory.setValue(key, await Promise.all(values));
     }
@@ -95,7 +95,7 @@ When(
 When(
     'I save {string} property of every element of {string} collection as {string}',
     async function (property: string, alias: string, key: string) {
-        const collection = await getElement(alias) as WebdriverIO.ElementArray;
+        const collection = await getElement(alias);
         const values = await collection.map(element => element.getProperty(property));
         memory.setValue(key, await Promise.all(values));
     }
@@ -138,7 +138,7 @@ When('I save screenshot as {string}', async function(key: string) {
  * @example I save screenshot of 'Header > Logo' as 'screenshot'
  */
 When('I save screenshot of {string} as {string}', async function(alias: string, key: string) {
-    const element = await getElement(alias) as WebdriverIO.Element;
+    const element = await getElement(alias);
     const screenshot = await browser.takeElementScreenshot(element.elementId);
     memory.setValue(key, screenshot);
 });
@@ -152,7 +152,7 @@ When('I save screenshot of {string} as {string}', async function(alias: string, 
  * @example I save '$propertyName' property of 'Checkbox' as 'checkboxColor'
  */
 When('I save {string} css property of {string} as {string}', async function (property, alias, key) {
-    const element = await getElement(alias) as WebdriverIO.Element;
+    const element = await getElement(alias);
     const propertyName = await getValue(property);
     const value = await browser.execute(function (element: WebdriverIO.Element, propertyName: string) {
         return getComputedStyle(element as any).getPropertyValue(propertyName)
@@ -170,7 +170,7 @@ When('I save {string} css property of {string} as {string}', async function (pro
  * Then I expect '$boundingRect.width' to equal '42'
  */
 When('I save bounding rect of {string} as {string}', async function (alias, key) {
-    const element = await getElement(alias) as WebdriverIO.Element;
+    const element = await getElement(alias);
     const value = await browser.execute(function (element: WebdriverIO.Element) {
         return JSON.stringify((element as any).getBoundingClientRect());
     }, element as any);
