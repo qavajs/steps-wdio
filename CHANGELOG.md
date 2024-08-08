@@ -9,6 +9,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :x: - deprecation
 :pencil: - chore
 
+## [0.53.1]
+- :beetle: fixed issue with saving data from collection
+
 ## [0.53.0]
 Breaking change:
 - :rocket: include page objects into step bundle

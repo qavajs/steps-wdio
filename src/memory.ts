@@ -67,7 +67,7 @@ When(
     async function (alias: string, key: string) {
         const collection = await getElement(alias) as WebdriverIO.ElementArray;
         const values = await collection.map(element => element.getText());
-        memory.setValue(key, values);
+        memory.setValue(key, await Promise.all(values));
     }
 );
 
@@ -82,7 +82,7 @@ When(
     async function (attribute: string, alias: string, key: string) {
         const collection = await getElement(alias) as WebdriverIO.ElementArray;
         const values = await collection.map(element => element.getAttribute(attribute));
-        memory.setValue(key, values);
+        memory.setValue(key, await Promise.all(values));
     }
 );
 
@@ -97,7 +97,7 @@ When(
     async function (property: string, alias: string, key: string) {
         const collection = await getElement(alias) as WebdriverIO.ElementArray;
         const values = await collection.map(element => element.getProperty(property));
-        memory.setValue(key, values);
+        memory.setValue(key, await Promise.all(values));
     }
 );
 
