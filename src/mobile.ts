@@ -9,7 +9,7 @@ import memory from '@qavajs/memory';
  * @example I tap 'Google Button'
  */
 When('I tap {string}', async function(alias: string) {
-    const element = await getElement(alias) as WebdriverIO.Element;
+    const element = await getElement(alias);
     await conditionWait(element, conditionValidations.VISIBLE, config.browser.timeout.visible);
     await element.click();
 });

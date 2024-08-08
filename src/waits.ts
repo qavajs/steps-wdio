@@ -27,7 +27,7 @@ When(
     'I wait until {string} {wdioConditionWait}( ){wdioTimeout}',
     async function (alias: string, waitType: string, timeout: number | null) {
         const wait = getConditionWait(waitType);
-        const element = await getElement(alias, { immediate: isImmediate(waitType) }) as WebdriverIO.Element;
+        const element = await getElement(alias, { immediate: isImmediate(waitType) });
         await wait(element, timeout ?? config.browser.timeout.page);
     }
 );
@@ -46,7 +46,7 @@ When(
     'I wait until text of {string} {wdioValidation} {string}( ){wdioTimeout}',
     async function (alias: string, waitType: string, value: string, timeout: number | null) {
         const wait = getPollValidation(waitType);
-        const element = await getElement(alias) as WebdriverIO.Element;
+        const element = await getElement(alias);
         await conditionWait(element, conditionValidations.PRESENT, config.browser.timeout.present);
         const expectedValue = await getValue(value);
         const getValueFn = () => element.getText();
@@ -74,7 +74,7 @@ When(
         const wait = getPollValidation(waitType);
         const collection = getLocator(alias);
         const expectedValue = await getValue(value);
-        const getValueFn = async () => (await collection() as WebdriverIO.ElementArray).length;
+        const getValueFn = async () => (await collection()).length;
         await wait(getValueFn, expectedValue,  {
             timeout: timeout ?? config.browser.timeout.value,
             interval: config.browser.timeout.valueInterval
@@ -95,7 +95,7 @@ When(
     'I wait until value of {string} {wdioValidation} {string}( ){wdioTimeout}',
     async function (alias: string, waitType: string, value: string, timeout: number | null) {
         const wait = getPollValidation(waitType);
-        const element = await getElement(alias) as WebdriverIO.Element;
+        const element = await getElement(alias);
         await conditionWait(element, conditionValidations.PRESENT, config.browser.timeout.present);
         const expectedValue = await getValue(value);
         const getValueFn = () => element.getProperty('value');
@@ -121,7 +121,7 @@ When(
     async function (property: string, alias: string, waitType: string, value: string, timeout: number | null) {
         const propertyName = await getValue(property);
         const wait = getPollValidation(waitType);
-        const element = await getElement(alias) as WebdriverIO.Element;
+        const element = await getElement(alias);
         await conditionWait(element, conditionValidations.PRESENT, config.browser.timeout.present);
         const expectedValue = await getValue(value);
         const getValueFn = () => element.getProperty(propertyName);
@@ -175,7 +175,7 @@ When(
     async function (attribute: string, alias: string, waitType: string, value: string, timeout: number | null) {
         const attributeName = await getValue(attribute);
         const wait = getPollValidation(waitType);
-        const element = await getElement(alias) as WebdriverIO.Element;
+        const element = await getElement(alias);
         await conditionWait(element, conditionValidations.PRESENT, config.browser.timeout.present);
         const expectedValue = await getValue(value);
         const getValueFn = () => element.getAttribute(attributeName);
@@ -285,7 +285,7 @@ When(
         const expectedValue = await getValue(value);
         await browser.waitUntil(async () => {
             await browser.refresh();
-            const element = await getElement(alias) as WebdriverIO.Element;
+            const element = await getElement(alias);
             const value = () => element.getText();
             await validation(value, expectedValue, {
                 timeout: config.browser.timeout.pageRefreshInterval,
@@ -315,8 +315,8 @@ When(
       value: string,
       timeoutValue: number | null,
     ) {
-      const elementToClick = await getElement(aliasToClick) as WebdriverIO.Element;
-      const elementToCheck = await getElement(aliasToCheck) as WebdriverIO.Element;
+      const elementToClick = await getElement(aliasToClick);
+      const elementToCheck = await getElement(aliasToCheck);
       const timeout = timeoutValue ?? config.browser.timeout.value;
       const expectedText = await getValue(value);
       const poll = getPollValidation(validationType);
@@ -350,8 +350,8 @@ When(
       value: string,
       timeoutValue: number | null,
       ) {
-      const elementToClick = await getElement(aliasToClick) as WebdriverIO.Element;
-      const elementToCheck = await getElement(aliasToCheck) as WebdriverIO.Element;
+      const elementToClick = await getElement(aliasToClick);
+      const elementToCheck = await getElement(aliasToCheck);
       const timeout = timeoutValue ?? config.browser.timeout.value;
       const expectedValue = await getValue(value);
       const poll = getPollValidation(validationType);
