@@ -1,3 +1,4 @@
+@debug
 Feature: dynamic page objects
 
   Background:

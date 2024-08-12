@@ -8,7 +8,7 @@ import { conditionValidations, conditionWait } from './conditionWait';
  * @param coords - coordinates to click (counts from top/left corner)
  */
 export async function click(alias: string, disableWait: boolean, coords?: { x: number, y: number }): Promise<void> {
-  const element = await getElement(alias) as WebdriverIO.Element;
+  const element = await getElement(alias);
   if (!disableWait) {
     await conditionWait(element, conditionValidations.CLICKABLE, config.browser.timeout.clickable);
   }
@@ -27,7 +27,7 @@ export async function click(alias: string, disableWait: boolean, coords?: { x: n
  * @param disableWait - disable clickability wait
  */
 export async function doubleClick(alias: string, disableWait: boolean): Promise<void> {
-  const element = await getElement(alias) as WebdriverIO.Element;
+  const element = await getElement(alias);
   if (!disableWait) {
     await conditionWait(element, conditionValidations.CLICKABLE, config.browser.timeout.clickable);
   }
@@ -40,7 +40,7 @@ export async function doubleClick(alias: string, disableWait: boolean): Promise<
  * @param disableWait - disable clickability wait
  */
 export async function rightClick(alias: string, disableWait: boolean): Promise<void> {
-  const element = await getElement(alias) as WebdriverIO.Element;
+  const element = await getElement(alias);
   if (!disableWait) {
     await conditionWait(element, conditionValidations.CLICKABLE, config.browser.timeout.clickable);
   }

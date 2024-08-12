@@ -19,5 +19,6 @@ When('I define {string} as {string} {wdioPoType}', async function (
     const selector = await getValue(selectorKey);
     const alias = (await getValue(aliasKey)).replace(/\s/g, '');
     const defineElement = poType === 'element' ? $ : $$;
-    po.register({ [alias]: defineElement(selector) });
+    //@ts-ignore
+    po.pageObject[alias] = defineElement(selector);
 });
