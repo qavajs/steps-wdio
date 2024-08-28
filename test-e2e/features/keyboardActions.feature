@@ -4,6 +4,8 @@ Feature: keyboard actions
     When I open '$actionsPage' url
     And I click 'Keyboard Event Handler'
 
+  @bidi
+  @wd
   Scenario: key press and release
     When I hold down 'Q' key
     Then I expect 'value' property of 'Keyboard Event Handler' to contain '"code":"KeyQ"'

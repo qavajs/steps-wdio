@@ -16,7 +16,7 @@ When('I create mock for {string} as {string}', async function (urlTemplate: stri
 });
 
 async function respondWith(mockKey: string, statusCode: string, body: string) {
-    const mock = await getValue(mockKey);
+    const mock = await getValue(mockKey) as WebdriverIO.Mock;
     const responseStatusCode: number = parseInt(await getValue(statusCode));
     const responseBody = await getValue(body);
     mock.respond(responseBody, {

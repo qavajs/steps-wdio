@@ -295,7 +295,12 @@ Then(
  * @example I expect text of alert does not contain 'coffee'
  */
 Then('I expect text of alert {wdioValidation} {string}', async function (validationType: string, expectedValue: string) {
-    const alertText = await browser.getAlertText();
+    const alertText = await browser.waitUntil(async () => {
+        return await browser.getAlertText();
+    }, {
+        timeout: config.browser.timeout.present,
+        interval: 2000
+    });
     const expected = await getValue(expectedValue);
     const validation = getValidation(validationType);
     validation(alertText, expected);

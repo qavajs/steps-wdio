@@ -231,21 +231,6 @@ When(
 );
 
 /**
- * Waiting for alert to pop up
- * @example I wait for alert
- */
-When('I wait for alert', async function () {
-  const options = {
-    timeout: config.browser.timeout.present,
-    timeoutMsg: `Alert has not been shown for ${config.browser.timeout.page} ms`,
-    interval: 2000,
-  };
-  await browser.waitUntil(async () => {
-    return Boolean(await browser.getAlertText());
-  }, options);
-});
-
-/**
  * Refresh page unless element matches condition
  * @param {string} alias - element to wait condition
  * @param {string} wait - wait condition

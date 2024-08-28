@@ -9,6 +9,16 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :x: - deprecation
 :pencil: - chore
 
+## [0.55.0]
+- :rocket: upgraded to wdio9 (devtools protocol is deprecated)
+  Breaking changes: 
+- _I wait for alert step is removed_
+- mock and intercept steps work only with deprecated devtools protocol
+  Known issues: some step definitions are not working with bidi protocol (use `'wdio:enforceWebDriverClassic': true` capability)
+- _I switch to {int} frame_
+- _I switch to {int} window_
+- _I switch to {string} window_
+
 ## [0.54.0]
 - :rocket: updated po types
 
