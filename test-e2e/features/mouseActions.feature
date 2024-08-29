@@ -5,6 +5,8 @@ Feature: mouse actions
     And I scroll to 'Event Handler'
     And I hover over 'Event Handler'
 
+  @bidi
+  @wd
   Scenario Outline: mouse press and release
     Then I press <button> mouse button
     And I expect text of 'Event Handler' to contain '"buttons":<buttonCode>'

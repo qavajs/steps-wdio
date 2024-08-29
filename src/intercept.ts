@@ -12,6 +12,7 @@ When('I create interception for {string} as {string}', async function (predicate
     const predicateValue = await getValue(predicate);
     const mock = await browser.mock(predicateValue);
     const interception = new Promise((resolve) => {
+        // @ts-ignore
         mock.respond((response) => {
             resolve(response)
             return response.body

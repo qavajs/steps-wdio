@@ -1,16 +1,16 @@
 {
   "name": "@qavajs/steps-wdio",
-  "version": "0.54.0",
+  "version": "0.55.0",
   "description": "steps to interact with webdriverio",
   "main": "./index.js",
   "types": "./index.d.ts",
   "scripts": {
     "build": "tsc",
     "test": "vitest run",
-    "test:e2e": "qavajs run --config test-e2e/webui.ts",
-    "debug:e2e": "qavajs run --config test-e2e/webui.ts --profile debug",
-    "test:e2e:webdriver": "qavajs run --config test-e2e/webui.ts --profile webdriver",
-    "debug:e2e:webdriver": "qavajs run --config test-e2e/webui.ts --profile debugWebdriver"
+    "test:e2e:wd": "qavajs run --config test-e2e/webui.ts --profile wd",
+    "test:e2e:bidi": "qavajs run --config test-e2e/webui.ts --profile bidi",
+    "debug:e2e:wd": "qavajs run --config test-e2e/webui.ts --profile debugWd",
+    "debug:e2e:bidi": "qavajs run --config test-e2e/webui.ts --profile debugBidi"
   },
   "repository": {
     "type": "git",
@@ -34,7 +34,6 @@
     "@qavajs/wdio-service-adapter": "^0.0.3",
     "@qavajs/webstorm-adapter": "^8.0.0",
     "@types/chai": "^4.3.17",
-    "devtools": "^8.40.2",
     "express": "^4.19.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.4",
@@ -42,7 +41,7 @@
     "@qavajs/validation": "^0.10.0"
   },
   "dependencies": {
-    "webdriverio": "^8.40.2",
+    "webdriverio": "^9.0.7",
     "@qavajs/po": "^1.12.0"
   }
 }

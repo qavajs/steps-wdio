@@ -258,3 +258,39 @@ export enum Keys {
     Command = "",
     ZenkakuHankaku = ""
 }
+
+/**
+ * Class represents virtual mouse pointer to support actions
+ */
+class VirtualPointer {
+    origin: WebdriverIO.Element | 'viewport' = 'viewport';
+    x: number = 0;
+    y: number = 0;
+
+    hover(element: WebdriverIO.Element) {
+        this.origin = element;
+        this.x = 0;
+        this.y = 0;
+    }
+
+    move(x: number, y: number) {
+        this.x = x;
+        this.y = y;
+    }
+    pointer() {
+        return {
+            origin: this.origin,
+            x: this.x,
+            y: this.y
+        }
+    }
+    wheel() {
+        return {
+            origin: typeof this.origin !== 'string' ? this.origin : undefined,
+            x: this.x,
+            y: this.y
+        }
+    }
+}
+
+export const virtualPointer = new VirtualPointer();

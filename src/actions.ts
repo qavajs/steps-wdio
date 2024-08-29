@@ -130,7 +130,7 @@ When('I switch to parent frame', async function () {
  * @example I switch to 2 frame
  */
 When('I switch to {int} frame', async function (index: number) {
-    await browser.switchToFrame(index);
+    await browser.switchToFrame(index - 1);
 });
 
 /**
@@ -217,17 +217,6 @@ When('I press {string} key(s) {int} time(s)', async function (key: string, num: 
 });
 
 /**
- * Hover over element
- * @param {string} alias - element to hover over
- * @example I hover over 'Google Button'
- */
-When('I hover over {string}', async function (alias: string) {
-    const element = await getElement(alias);
-    await conditionWait(element, conditionValidations.VISIBLE, config.browser.timeout.visible);
-    await element.moveTo();
-});
-
-/**
  * Select option with certain text from select element
  * @param {string} option - option to select
  * @param {string} alias - alias of select
@@ -303,7 +292,8 @@ When('I scroll by {string} in {string}', async function (offset: string, alias: 
     await browser.action('wheel').scroll({
         deltaX,
         deltaY,
-        duration: 100
+        duration: 100,
+        origin: element
     }).perform();
 });
 
@@ -322,9 +312,9 @@ When('I scroll until {string} to be visible', async function (targetAlias: strin
         await browser.action('wheel').scroll({
             deltaX: 0,
             deltaY: 100,
-            duration: 50
+            duration: 100
         }).perform();
-        await browser.pause(50);
+        await browser.pause(100);
     }
 });
 
@@ -336,8 +326,7 @@ When('I scroll until {string} to be visible', async function (targetAlias: strin
  * When I scroll in 'List' until 'Row 99' to be visible
  */
 When('I scroll in {string} until {string} to be visible', async function (scrollAlias: string, targetAlias: string) {
-    const element = await getElement(scrollAlias);
-    await element.moveTo();
+    const origin = await getElement(scrollAlias);
     const isVisible = async () => {
         const element = await getElement(targetAlias, { immediate: true });
         return element.isDisplayed();
@@ -346,7 +335,8 @@ When('I scroll in {string} until {string} to be visible', async function (scroll
         await browser.action('wheel').scroll({
             deltaX: 0,
             deltaY: 100,
-            duration: 50
+            duration: 100,
+            origin
         }).perform();
         await browser.pause(50);
     }
@@ -370,7 +360,13 @@ When('I upload {string} file to {string}', async function (value: string, alias:
  * @example I accept alert
  */
 When('I accept alert', async function () {
-    await browser.acceptAlert();
+    await browser.waitUntil(async () => {
+        await browser.acceptAlert();
+        return true;
+    }, {
+        timeout: config.browser.timeout.present,
+        interval: 2000
+    });
 });
 
 /**
@@ -379,7 +375,13 @@ When('I accept alert', async function () {
  * @example I dismiss alert
  */
 When('I dismiss alert', async function () {
-    await browser.dismissAlert();
+    await browser.waitUntil(async () => {
+        await browser.dismissAlert();
+        return true;
+    }, {
+        timeout: config.browser.timeout.present,
+        interval: 2000
+    });
 });
 
 /**
@@ -388,7 +390,14 @@ When('I dismiss alert', async function () {
  * @example I type 'coffee' to alert
  */
 When('I type {string} to alert', async function (value: string) {
-    await browser.sendAlertText(value);
+    await browser.waitUntil(async () => {
+        await browser.sendAlertText(value);
+        await browser.acceptAlert();
+        return true;
+    }, {
+        timeout: config.browser.timeout.present,
+        interval: 2000
+    });
 });
 
 /**
@@ -442,4 +451,6 @@ When('I set window size {string}', async function (size: string) {
  */
 When('I close current tab', async function () {
     await browser.closeWindow();
+    const windowHandles = await browser.getWindowHandles();
+    await browser.switchToWindow(windowHandles[0]);
 });

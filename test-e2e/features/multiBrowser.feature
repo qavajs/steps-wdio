@@ -3,6 +3,8 @@ Feature: multiBrowser
   Background:
     When I open '$actionsPage' url
 
+  @bidi
+  @wd
   Scenario: new browser
     Then I expect current url to contain 'actions.html'
     When I open new browser as 'browser2'

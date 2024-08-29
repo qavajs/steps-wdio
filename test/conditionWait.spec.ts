@@ -218,19 +218,18 @@ test.each([
 
 test('to be in viewport', async () => {
     const element = {
-        waitUntil: mocks.waitUntil,
-        isDisplayedInViewport: async () => false
+        waitForDisplayed: mocks.waitForDisplayed
     };
     const timeout = 1;
     const waitFn = getConditionWait('to be in viewport');
     await waitFn(element as WebdriverIO.Element, timeout as number);
-    expect(mocks.waitUntil).toBeCalledTimes(1);
-    const firstCall = mocks.waitUntil.mock.calls[0];
-    expect(await firstCall[0].apply(element)).toEqual(false);
-    expect(firstCall[1]).toEqual({
+    expect(mocks.waitForDisplayed).toBeCalledTimes(1);
+    expect(mocks.waitForDisplayed).toBeCalledWith({
+        reverse: false,
         timeout,
-        timeoutMsg: 'Element is not in viewport'
-    })
+        timeoutMsg: 'Element is not in viewport',
+        withinViewport: true
+    });
 });
 
 test('should throw an error if validation is not implemented', async () => {

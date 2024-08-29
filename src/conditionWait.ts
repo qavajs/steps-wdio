@@ -57,13 +57,16 @@ const waits = {
         reverse: boolean,
         timeout: number,
         timeoutMsg: string
-    ) => element.waitUntil(async function(this: WebdriverIO.Element) {
-        return (await this.isDisplayedInViewport() !== reverse)
-    }, {timeout, timeoutMsg})
+    ) => element.waitForDisplayed({
+        withinViewport: true,
+        reverse,
+        timeout,
+        timeoutMsg
+    })
 }
 /**
  * Wait for condition
- * @param {WebdriverIO.Element} element - protractor element
+ * @param {WebdriverIO.Element} element - wdio element
  * @param {string} validationType - validation to perform
  * @param {number} [timeout] - timeout to wait
  * @param {boolean} [reverse] - negate flag

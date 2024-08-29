@@ -1,6 +1,19 @@
 import { When } from '@cucumber/cucumber';
-import { getValue } from './transformers';
-import { parseCoords } from './utils';
+import { getElement, getValue } from './transformers';
+import { parseCoords, virtualPointer } from './utils';
+import { conditionValidations, conditionWait } from './conditionWait';
+
+/**
+ * Hover over element
+ * @param {string} alias - element to hover over
+ * @example I hover over 'Google Button'
+ */
+When('I hover over {string}', async function (alias: string) {
+    const element = await getElement(alias);
+    await conditionWait(element, conditionValidations.VISIBLE, config.browser.timeout.visible);
+    await element.moveTo();
+    virtualPointer.hover(element);
+});
 
 /**
  * Press mouse button
@@ -8,7 +21,11 @@ import { parseCoords } from './utils';
  * @example When I press left mouse button
  */
 When('I press {wdioMouseButton} mouse button', async function (button) {
-    await browser.action('pointer').down(button).perform(true);
+    await browser
+        .action('pointer')
+        .move({ ...virtualPointer.pointer() })
+        .down(button)
+        .perform(true);
 });
 
 /**
@@ -17,7 +34,11 @@ When('I press {wdioMouseButton} mouse button', async function (button) {
  * @example When I release left mouse button
  */
 When('I release {wdioMouseButton} mouse button', async function (button) {
-    await browser.action('pointer').up(button).perform(true);
+    await browser
+        .action('pointer')
+        .move({ ...virtualPointer.pointer() })
+        .up(button)
+        .perform(true);
 });
 
 /**
@@ -27,7 +48,11 @@ When('I release {wdioMouseButton} mouse button', async function (button) {
  */
 When('I move mouse to {string}', async function (coords){
     const [x, y] = parseCoords(await getValue(coords));
-    await browser.action('pointer').move(x, y).perform(true);
+    virtualPointer.move(x, y);
+    await browser
+        .action('pointer')
+        .move({ ...virtualPointer.pointer() })
+        .perform(true);
 });
 
 /**
@@ -37,5 +62,13 @@ When('I move mouse to {string}', async function (coords){
  */
 When('I scroll mouse wheel by {string}', async function (offset) {
     const [deltaX, deltaY] = parseCoords(await getValue(offset));
-    await browser.action('wheel').scroll({ deltaX, deltaY, duration: 100 }).perform(true);
+    await browser
+        .action('wheel')
+        .scroll({
+            deltaX,
+            deltaY,
+            duration: 100,
+            ...virtualPointer.wheel()
+        })
+        .perform(true);
 });

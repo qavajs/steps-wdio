@@ -1,20 +1,21 @@
 import Memory from './memory';
 import App from './page_object';
 import localServer from './support/server';
-import {IQavajsWdioConfig} from "../src/IQavajsWdioConfig";
+import { IQavajsWdioConfig } from '../src/IQavajsWdioConfig';
 
 const common = {
     paths: ['test-e2e/features/*.feature'],
     require: ['test-e2e/step-definitions/*.ts', 'src/*.ts'],
     browser: {
         logLevel: 'warn',
-        automationProtocol: 'devtools',
         capabilities: {
             browserName: 'chrome',
+            'wdio:enforceWebDriverClassic': true,
             'goog:chromeOptions': {
                 args: [
                     '--headless',
-                    '--window-size=1280,720'
+                    '--window-size=1280,720',
+                    '--disable-search-engine-choice-screen'
                 ]
             }
         }
@@ -38,43 +39,63 @@ const common = {
     defaultTimeout: 30000
 } as IQavajsWdioConfig
 
-export default common;
-
-export const debug = {
+export const wd = {
     ...common,
-    tags: '@debug',
-    retry: 0,
-    parallel: 1,
+    tags: '@wd'
+};
+
+export const bidi = {
+    ...common,
+    tags: '@debug and @bidi',
     browser: {
         logLevel: 'warn',
-        automationProtocol: 'devtools',
         capabilities: {
             browserName: 'chrome',
             'goog:chromeOptions': {
                 args: [
-                    '--window-size=1280,720'
+                    '--headless',
+                    '--window-size=1280,720',
+                    '--disable-search-engine-choice-screen'
                 ]
             }
-        },
-        snapshot: ['afterStep'],
-        screenshot: ['afterStep'],
+        }
     },
 }
-
-export const webdriver = {
+export const debugWd = {
     ...common,
+    tags: '@debug and @wd',
+    retry: 0,
+    parallel: 1,
     browser: {
-        ...common.browser,
-        automationProtocol: 'webdriver',
+        logLevel: 'warn',
+        capabilities: {
+            browserName: 'chrome',
+            'wdio:enforceWebDriverClassic': true,
+            'goog:chromeOptions': {
+                args: [
+                    '--window-size=1280,720',
+                    '--disable-search-engine-choice-screen'
+                ]
+            }
+        }
     },
-    defaultTimeout: 30000
 }
 
-export const debugWebdriver = {
-    ...debug,
+export const debugBidi = {
+    ...common,
+    tags: '@debug and @bidi',
+    retry: 0,
+    parallel: 1,
     browser: {
-        ...debug.browser,
-        automationProtocol: 'webdriver',
+        logLevel: 'warn',
+        capabilities: {
+            browserName: 'chrome',
+            'goog:chromeOptions': {
+                args: [
+                    '--window-size=1280,720',
+                    '--disable-search-engine-choice-screen'
+                ]
+            }
+        }
     },
-    defaultTimeout: 30000
 }
