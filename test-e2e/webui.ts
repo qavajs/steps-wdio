@@ -46,7 +46,7 @@ export const wd = {
 
 export const bidi = {
     ...common,
-    tags: '@debug and @bidi',
+    tags: '@bidi',
     browser: {
         logLevel: 'warn',
         capabilities: {

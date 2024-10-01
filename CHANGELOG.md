@@ -9,6 +9,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :x: - deprecation
 :pencil: - chore
 
+## [0.55.1]
+- :pencil: update wdio dependency
+
 ## [0.55.0]
 - :rocket: upgraded to wdio9 (devtools protocol is deprecated)
   Breaking changes: 
