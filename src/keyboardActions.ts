@@ -8,7 +8,7 @@ import { parseKeySequence } from './utils';
  */
 When('I hold down {string} key', async function (key) {
     const [keyToPress] = parseKeySequence(key);
-    await browser.action('key').down(keyToPress).perform(true);
+    await this.wdio.browser.action('key').down(keyToPress).perform(true);
 });
 
 /**
@@ -18,5 +18,5 @@ When('I hold down {string} key', async function (key) {
  */
 When('I release {string} key', async function (key) {
     const [keyToPress] = parseKeySequence(key);
-    await browser.action('key').up(keyToPress).perform();
+    await this.wdio.browser.action('key').up(keyToPress).perform();
 });

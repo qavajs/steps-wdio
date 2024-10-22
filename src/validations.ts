@@ -1,12 +1,6 @@
 import { Then } from '@cucumber/cucumber';
-import { conditionWait, conditionValidations } from './conditionWait';
-import {
-    getValue,
-    getElement,
-    getConditionWait
-} from './transformers';
-import { getValidation, getPollValidation } from '@qavajs/validation';
-import { isImmediate, checkIfCollection } from './utils';
+import { type Validation, type MemoryValue } from '@qavajs/cli';
+import { Locator } from './pageObject';
 
 /**
  * Verify element condition
@@ -16,10 +10,8 @@ import { isImmediate, checkIfCollection } from './utils';
  * @example I expect 'Loading' not to be present
  * @example I expect 'Search Bar > Submit Button' to be clickable
  */
-Then('I expect {string} {wdioConditionWait}', async function (alias: string, condition: string) {
-    const element = await getElement(alias, { immediate: isImmediate(condition) });
-    const wait = getConditionWait(condition);
-    await wait(element, config.browser.timeout.page);
+Then('I expect {wdioLocator} {wdioCondition}', async function (element: any, condition: Function) {
+    await condition(element(), this.config.browser.timeout.page);
 });
 
 /**
@@ -31,16 +23,13 @@ Then('I expect {string} {wdioConditionWait}', async function (alias: string, con
  * @example I expect text of '#2 of Search Results' does not contain 'yandex'
  */
 Then(
-    'I expect text of {string} {wdioValidation} {string}',
-    async function (alias: string, validationType: string, value: any) {
-        const expectedValue = await getValue(value);
-        const element = await getElement(alias);
-        const validation = getPollValidation(validationType);
-        await conditionWait(element, conditionValidations.PRESENT, config.browser.timeout.present);
-        const elementText = () => element.getText();
-        await validation(elementText, expectedValue, {
-            timeout: config.browser.timeout.value,
-            interval: config.browser.timeout.valueInterval
+    'I expect text of {wdioLocator} {validation} {value}',
+    async function (element: Locator, validation: Validation, expected: MemoryValue) {
+        const expectedValue = await expected.value();
+        const elementText = () => element().getText();
+        await validation.poll(elementText, expectedValue, {
+            timeout: this.config.browser.timeout.value,
+            interval: this.config.browser.timeout.valueInterval
         });
     }
 );
@@ -55,14 +44,13 @@ Then(
  * @example I expect number of elements in 'Search Results' collection to be below '51'
  */
 Then(
-    'I expect number of elements in {string} collection {wdioValidation} {string}',
-    async function (alias: string, validationType: string, value: string) {
-        const expectedValue = await getValue(value);
-        const collectionLength = () => getElement(alias).then(collection => (collection as WebdriverIO.ElementArray).length);
-        const validation = getPollValidation(validationType);
-        await validation(collectionLength, expectedValue, {
-            timeout: config.browser.timeout.value,
-            interval: config.browser.timeout.valueInterval
+    'I expect number of elements in {wdioLocator} collection {validation} {value}',
+    async function (locator: Locator, validation: Validation, expected: MemoryValue) {
+        const collectionLength = () => locator.collection().length;
+        const expectedValue = await expected.value();
+        await validation.poll(collectionLength, expectedValue, {
+            timeout: this.config.browser.timeout.value,
+            interval: this.config.browser.timeout.valueInterval
         });
     }
 );
@@ -76,16 +64,13 @@ Then(
  * @example I expect value of 'Label' to contain '<b>'
  */
 Then(
-    'I expect value of {string} {wdioValidation} {string}',
-    async function (alias: string, validationType: string, value: string) {
-        const expectedValue = await getValue(value);
-        const element = await getElement(alias);
-        await conditionWait(element, conditionValidations.PRESENT, config.browser.timeout.present);
-        const actualValue = () => element.getProperty('value');
-        const validation = getPollValidation(validationType);
-        await validation(actualValue, expectedValue, {
-            timeout: config.browser.timeout.value,
-            interval: config.browser.timeout.valueInterval
+    'I expect value of {wdioLocator} {validation} {value}',
+    async function (element: Locator, validation: Validation, expected: MemoryValue) {
+        const actualValue = () => element().getValue();
+        const expectedValue = await expected.value();
+        await validation.poll(actualValue, expectedValue, {
+            timeout: this.config.browser.timeout.value,
+            interval: this.config.browser.timeout.valueInterval
         });
     }
 );
@@ -100,17 +85,14 @@ Then(
  * @example I expect 'innerHTML' property of 'Label' to contain '<b>'
  */
 Then(
-    'I expect {string} property of {string} {wdioValidation} {string}',
-    async function (property: string, alias: string, validationType: string, value: string) {
-        const propertyName = await getValue(property);
-        const expectedValue = await getValue(value);
-        const element = await getElement(alias);
-        await conditionWait(element, conditionValidations.PRESENT, config.browser.timeout.present);
-        const actualValue = () => element.getProperty(propertyName);
-        const validation = getPollValidation(validationType);
-        await validation(actualValue, expectedValue, {
-            timeout: config.browser.timeout.value,
-            interval: config.browser.timeout.valueInterval
+    'I expect {value} property of {wdioLocator} {validation} {value}',
+    async function (property: MemoryValue, element: Locator, validation: Validation, expected: MemoryValue) {
+        const propertyName = await property.value();
+        const expectedValue = await expected.value();
+        const actualValue = () => element().getProperty(propertyName);
+        await validation.poll(actualValue, expectedValue, {
+            timeout: this.config.browser.timeout.value,
+            interval: this.config.browser.timeout.valueInterval
         });
     }
 );
@@ -124,17 +106,14 @@ Then(
  * @example I expect 'href' attribute of 'Home Link' to contain '/home'
  */
 Then(
-    'I expect {string} attribute of {string} {wdioValidation} {string}',
-    async function (attribute: string, alias: string, validationType: string, value: string) {
-        const attributeName = await getValue(attribute);
-        const expectedValue = await getValue(value);
-        const element = await getElement(alias);
-        await conditionWait(element, conditionValidations.PRESENT, config.browser.timeout.present);
-        const actualValue = () => element.getAttribute(attributeName);
-        const validation = getPollValidation(validationType);
-        await validation(actualValue, expectedValue, {
-            timeout: config.browser.timeout.value,
-            interval: config.browser.timeout.valueInterval
+    'I expect {value} attribute of {wdioLocator} {validation} {value}',
+    async function (attribute: MemoryValue, element: Locator, validation: Validation, expected: MemoryValue) {
+        const attributeName = await attribute.value();
+        const expectedValue = await expected.value();
+        const actualValue = () => element().getAttribute(attributeName);
+        await validation.poll(actualValue, expectedValue, {
+            timeout: this.config.browser.timeout.value,
+            interval: this.config.browser.timeout.valueInterval
         });
     }
 );
@@ -147,14 +126,13 @@ Then(
  * @example I expect current url equals 'https://wikipedia.org'
  */
 Then(
-    'I expect current url {wdioValidation} {string}',
-    async function (validationType: string, expected: string) {
-        const expectedUrl = await getValue(expected);
-        const actualUrl = () => browser.getUrl();
-        const validation = getPollValidation(validationType);
-        await validation(actualUrl, expectedUrl, {
-            timeout: config.browser.timeout.value,
-            interval: config.browser.timeout.valueInterval
+    'I expect current url {validation} {value}',
+    async function (validation: Validation, expected: MemoryValue) {
+        const expectedUrl = await expected.value();
+        const actualUrl = () => this.wdio.browser.getUrl();
+        await validation.poll(actualUrl, expectedUrl, {
+            timeout: this.config.browser.timeout.value,
+            interval: this.config.browser.timeout.valueInterval
         });
     }
 );
@@ -166,14 +144,13 @@ Then(
  * @example I expect page title equals 'Wikipedia'
  */
 Then(
-    'I expect page title {wdioValidation} {string}',
-    async function (validationType: string, expected: string) {
-        const expectedTitle = await getValue(expected);
-        const actualTitle = () => browser.getTitle();
-        const validation = getPollValidation(validationType);
-        await validation(actualTitle, expectedTitle, {
-            timeout: config.browser.timeout.value,
-            interval: config.browser.timeout.valueInterval
+    'I expect page title {validation} {value}',
+    async function (validation: Validation, expected: MemoryValue) {
+        const expectedTitle = await expected.value();
+        const actualTitle = () => this.wdio.browser.getTitle();
+        await validation.poll(actualTitle, expectedTitle, {
+            timeout: this.config.browser.timeout.value,
+            interval: this.config.browser.timeout.valueInterval
         });
     }
 );
@@ -187,16 +164,12 @@ Then(
  * @example I expect text of every element in 'Search Results' collection does not contain 'yandex'
  */
 Then(
-    'I expect text of every element in {string} collection {wdioValidation} {string}',
-    async function (alias: string, validationType: string, value: string) {
-        const expectedValue = await getValue(value);
-        const collection = await getElement(alias);
-        checkIfCollection(alias, collection);
-        const validation = getValidation(validationType);
+    'I expect text of every element in {wdioLocator} collection {validation} {value}',
+    async function (locator: Locator, validation: Validation, expected: MemoryValue) {
+        const expectedValue = await expected.value();
+        const collection = await locator.collection().getElements();
         for (const element of collection) {
-            await conditionWait(await element, conditionValidations.PRESENT, config.browser.timeout.present);
-            const elementText: string = await (await element).getText();
-            validation(elementText, expectedValue);
+            validation(await element.getText(), expectedValue);
         }
     }
 );
@@ -208,11 +181,9 @@ Then(
  * @example I expect every element in 'Header > Links' collection to be visible
  * @example I expect every element in 'Loading Bars' collection not to be present
  */
-Then('I expect every element in {string} collection {wdioConditionWait}', async function (alias: string, condition: string) {
-    const collection = await getElement(alias);
-    checkIfCollection(alias, collection);
-    const wait = getConditionWait(condition);
-    const conditionWait = (element: WebdriverIO.Element) => wait(element, config.browser.timeout.page);
+Then('I expect every element in {wdioLocator} collection {wdioCondition}', async function (locator: Locator, condition: Function) {
+    const collection = locator.collection();
+    const conditionWait = (element: WebdriverIO.Element) => condition(element, this.config.browser.timeout.page);
     await Promise.all(await collection.map(conditionWait))
 });
 
@@ -224,15 +195,13 @@ Then('I expect every element in {string} collection {wdioConditionWait}', async 
  * @example I expect 'href' attribute of every element in 'Search Results' collection to contain 'google'
  */
 Then(
-    'I expect {string} attribute of every element in {string} collection {wdioValidation} {string}',
-    async function (attribute: string, alias: string, validationType: string, value: string) {
-        const expectedValue = await getValue(value);
-        const collection = await getElement(alias);
-        checkIfCollection(alias, collection);
-        const validation = getValidation(validationType);
+    'I expect {value} attribute of every element in {wdioLocator} collection {validation} {value}',
+    async function (attribute: MemoryValue, locator: Locator, validation: Validation, expected: MemoryValue) {
+        const expectedValue = await expected.value();
+        const attributeName = await attribute.value();
+        const collection = await locator.collection().getElements();
         for (const element of collection) {
-            await conditionWait(await element, conditionValidations.PRESENT, config.browser.timeout.present);
-            const value: string = await (await element).getAttribute(attribute);
+            const value: string = await element.getAttribute(attributeName);
             validation(value, expectedValue);
         }
     }
@@ -246,15 +215,13 @@ Then(
  * @example I expect 'href' property of every element in 'Search Results' collection to contain 'google'
  */
 Then(
-    'I expect {string} property of every element in {string} collection {wdioValidation} {string}',
-    async function (property: string, alias: string, validationType: string, value: string) {
-        const expectedValue = await getValue(value);
-        const collection = await getElement(alias);
-        checkIfCollection(alias, collection);
-        const validation = getValidation(validationType);
+    'I expect {value} property of every element in {wdioLocator} collection {validation} {value}',
+    async function (property: MemoryValue, locator: Locator, validation: Validation, expected: MemoryValue) {
+        const expectedValue = await expected.value();
+        const propertyName = await property.value();
+        const collection = await locator.collection().getElements();
         for (const element of collection) {
-            await conditionWait(await element, conditionValidations.PRESENT, config.browser.timeout.present);
-            const value: string = await (await element).getProperty(property) as string;
+            const value: string = await element.getProperty(propertyName);
             validation(value, expectedValue);
         }
     }
@@ -270,19 +237,16 @@ Then(
  * @example I expect 'font-family' css property of 'Label' to contain 'Fira'
  */
 Then(
-    'I expect {string} css property of {string} {wdioValidation} {string}',
-    async function (property: string, alias: string, validationType: string, value: string) {
-        const propertyName = await getValue(property);
-        const expectedValue = await getValue(value);
-        const element = await getElement(alias);
-        await conditionWait(element, conditionValidations.PRESENT, config.browser.timeout.present);
-        const actualValue = () => browser.execute(function (element: WebdriverIO.Element, propertyName: string) {
-            return getComputedStyle(element as any).getPropertyValue(propertyName)
-        }, element as any, propertyName);
-        const validation = getPollValidation(validationType);
-        await validation(actualValue, expectedValue, {
-            timeout: config.browser.timeout.value,
-            interval: config.browser.timeout.valueInterval
+    'I expect {value} css property of {wdioLocator} {validation} {value}',
+    async function (property: MemoryValue, locator: Locator, validation: Validation, expected: MemoryValue) {
+        const propertyName = await property.value();
+        const expectedValue = await expected.value();
+        const actualValue = async () => this.wdio.browser.execute(function (element: HTMLElement, propertyName: string) {
+            return getComputedStyle(element).getPropertyValue(propertyName)
+        }, await locator().getElement(), propertyName);
+        await validation.poll(actualValue, expectedValue, {
+            timeout: this.config.browser.timeout.value,
+            interval: this.config.browser.timeout.valueInterval
         });
     }
 );
@@ -294,14 +258,12 @@ Then(
  * @param {string} value - expected text value
  * @example I expect text of alert does not contain 'coffee'
  */
-Then('I expect text of alert {wdioValidation} {string}', async function (validationType: string, expectedValue: string) {
-    const alertText = await browser.waitUntil(async () => {
-        return await browser.getAlertText();
+Then('I expect text of alert {validation} {value}', async function (validation: Validation, expected: MemoryValue) {
+    const alertText = await this.wdio.browser.waitUntil(async () => {
+        return await this.wdio.browser.getAlertText();
     }, {
-        timeout: config.browser.timeout.present,
+        timeout: this.config.browser.timeout.present,
         interval: 2000
     });
-    const expected = await getValue(expectedValue);
-    const validation = getValidation(validationType);
-    validation(alertText, expected);
+    validation(alertText, await expected.value());
 });

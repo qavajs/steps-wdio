@@ -1,53 +1,43 @@
 import { After, AfterStep, Before, BeforeStep, Status } from '@cucumber/cucumber';
 import defaultTimeouts from './defaultTimeouts';
-import { po } from '@qavajs/po';
 import { ScreenshotEvent, SnapshotEvent } from './events';
 import { equalOrIncludes, getEventValue } from './utils';
 import getSnapshot from './client_script/snapshot';
+import { element } from './pageObject';
 const remotePromise = import('webdriverio').then(wdio => wdio.remote);
 
-declare global {
-    var browser: WebdriverIO.Browser;
-    var driver: WebdriverIO.Browser;
-    var config: any;
-    var browsers: {
-        [browserName: string]: WebdriverIO.Browser
-    } | null;
-}
-
-Before({name: 'driver init'}, async function () {
+Before({name: 'Init wdio driver'}, async function () {
     const remote = await remotePromise;
-    const driverConfig = config.browser ?? config.driver;
+    const driverConfig = this.config.browser ?? this.config.driver;
     driverConfig.timeout = {
         ...defaultTimeouts,
         ...driverConfig.timeout
     };
-    global.config.driverConfig = driverConfig;
-    if ((!global.browser && driverConfig.reuseSession) || !driverConfig.reuseSession) {
-        global.browser = await remote(driverConfig) as WebdriverIO.Browser;
-        global.driver = global.browser;
+    this.config.driverConfig = driverConfig;
+    this.wdio = {};
+    if ((!this.browser && driverConfig.reuseSession) || !driverConfig.reuseSession) {
+        this.wdio.browser = this.wdio.driver = await remote(driverConfig);
     }
     this.log(`browser instance started:\n${JSON.stringify(driverConfig, null, 2)}`);
-    if (driverConfig.timeout.implicit > 0) await global.browser.setTimeout({ 'implicit': driverConfig.timeout.implicit });
-    po.init(browser, { timeout: driverConfig.timeout.element, logger: this });
-    po.register(config.pageObject);
+    if (driverConfig.timeout.implicit > 0) await this.wdio.browser.setTimeout({ 'implicit': driverConfig.timeout.implicit });
+    this.element = element;
 });
 
 BeforeStep(async function () {
-    const screenshotEvent = getEventValue(config?.driverConfig?.screenshot);
+    const screenshotEvent = getEventValue(this.config.driverConfig.screenshot);
     const isBeforeStepScreenshot = equalOrIncludes(screenshotEvent, ScreenshotEvent.BEFORE_STEP);
     if (isBeforeStepScreenshot) {
         try {
-            this.attach(await browser.takeScreenshot(), 'base64:image/png');
+            this.attach(await this.wdio.browser.takeScreenshot(), 'base64:image/png');
         } catch (err) {
             console.warn(err)
         }
     }
-    const snapshotEvent = getEventValue(config?.driverConfig?.snapshot);
+    const snapshotEvent = getEventValue(this.config.driverConfig.snapshot);
     const isBeforeStepSnapshot = equalOrIncludes(snapshotEvent, SnapshotEvent.BEFORE_STEP);
     if (isBeforeStepSnapshot) {
         try {
-            this.attach(Buffer.from(await browser.executeAsync(getSnapshot)).toString('base64'), 'text/html');
+            this.attach(Buffer.from(await this.wdio.browser.executeAsync(getSnapshot)).toString('base64'), 'text/html');
         } catch (err) {
             console.warn(err)
         }
@@ -55,7 +45,7 @@ BeforeStep(async function () {
 });
 
 AfterStep(async function (step) {
-    const screenshotEvent = getEventValue(config?.driverConfig?.screenshot);
+    const screenshotEvent = getEventValue(this.config.driverConfig.screenshot);
     const isAfterStepScreenshot = equalOrIncludes(screenshotEvent, ScreenshotEvent.AFTER_STEP);
     const isOnFailScreenshot = equalOrIncludes(screenshotEvent, ScreenshotEvent.ON_FAIL)
     try {
@@ -63,13 +53,13 @@ AfterStep(async function (step) {
             (isOnFailScreenshot && step.result?.status === Status.FAILED) ||
             isAfterStepScreenshot
         ) {
-            this.attach(await browser.takeScreenshot(), 'base64:image/png');
+            this.attach(await this.wdio.browser.takeScreenshot(), 'base64:image/png');
         }
     } catch (err) {
         console.warn(err)
     }
 
-    const snapshotEvent = getEventValue(config?.driverConfig?.snapshot);
+    const snapshotEvent = getEventValue(this.config.driverConfig.snapshot);
     const isAfterStepSnapshot = equalOrIncludes(snapshotEvent, SnapshotEvent.AFTER_STEP);
     const isOnFailSnapshot = equalOrIncludes(snapshotEvent, SnapshotEvent.ON_FAIL);
     try {
@@ -77,22 +67,16 @@ AfterStep(async function (step) {
             (isOnFailSnapshot && step.result?.status === Status.FAILED) ||
             isAfterStepSnapshot
         ) {
-            this.attach(Buffer.from(await browser.executeAsync(getSnapshot)).toString('base64'), 'text/html');
+            this.attach(Buffer.from(await this.wdio.browser.executeAsync(getSnapshot)).toString('base64'), 'text/html');
         }
     } catch (err) {
         console.warn(err)
     }
 });
 
-After({name: 'driver teardown'}, async function () {
-    if (global.browsers) {
-        for (const browserName in global.browsers) {
-            await global.browsers[browserName].deleteSession();
-            this.log(`${browserName} browser closed`);
-        }
-        global.browsers = null;
-    } else if (global.browser && !global.config.driverConfig.reuseSession) {
-        await browser.deleteSession();
+After({name: 'Shutdown wdio driver'}, async function () {
+    if (this.wdio.browser && !this.config.driverConfig.reuseSession) {
+        await this.wdio.browser.deleteSession();
         this.log('browser instance closed');
     }
 });

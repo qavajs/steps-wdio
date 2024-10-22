@@ -61,7 +61,7 @@ Feature: memory
   @wd
   Scenario: element css property
     When I save 'background-color' css property of 'Simple Text Input' as 'color'
-    When I save 'font-size' css property of '#1 of Simple Text List Items' as 'fontSize'
+    When I save 'font-size' css property of 'Simple Text List Item By Index (1)' as 'fontSize'
     Then I expect '$color' memory value to be equal 'rgb(95, 158, 160)'
     Then I expect '$fontSize' memory value to be equal '20px'
 

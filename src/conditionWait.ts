@@ -20,43 +20,43 @@ const waits = {
         element: WebdriverIO.Element,
         reverse: boolean,
         timeout: number,
-        timeoutMsg: string
+        timeoutMsg?: string
     ) => element.waitForExist({reverse, timeout, timeoutMsg}),
     [conditionValidations.CLICKABLE]: (
         element: WebdriverIO.Element,
         reverse: boolean,
         timeout: number,
-        timeoutMsg: string
+        timeoutMsg?: string
     ) => element.waitForClickable({reverse, timeout, timeoutMsg}),
     [conditionValidations.VISIBLE]: (
         element: WebdriverIO.Element,
         reverse: boolean,
         timeout: number,
-        timeoutMsg: string
+        timeoutMsg?: string
     ) => element.waitForDisplayed({reverse, timeout, timeoutMsg}),
     [conditionValidations.INVISIBLE]: (
         element: WebdriverIO.Element,
         reverse: boolean,
         timeout: number,
-        timeoutMsg: string
+        timeoutMsg?: string
     ) => element.waitForDisplayed({reverse: !reverse, timeout, timeoutMsg}),
     [conditionValidations.ENABLED]: (
         element: WebdriverIO.Element,
         reverse: boolean,
         timeout: number,
-        timeoutMsg: string
+        timeoutMsg?: string
     ) => element.waitForEnabled({reverse, timeout, timeoutMsg}),
     [conditionValidations.DISABLED]: (
         element: WebdriverIO.Element,
         reverse: boolean,
         timeout: number,
-        timeoutMsg: string
+        timeoutMsg?: string
     ) => element.waitForEnabled({reverse: !reverse, timeout, timeoutMsg}),
     [conditionValidations.IN_VIEWPORT]: (
         element: WebdriverIO.Element,
         reverse: boolean,
         timeout: number,
-        timeoutMsg: string
+        timeoutMsg?: string
     ) => element.waitForDisplayed({
         withinViewport: true,
         reverse,
@@ -77,8 +77,7 @@ export async function conditionWait(
     validationType: string,
     timeout: number = 10000,
     reverse: boolean = false
-) {
-    const timeoutMsg: string = `Element is${reverse ? '' : ' not'} ${validationType}`;
+): Promise<void> {
     const waitFn = waits[validationType];
-    await waitFn(element, reverse, timeout, timeoutMsg);
+    await waitFn(element, reverse, timeout);
 }
