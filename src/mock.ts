@@ -1,6 +1,6 @@
 import { When } from '@cucumber/cucumber';
-import { getValue } from './transformers';
 import memory from '@qavajs/memory';
+import {MemoryValue} from "@qavajs/cli";
 type ErrorReason = ('Failed' | 'Aborted' | 'TimedOut' | 'AccessDenied' | 'ConnectionClosed' | 'ConnectionReset' | 'ConnectionRefused' | 'ConnectionAborted' | 'ConnectionFailed' | 'NameNotResolved' | 'InternetDisconnected' | 'AddressUnreachable' | 'BlockedByClient' | 'BlockedByResponse');
 
 /**
@@ -10,15 +10,15 @@ type ErrorReason = ('Failed' | 'Aborted' | 'TimedOut' | 'AccessDenied' | 'Connec
  * @example When I create mock for '/yourservice/**' as 'mock1'
  * @example When I create mock for '$mockUrlTemplate' as 'mock1'
  */
-When('I create mock for {string} as {string}', async function (urlTemplate: string, memoryKey: string) {
-    const url = await getValue(urlTemplate);
-    memory.setValue(memoryKey, await browser.mock(url));
+When('I create mock for {value} as {value}', async function (urlTemplate: MemoryValue, memoryKey: MemoryValue) {
+    const url = await urlTemplate.value();
+    memoryKey.set(await this.wdio.browser.mock(url));
 });
 
-async function respondWith(mockKey: string, statusCode: string, body: string) {
-    const mock = await getValue(mockKey) as WebdriverIO.Mock;
-    const responseStatusCode: number = parseInt(await getValue(statusCode));
-    const responseBody = await getValue(body);
+async function respondWith(mockKey: MemoryValue, statusCode: MemoryValue, body: MemoryValue) {
+    const mock = await mockKey.value() as WebdriverIO.Mock;
+    const responseStatusCode: number = parseInt(await statusCode.value());
+    const responseBody = await body.value();
     mock.respond(responseBody, {
         statusCode: responseStatusCode
     });
@@ -30,7 +30,7 @@ async function respondWith(mockKey: string, statusCode: string, body: string) {
  * @param {string} statusCode - status code
  * @param {string} body - response body
  * @example
- * When I create mock for '/yourservice/**' with filter options as 'myServiceMock'
+ * When I create mock for '/yourservice/**' as 'myServiceMock'
  * And I set '$myServiceMock' mock to respond '200' with:
  * """
  * {
@@ -38,7 +38,7 @@ async function respondWith(mockKey: string, statusCode: string, body: string) {
  * }
  * """
  */
-When('I set {string} mock to respond {string} with:', respondWith);
+When('I set {value} mock to respond {value} with:', respondWith);
 
 /**
  * Add mocking rule to respond with desired status code and payload
@@ -46,22 +46,22 @@ When('I set {string} mock to respond {string} with:', respondWith);
  * @param {string} statusCode - status code
  * @param {string} body - response body
  * @example
- * When I create mock for '/yourservice/**' with filter options as 'myServiceMock'
+ * When I create mock for '/yourservice/**' as 'myServiceMock'
  * And I set '$myServiceMock' mock to respond '200' with '$response'
  */
-When('I set {string} mock to respond {string} with {string}', respondWith);
+When('I set {value} mock to respond {value} with {value}', respondWith);
 
 /**
  * Add mocking rule to abort request with certain reason
  * @param {string} mockKey - memory key to get mock instance
  * @param {string} reason - reason string see https://webdriver.io/docs/api/mock/abort
  * @example
- * When I create mock for '/yourservice/**' with filter options as 'myServiceMock'
+ * When I create mock for '/yourservice/**' as 'myServiceMock'
  * And I set '$myServiceMock' mock to abort with 'Failed' reason
  */
-When('I set {string} mock to abort with {string} reason', async function (mockKey: string, reason: string) {
-    const mock = await getValue(mockKey);
-    const errorCode: ErrorReason = await getValue(reason);
+When('I set {value} mock to abort with {value} reason', async function (mockKey: MemoryValue, reason: MemoryValue) {
+    const mock = await mockKey.value();
+    const errorCode: ErrorReason = await reason.value();
     mock.abort(errorCode);
 });
 
@@ -70,8 +70,8 @@ When('I set {string} mock to abort with {string} reason', async function (mockKe
  * @param {string} mockKey - memory key to get mock instance
  * @example When I restore '$myServiceMock'
  */
-When('I restore {string} mock', async function (mockKey: string) {
-    const mock = await getValue(mockKey);
+When('I restore {value} mock', async function (mockKey: MemoryValue) {
+    const mock = await mockKey.value();
     await mock.restore();
 });
 
@@ -80,5 +80,5 @@ When('I restore {string} mock', async function (mockKey: string) {
  * @example When I restore all mocks
  */
 When('I restore all mocks', async function () {
-    await browser.mockRestoreAll();
+    await this.wdio.browser.mockRestoreAll();
 });

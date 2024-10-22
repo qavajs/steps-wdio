@@ -1,1 +1,1 @@
-export * from '@qavajs/po';
+export { locator, type Locator } from 'src/pageObject';

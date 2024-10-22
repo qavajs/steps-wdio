@@ -9,6 +9,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :x: - deprecation
 :pencil: - chore
 
+## [2.0.0]
+- :rocket: initial implementation of v2
+
 ## [0.55.1]
 - :pencil: update wdio dependency
 

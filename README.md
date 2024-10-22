@@ -8,30 +8,30 @@ Step library to work with webdriverio in qavajs framework
 `npm install @qavajs/steps-wdio`
 
 ## Configuration
-```javascript
-const App = require('./page_object');
-module.exports = {
-    default: {
-        require: [
-            'node_modules/@qavajs/steps-wdio/index.js'
-        ],
-        browser: {
-            timeout: {
-                present: 10000,
-                visible: 20000,
-                clickable: 15000,
-                page: 10000,
-                implicit: 0, //wdio implicit wait for element,
-                element: 2000 ,//timeout to element to be accesible,
-                value: 5000, // expect value timeout
-                valueInterval: 500 //expect value interval
-            },
-            capabilities: {
-                browserName: 'chrome'
-            }
+
+```typescript
+import App from "./page_object";
+
+export default {
+    require: [
+        'node_modules/@qavajs/steps-wdio/index.js'
+    ],
+    browser: {
+        timeout: {
+            present: 10000,
+            visible: 20000,
+            clickable: 15000,
+            page: 10000,
+            implicit: 0, //wdio implicit wait for element,
+            element: 2000,//timeout to element to be accesible,
+            value: 5000, // expect value timeout
+            valueInterval: 500 //expect value interval
         },
-        pageObject: new App()
-    }
+        capabilities: {
+            browserName: 'chrome'
+        }
+    },
+    pageObject: App
 }
 ```
 
@@ -43,16 +43,14 @@ Supported events:
 - beforeStep
 - afterStep
 
-```javascript
-module.exports = {
-    default: {
-        browser: {
-            capabilities: {
-                browserName: 'chrome'
-            },
-            screenshot: {
-                event: ['onFail']
-            }
+```typescript
+export default {
+    browser: {
+        capabilities: {
+            browserName: 'chrome'
+        },
+        screenshot: {
+            event: ['onFail']
         }
     }
 }
@@ -65,16 +63,14 @@ Supported events:
 - beforeStep
 - afterStep
 
-```javascript
-module.exports = {
-    default: {
-        browser: {
-            capabilities: {
-                browserName: 'chrome'
-            },
-            snapshot: {
-                event: ['onFail']
-            }
+```typescript
+export default {
+    browser: {
+        capabilities: {
+            browserName: 'chrome'
+        },
+        snapshot: {
+            event: ['onFail']
         }
     }
 }
@@ -97,11 +93,9 @@ reuseSession flag allows to share session between tests in frames of process. Bu
 transfer session control to user.
 
 ```javascript
-module.exports = {
-    default: {
-        browser: {
-            reuseSession: true
-        }
+export default {
+    browser: {
+        reuseSession: true
     }
 }
 ```
