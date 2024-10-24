@@ -1,6 +1,6 @@
 import { When } from '@cucumber/cucumber';
-import { getValue } from './transformers';
 import memory from '@qavajs/memory';
+import {MemoryValue} from "@qavajs/core";
 
 /**
  * Set cookie
@@ -9,10 +9,10 @@ import memory from '@qavajs/memory';
  * @example I set 'userID' cookie 'user1'
  * @example I set 'userID' cookie '$userIdCookie'
  */
-When('I set {string} cookie as {string}', async function (cookie, value) {
-    const cookieValue = await getValue(value);
+When('I set {value} cookie as {value}', async function (cookie: MemoryValue, value: MemoryValue) {
+    const cookieValue = await value.value();
     const cookieObject = typeof cookieValue === 'object' ? cookieValue : { value: cookieValue };
-    await browser.setCookies([{ name: await getValue(cookie), ...cookieObject }]);
+    await this.wdio.browser.setCookies([{ name: await cookie.value(), ...cookieObject }]);
 });
 
 /**
@@ -21,7 +21,7 @@ When('I set {string} cookie as {string}', async function (cookie, value) {
  * @param {string} key - memory key
  * @example I save value of 'auth' cookie as 'authCookie'
  */
-When('I save value of {string} cookie as {string}', async function (cookie, key) {
-    const cookies = await browser.getCookies([await getValue(cookie)]);
-    memory.setValue(key, cookies.pop());
+When('I save value of {value} cookie as {value}', async function (cookie: MemoryValue, key: MemoryValue) {
+    const cookies = await this.wdio.browser.getCookies([await cookie.value()]);
+    key.set(cookies.pop());
 });

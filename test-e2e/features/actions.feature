@@ -11,32 +11,14 @@ Feature: actions
 
   @bidi
   @wd
-  Scenario: click with disabled actionability check
-    When I click 'Button' (disable actionability wait)
-    Then I expect text of 'Action' to be equal 'click'
-
-  @bidi
-  @wd
   Scenario: right click
     When I right click 'Button'
     Then I expect text of 'Action' to be equal 'rightclick'
 
   @bidi
   @wd
-  Scenario: right click with disabled actionability check
-    When I right click 'Button' (disable actionability wait)
-    Then I expect text of 'Action' to be equal 'rightclick'
-
-  @bidi
-  @wd
   Scenario: double click
     When I double click 'Button'
-    Then I expect text of 'Action' to be equal 'dblclick'
-
-  @bidi
-  @wd
-  Scenario: double click with disabled actionability check
-    When I double click 'Button' (disable actionability wait)
     Then I expect text of 'Action' to be equal 'dblclick'
 
   @bidi
@@ -199,18 +181,6 @@ Feature: actions
 
   @bidi
   @wd
-  Scenario: type in ignore hierarchy component
-    When I type 'test value' to 'Ignore Hierarchy Component > Input'
-    Then I expect text of 'Action' to be equal 'test value'
-
-  @bidi
-  @wd
-  Scenario: type in component without selector
-    When I type 'test value' to 'Component Without Selector > Input'
-    Then I expect text of 'Action' to be equal 'test value'
-
-  @bidi
-  @wd
   Scenario: upload file
     When I upload '$uploadFile' file to 'File Input'
     And I wait 3000 ms
@@ -277,4 +247,4 @@ Feature: actions
   @bidi
   @wd
   Scenario: scroll until visible in element
-    When I scroll in 'Infinite Scroll' until '#row 26 in Infinite Scroll Items' to be visible
+    When I scroll in 'Infinite Scroll' until 'Infinite Scroll Item By Index (26)' to be visible

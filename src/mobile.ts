@@ -1,17 +1,14 @@
 import { DataTable, When } from '@cucumber/cucumber';
-import { conditionValidations, conditionWait } from './conditionWait';
-import { getValue, getElement } from './transformers';
-import memory from '@qavajs/memory';
+import { Locator } from './pageObject';
+import {MemoryValue} from "@qavajs/core";
 
 /**
  * Tap element
  * @param {string} alias - element to tap
  * @example I tap 'Google Button'
  */
-When('I tap {string}', async function(alias: string) {
-    const element = await getElement(alias);
-    await conditionWait(element, conditionValidations.VISIBLE, config.browser.timeout.visible);
-    await element.click();
+When('I tap {wdioLocator}', async function(locator: Locator) {
+    await locator().click();
 });
 
 /**
@@ -19,7 +16,7 @@ When('I tap {string}', async function(alias: string) {
  * @example I shake device
  */
 When('I shake device', async function() {
-    await driver.shake();
+    await this.wdio.driver.shake();
 });
 
 /**
@@ -27,7 +24,7 @@ When('I shake device', async function() {
  * @example I lock device
  */
 When('I lock device', async function() {
-    await driver.lock();
+    await this.wdio.driver.lock();
 });
 
 /**
@@ -35,7 +32,7 @@ When('I lock device', async function() {
  * @example I unlock device
  */
 When('I unlock device', async function() {
-    await driver.unlock();
+    await this.wdio.driver.unlock();
 });
 
 /**
@@ -43,7 +40,7 @@ When('I unlock device', async function() {
  * @example I lock device for 2 sec
  */
 When('I lock device for {int} sec', async function(time) {
-    await driver.lock(time);
+    await this.wdio.driver.lock(time);
 });
 
 /**
@@ -52,8 +49,8 @@ When('I lock device for {int} sec', async function(time) {
  * @param {string} message - the SMS message
  * @example I send sms to '5551234567' with 'some text' message
  */
-When('I send sms to {string} with {string} message', async function(phoneNumber: string, message: string) {
-    await driver.sendSms(await getValue(phoneNumber), await getValue(message));
+When('I send sms to {value} with {value} message', async function(phoneNumber: MemoryValue, message: MemoryValue) {
+    await this.wdio.driver.sendSms(await phoneNumber.value(), await message.value());
 });
 
 /**
@@ -61,8 +58,8 @@ When('I send sms to {string} with {string} message', async function(phoneNumber:
  * @param {string} phoneNumber - the phone number to make call
  * @example I call to '5551234567'
  */
-When('I call to {string}', async function(phoneNumber: string) {
-    await driver.gsmCall(await getValue(phoneNumber), 'call');
+When('I call to {value}', async function(phoneNumber: MemoryValue) {
+    await this.wdio.driver.gsmCall(await phoneNumber.value(), 'call');
 });
 
 /**
@@ -79,21 +76,21 @@ When('I call to {string}', async function(phoneNumber: string) {
  *   | release |        |
  */
 When('I perform touch action:', async function(actionsTable: DataTable) {
-    const { width, height } = await driver.getWindowSize();
+    const { width, height } = await this.wdio.driver.getWindowSize();
     const actions = await Promise.all(actionsTable.raw().map(async ([action, params]) => {
         const options: any = {};
         if (action === 'press' || action === 'moveTo') {
             const [x, y] = await Promise.all(
-                params.split(/\s*,\s*/).map(async p => parseFloat(await getValue(p)))
+                params.split(/\s*,\s*/).map(async p => parseFloat(await this.getValue(p)))
             );
             options.x = width * x / 100;
             options.y = height * y / 100;
         } else if (action === 'wait') {
-            options.ms = parseFloat(await getValue(params))
+            options.ms = parseFloat(await this.getValue(params))
         }
         return { action, options }
     }));
-    await driver.touchPerform(actions);
+    await this.wdio.driver.touchPerform(actions);
 });
 
 /**
@@ -102,8 +99,8 @@ When('I perform touch action:', async function(actionsTable: DataTable) {
  * @example
  * When I perform touch action '$actions'
  */
-When('I perform touch action {string}', async function (actionsAlias: string) {
-    await driver.touchPerform(await getValue(actionsAlias));
+When('I perform touch action {value}', async function (actions: MemoryValue) {
+    await this.wdio.driver.touchPerform(await actions.value());
 });
 
 /**
@@ -113,11 +110,11 @@ When('I perform touch action {string}', async function (actionsAlias: string) {
  * @example
  * When I push '$fileData' file as '/data/local/tmp/foo.bar'
  */
-When('I push {string} file as {string}', async function (file, path) {
-    const fileData = await getValue(file);
-    const devicePath = await getValue(path);
+When('I push {value} file as {value}', async function (file: MemoryValue, path: MemoryValue) {
+    const fileData = await file.value();
+    const devicePath = await path.value();
     const base64Content = fileData instanceof Buffer ? fileData.toString('base64') : fileData;
-    await driver.pushFile(devicePath, base64Content);
+    await this.wdio.driver.pushFile(devicePath, base64Content);
 });
 
 /**
@@ -127,8 +124,7 @@ When('I push {string} file as {string}', async function (file, path) {
  * @example
  * When I pull '/data/local/tmp/foo.bar' file as 'fileData'
  */
-When('I pull {string} file as {string}', async function (path, memoryKey) {
-    const devicePath = await getValue(path);
-    const fileData = await driver.pullFile(devicePath);
-    memory.setValue(memoryKey, fileData);
+When('I pull {value} file as {value}', async function (path: MemoryValue, key: MemoryValue) {
+    const fileData = await this.wdio.driver.pullFile(await path.value());
+    key.set(fileData);
 });

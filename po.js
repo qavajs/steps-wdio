@@ -1,1 +1,1 @@
-module.exports = require('@qavajs/po');
+module.exports = require('./lib/pageObject');

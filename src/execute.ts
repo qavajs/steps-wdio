@@ -1,6 +1,6 @@
 import { When } from '@cucumber/cucumber';
-import { getValue, getElement } from './transformers';
-import memory from '@qavajs/memory';
+import { MemoryValue } from '@qavajs/core';
+import { Locator } from './pageObject';
 
 /**
  * Execute client function
@@ -8,9 +8,8 @@ import memory from '@qavajs/memory';
  * @example I execute '$fn' function // fn is function reference
  * @example I execute 'window.scrollBy(0, 100)' function
  */
-When('I execute {string} function', async function (functionKey) {
-    const fn = await getValue(functionKey);
-    await browser.execute(fn);
+When('I execute {value} function', async function (functionKey: MemoryValue) {
+    await this.wdio.browser.execute(await functionKey.value());
 });
 
 /**
@@ -20,9 +19,8 @@ When('I execute {string} function', async function (functionKey) {
  * @example I execute '$fn' function and save result as 'result' // fn is function reference
  * @example I execute 'window.scrollY' function and save result as 'scroll'
  */
-When('I execute {string} function and save result as {string}', async function (functionKey, memoryKey) {
-    const fn = await getValue(functionKey);
-    memory.setValue(memoryKey, await browser.execute(fn));
+When('I execute {value} function and save result as {value}', async function (functionKey: MemoryValue, memoryKey: MemoryValue) {
+    memoryKey.set(await this.wdio.browser.execute(await functionKey.value()));
 });
 
 /**
@@ -32,10 +30,10 @@ When('I execute {string} function and save result as {string}', async function (
  * @example I execute '$fn' function on 'Component > Element' // fn is function reference
  * @example I execute 'arguments[0].scrollIntoView()' function on 'Component > Element'
  */
-When('I execute {string} function on {string}', async function (functionKey, alias) {
-    const fn = await getValue(functionKey);
-    const element = await getElement(alias);
-    await browser.execute(fn, element);
+When('I execute {value} function on {wdioLocator}', async function (functionKey: MemoryValue, locator: Locator) {
+    const fn = await functionKey.value();
+    const element = locator();
+    await this.wdio.browser.execute(fn, await element.getElement());
 });
 
 /**
@@ -46,10 +44,10 @@ When('I execute {string} function on {string}', async function (functionKey, ali
  * @example I execute 'arguments[0].innerText' function on 'Component > Element' and save result as 'innerText'
  */
 When(
-    'I execute {string} function on {string} and save result as {string}',
-    async function (functionKey, alias, memoryKey) {
-        const fn = await getValue(functionKey);
-        const element = await getElement(alias);
-        memory.setValue(memoryKey, await browser.execute(fn, element));
+    'I execute {value} function on {wdioLocator} and save result as {value}',
+    async function (functionKey: MemoryValue, locator: Locator, memoryKey: MemoryValue) {
+        const fn = await functionKey.value();
+        const element = locator();
+        memoryKey.set(await this.wdio.browser.execute(fn, await element.getElement()));
     }
 );

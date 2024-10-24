@@ -33,7 +33,7 @@ const common = {
     },
     service: [localServer],
     memory: new Memory(),
-    pageObject: new App(),
+    pageObject: App,
     parallel: 4,
     retry: 1,
     defaultTimeout: 30000

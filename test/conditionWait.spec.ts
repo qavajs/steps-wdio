@@ -1,4 +1,4 @@
-import { getConditionWait } from '../src/transformers';
+import { getConditionWait } from '../src/conditionWait';
 import { conditionWait } from '../src/conditionWait';
 import { beforeEach, test, vi, expect } from 'vitest';
 
@@ -19,7 +19,7 @@ type TestParams = {
     reverse: boolean,
     timeout: number | undefined,
     expectedTimeout: number,
-    timeoutMsg: string,
+    timeoutMsg?: string,
 };
 
 const mocks: any = {
@@ -39,7 +39,6 @@ const presentTests: Array<TestParams> = [
         reverse: false,
         timeout: 1,
         expectedTimeout: 1,
-        timeoutMsg: 'Element is not present',
     },
     {
         name: 'not to be present',
@@ -49,7 +48,6 @@ const presentTests: Array<TestParams> = [
         reverse: true,
         timeout: 1,
         expectedTimeout: 1,
-        timeoutMsg: 'Element is present',
     }
 ]
 
@@ -62,7 +60,6 @@ const clickableTests: Array<TestParams> = [
         reverse: false,
         timeout: 1,
         expectedTimeout: 1,
-        timeoutMsg: 'Element is not clickable',
     },
     {
         name: 'not to be clickable',
@@ -72,7 +69,6 @@ const clickableTests: Array<TestParams> = [
         reverse: true,
         timeout: 1,
         expectedTimeout: 1,
-        timeoutMsg: 'Element is clickable',
     }
 ]
 
@@ -85,7 +81,6 @@ const visibleTests: Array<TestParams> = [
         reverse: false,
         timeout: 1,
         expectedTimeout: 1,
-        timeoutMsg: 'Element is not visible',
     },
     {
         name: 'not to be visible',
@@ -95,7 +90,6 @@ const visibleTests: Array<TestParams> = [
         reverse: true,
         timeout: 1,
         expectedTimeout: 1,
-        timeoutMsg: 'Element is visible',
     }
 ]
 
@@ -108,7 +102,6 @@ const invisibleTests: Array<TestParams> = [
         reverse: true,
         timeout: 1,
         expectedTimeout: 1,
-        timeoutMsg: 'Element is not invisible',
     },
     {
         name: 'not to be invisible',
@@ -118,7 +111,6 @@ const invisibleTests: Array<TestParams> = [
         reverse: false,
         timeout: 1,
         expectedTimeout: 1,
-        timeoutMsg: 'Element is invisible',
     }
 ]
 
@@ -131,7 +123,6 @@ const enabledTests: Array<TestParams> = [
         reverse: false,
         timeout: 1,
         expectedTimeout: 1,
-        timeoutMsg: 'Element is not enabled',
     },
     {
         name: 'not to be enabled',
@@ -141,7 +132,6 @@ const enabledTests: Array<TestParams> = [
         reverse: true,
         timeout: 1,
         expectedTimeout: 1,
-        timeoutMsg: 'Element is enabled',
     }
 ];
 
@@ -153,8 +143,7 @@ const disabledTests: Array<TestParams> = [
         expectedWait: 'waitForEnabled',
         reverse: true,
         timeout: 1,
-        expectedTimeout: 1,
-        timeoutMsg: 'Element is not disabled',
+        expectedTimeout: 1
     },
     {
         name: 'not to be disabled',
@@ -164,7 +153,6 @@ const disabledTests: Array<TestParams> = [
         reverse: false,
         timeout: 1,
         expectedTimeout: 1,
-        timeoutMsg: 'Element is disabled',
     }
 ];
 
@@ -177,7 +165,6 @@ const extraTests: Array<TestParams> = [
         reverse: false,
         timeout: undefined,
         expectedTimeout: 10000,
-        timeoutMsg: 'Element is not visible',
     }
 ]
 
@@ -227,7 +214,6 @@ test('to be in viewport', async () => {
     expect(mocks.waitForDisplayed).toBeCalledWith({
         reverse: false,
         timeout,
-        timeoutMsg: 'Element is not in viewport',
         withinViewport: true
     });
 });
@@ -245,6 +231,5 @@ test('should use default reverse and timeout', async () => {
     expect(mocks.waitForDisplayed).toBeCalledWith({
         reverse: false,
         timeout: 10000,
-        timeoutMsg: 'Element is not visible'
     });
 });

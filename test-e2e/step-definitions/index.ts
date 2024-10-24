@@ -2,17 +2,6 @@ import { Then } from '@cucumber/cucumber';
 import memory from '@qavajs/memory';
 import { expect } from 'chai';
 
-declare global {
-    var browser: WebdriverIO.Browser;
-    var driver: WebdriverIO.Browser;
-    var config: any;
-}
-
-Then('I expect globals to be defined', function () {
-    expect(browser).not.to.be.undefined;
-    expect(driver).not.to.be.undefined;
-});
-
 Then('I expect {string} memory value to be equal {string}', async function(actual, expected) {
     const actualValue = await memory.getValue(actual);
     const expectedValue = await memory.getValue(expected);
@@ -26,6 +15,6 @@ Then('I expect {string} memory value to be defined', async function(actual) {
 
 Then('I expect viewport size to equal {string}', async function (expectedSize) {
     const expectedValue = await memory.getValue(expectedSize);
-    const actualValue = await browser.getWindowSize();
+    const actualValue = await this.wdio.browser.getWindowSize();
     expect(actualValue).to.deep.equal(expectedValue, 'Viewport size do not match');
 })
