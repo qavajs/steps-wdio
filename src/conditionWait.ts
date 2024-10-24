@@ -81,3 +81,12 @@ export async function conditionWait(
     const waitFn = waits[validationType];
     await waitFn(element, reverse, timeout);
 }
+
+export function getConditionWait(condition: string): Function {
+    const match = condition.match(conditionWaitExtractRegexp) as RegExpMatchArray;
+    if (!match) throw new Error(`${condition} wait is not implemented`);
+    const [ _, reverse, validation ] = match;
+    return async function (element: WebdriverIO.Element, timeout: number) {
+        await conditionWait(element, validation, timeout, Boolean(reverse));
+    }
+}
