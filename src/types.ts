@@ -1,14 +1,5 @@
 import { defineParameterType } from '@cucumber/cucumber';
-import { conditionWait, conditionWaitExtractRegexp } from './conditionWait';
-
-export function getConditionWait(condition: string): Function {
-    const match = condition.match(conditionWaitExtractRegexp) as RegExpMatchArray;
-    if (!match) throw new Error(`${condition} wait is not implemented`);
-    const [ _, reverse, validation ] = match;
-    return async function (element: WebdriverIO.Element, timeout: number) {
-        await conditionWait(element, validation, timeout, Boolean(reverse));
-    }
-}
+import { getConditionWait } from './conditionWait';
 
 function transformString(fn: (value: string) => any) {
     return function (s1: string, s2: string) {

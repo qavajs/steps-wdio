@@ -1,5 +1,5 @@
 import { Then } from '@cucumber/cucumber';
-import { type Validation, type MemoryValue } from '@qavajs/cli';
+import { type Validation, type MemoryValue } from '@qavajs/core';
 import { Locator } from './pageObject';
 
 /**

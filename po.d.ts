@@ -1,1 +1,1 @@
-export { locator, type Locator } from 'src/pageObject';
+export { locator, type Locator } from './src/pageObject';

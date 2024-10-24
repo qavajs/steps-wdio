@@ -1,7 +1,7 @@
 import { When } from '@cucumber/cucumber';
 import { parseCoords, virtualPointer } from './utils';
 import { Locator } from './pageObject';
-import {MemoryValue} from "@qavajs/cli";
+import {MemoryValue} from "@qavajs/core";
 
 /**
  * Hover over element
