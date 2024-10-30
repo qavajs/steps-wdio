@@ -4,7 +4,7 @@ Feature: validations
     When I open '$valuesPage' url
 
   @bidi
-  @wd @debug
+  @wd
   Scenario: element text
     Then I expect text of 'Simple Text Element' to be equal 'text value'
     Then I expect text of 'Simple Text Element' to contain 'text val'
