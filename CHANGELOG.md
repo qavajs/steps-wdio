@@ -10,7 +10,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :pencil: - chore
 
 ## [2.0.0]
-- :rocket: initial implementation of v2
+- :rocket: new page object approach
 
 ## [0.55.1]
 - :pencil: update wdio dependency

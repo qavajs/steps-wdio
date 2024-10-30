@@ -2,6 +2,8 @@ import { locator } from '../../src/pageObject';
 
 export default class App {
     SimpleTextElement = locator('#textValue');
+    SimpleTextElementTemplate = locator.template(selector => selector)
+    SimpleTextElementNative = locator.native(({ browser }) => browser.$('#textValue'))
     SimpleTextListItems = locator(`#textValueList li`);
     SimpleTextListItemByIndex = locator.template(idx => `#textValueList li:nth-child(${idx})`);
     SimpleTextListItemByText = locator.template(text => `//ul[@id="textValueList"]/li[contains(., "${text}")]`);
@@ -66,4 +68,12 @@ export default class App {
     Coin= locator('#coin');
     DigitInput = locator('#digitInput');
     PlusButton = locator('#plusButton');
+
+    BodyComponent = locator('body').as(BodyComponent);
+    BodyComponentTemplate = locator.template((selector: string) => selector).as(BodyComponent);
+    BodyComponentNative = locator.native(({ browser }) => browser.$('body')).as(BodyComponent);
+}
+
+class BodyComponent {
+    TextElement = locator('#textValue');
 }

@@ -24,6 +24,7 @@ export class Selector {
 }
 
 export type NativeSelectorParams = {
+    browser: WebdriverIO.Browser;
     driver: WebdriverIO.Browser;
     parent: ChainablePromiseElement;
     argument: string;
@@ -78,10 +79,11 @@ export function query(root: any, path: string) {
     const elements = path.split(/\s*>\s*/);
     const tokens = [];
     let currentComponent = new root();
-    let currentAlias = 'root';
+    let currentAlias = 'App';
     for (const element of elements) {
         const groups = element.match(/^(?<alias>.+?)(?:\((?<argument>.+)\))?$/)?.groups as { alias: string, argument: string };
         const alias = groups.alias.replace(/\s/g, '');
+        if (!currentComponent) throw new Error(`Alias '${currentAlias}' is not a component`);
         const currentElement = currentComponent[alias];
         if (!currentElement) throw new Error(`Alias '${alias}' has not been found in '${currentAlias}'`);
         currentAlias = groups.alias;
@@ -113,6 +115,7 @@ export function element(this: any, path: string): Locator {
                 case 'simple': current = current.$(item.selector); break;
                 case 'template': current = current.$(item.selector(item.argument)); break;
                 case 'native': current = item.selector({
+                    browser: driver,
                     driver,
                     parent: current,
                     argument: item.argument
@@ -130,6 +133,7 @@ export function element(this: any, path: string): Locator {
                     case 'simple': return current.$$(item.selector);
                     case 'template': return current.$$(item.selector(item.argument));
                     case 'native': return item.selector({
+                        browser: driver,
                         driver,
                         parent: current,
                         argument: item.argument
@@ -140,6 +144,7 @@ export function element(this: any, path: string): Locator {
                 case 'simple': current = current.$(item.selector); break;
                 case 'template': current = current.$(item.selector(item.argument)); break;
                 case 'native': current = item.selector({
+                    browser: driver,
                     driver,
                     parent: current,
                     argument: item.argument
