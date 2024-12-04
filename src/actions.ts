@@ -1,17 +1,15 @@
 import { When } from '@cucumber/cucumber';
-import { conditionValidations, conditionWait } from './conditionWait';
-import { getValue, getElement } from './transformers';
 import { parseCoords, parseKeySequence, parseCoordsAsObject, dragAndDrop } from './utils';
-import { click, doubleClick, rightClick } from './click';
+import { MemoryValue } from '@qavajs/core';
+import { Locator } from './pageObject';
 
 /**
  * Opens provided url
  * @param {string} url - url to navigate
  * @example I open 'https://google.com'
  */
-When('I open {string} url', async function (url: string) {
-    const urlValue = await getValue(url);
-    await browser.url(urlValue);
+When('I open {value} url', async function (url: MemoryValue) {
+    await this.wdio.browser.url(await url.value());
 });
 
 /**
@@ -20,11 +18,8 @@ When('I open {string} url', async function (url: string) {
  * @param {string} value - value to type
  * @example I type 'wikipedia' to 'Google Input'
  */
-When('I type {string} to {string}', async function (value: string, alias: string) {
-    const element = await getElement(alias);
-    const typeValue = await getValue(value);
-    await conditionWait(element, conditionValidations.VISIBLE, config.browser.timeout.visible);
-    await element.addValue(typeValue);
+When('I type {value} to {wdioLocator}', async function (typeValue: MemoryValue, element: Locator) {
+    await element().addValue(await typeValue.value());
 });
 
 /**
@@ -33,12 +28,9 @@ When('I type {string} to {string}', async function (value: string, alias: string
  * @param {string} value - value to type
  * @example I type 'wikipedia' chars to 'Google Input'
  */
-When('I type {string} chars to {string}', async function (value: string, alias: string) {
-    const element = await getElement(alias);
-    const typeValue = await getValue(value);
-    await conditionWait(element, conditionValidations.VISIBLE, config.browser.timeout.visible);
-    await element.click();
-    await browser.keys(typeValue);
+When('I type {value} chars to {wdioLocator}', async function (typeValue: MemoryValue, element: Locator) {
+    await element().click();
+    await this.wdio.browser.keys(await typeValue.value());
 });
 
 /**
@@ -46,10 +38,9 @@ When('I type {string} chars to {string}', async function (value: string, alias: 
  * @param {string} alias - element to click
  * @param {boolean} [disableWait] - disable wait before click
  * @example I click 'Google Button'
- * @example I click 'Google Button' (disable actionability wait)
  */
-When('I click {string}( ){wdioDisableActionabilityCheck}', async function (alias: string, disableWait: boolean) {
-    await click(alias, disableWait);
+When('I click {wdioLocator}', async function (element: Locator) {
+    await element().click();
 });
 
 /**
@@ -57,21 +48,19 @@ When('I click {string}( ){wdioDisableActionabilityCheck}', async function (alias
  * @param {string} alias - double element to click
  * @param {boolean} [disableWait] - disable wait before click
  * @example I double click 'Google Button'
- * @example I double click 'Google Button' (disable actionability wait)
  */
-When('I double click {string}( ){wdioDisableActionabilityCheck}', async function (alias: string, disableWait: boolean) {
-    await doubleClick(alias, disableWait);
+When('I double click {wdioLocator}', async function (element: Locator) {
+    await element().doubleClick();
 });
 
 /**
  * Right click element
- * @param {string} alias - element to right click
+ * @param {string} alias - element to right-click
  * @param {boolean} [disableWait] - disable wait before click
  * @example I right click 'Google Button'
- * @example I right click 'Google Button' (disable actionability wait)
  */
-When('I right click {string}( ){wdioDisableActionabilityCheck}', async function (alias: string, disableWait: boolean) {
-    await rightClick(alias, disableWait);
+When('I right click {wdioLocator}', async function (element: Locator) {
+    await element().click({ button: 'right' });
 });
 
 /**
@@ -79,9 +68,8 @@ When('I right click {string}( ){wdioDisableActionabilityCheck}', async function 
  * @param {string} alias - element to click
  * @example I force click 'Google Button'
  */
-When('I force click {string}', async function (alias: string) {
-    const element = await getElement(alias);
-    await browser.execute((e: HTMLElement) => e.click(), element as any);
+When('I force click {wdioLocator}', async function (element: Locator) {
+    await this.wdio.browser.execute((e: HTMLElement) => e.click(), await element().getElement());
 });
 
 /**
@@ -89,10 +77,8 @@ When('I force click {string}', async function (alias: string) {
  * @param {string} alias - element to clear
  * @example I clear 'Google Input'
  */
-When('I clear {string}', async function (alias: string) {
-    const element = await getElement(alias);
-    await conditionWait(element, conditionValidations.VISIBLE, config.browser.timeout.visible);
-    await element.clearValue();
+When('I clear {wdioLocator}', async function (element: Locator) {
+    await element().clearValue();
 });
 
 /**
@@ -102,12 +88,11 @@ When('I clear {string}', async function (alias: string) {
  * @example I click 'google' text in 'Search Engines' collection
  */
 When(
-    'I click {string} text in {string} collection',
-    async function (value: string, alias: string) {
-        const collection = await getElement(alias);
-        const expectedText = await getValue(value);
-        for (const ePromise of collection) {
-            const element = await ePromise;
+    'I click {value} text in {wdioLocator} collection',
+    async function (value: MemoryValue, locator: Locator) {
+        const collection = locator.collection();
+        const expectedText = await value.value();
+        for (const element of await collection.getElements()) {
             const text = await element.getText();
             if (text === await expectedText) {
                 return element.click();
@@ -121,7 +106,7 @@ When(
  * @example I switch to parent frame
  */
 When('I switch to parent frame', async function () {
-    await browser.switchToParentFrame();
+    await this.wdio.browser.switchToParentFrame();
 });
 
 /**
@@ -130,7 +115,7 @@ When('I switch to parent frame', async function () {
  * @example I switch to 2 frame
  */
 When('I switch to {int} frame', async function (index: number) {
-    await browser.switchToFrame(index - 1);
+    await this.wdio.browser.switchToFrame(index - 1);
 });
 
 /**
@@ -138,9 +123,8 @@ When('I switch to {int} frame', async function (index: number) {
  * @param {string} alias - po alias
  * @example I switch to 'Checkout Iframe' frame
  */
-When('I switch to {string} frame', async function (alias: string) {
-    const element = await getElement(alias);
-    await browser.switchToFrame(element);
+When('I switch to {wdioLocator} frame', async function (element: Locator) {
+    await this.wdio.browser.switchToFrame(element());
 });
 
 /**
@@ -149,12 +133,12 @@ When('I switch to {string} frame', async function (alias: string) {
  * @example I switch to 2 window
  */
 When('I switch to {int} window', async function (index: number) {
-    await browser.waitUntil(
-        async () => (await browser.getWindowHandles()).length >= index,
-        { timeout: config.browser.timeout.page }
+    await this.wdio.browser.waitUntil(
+        async () => (await this.wdio.browser.getWindowHandles()).length >= index,
+        { timeout: this.config.browser.timeout.page }
     );
-    const windowHandles = await browser.getWindowHandles();
-    await browser.switchToWindow(windowHandles[index - 1]);
+    const windowHandles = await this.wdio.browser.getWindowHandles();
+    await this.wdio.browser.switchToWindow(windowHandles[index - 1]);
 });
 
 /**
@@ -162,19 +146,19 @@ When('I switch to {int} window', async function (index: number) {
  * @param {string} matcher - window matcher (url or title)
  * @example I switch to 'google.com' window
  */
-When('I switch to {string} window', async function (matcher: string) {
-    const urlOrTitle = await getValue(matcher);
-    await browser.waitUntil(
+When('I switch to {value} window', async function (matcher: MemoryValue) {
+    const urlOrTitle = await matcher.value()
+    await this.wdio.browser.waitUntil(
         async () => {
             try {
-                await browser.switchWindow(matcher);
+                await this.wdio.browser.switchWindow(urlOrTitle);
                 return true
             } catch (err) {
                 return false
             }
         },
         {
-            timeout: config.browser.timeout.page,
+            timeout: this.config.browser.timeout.page,
             timeoutMsg: `Page matching ${urlOrTitle} was not found`,
             interval: 500
         }
@@ -186,7 +170,7 @@ When('I switch to {string} window', async function (matcher: string) {
  * @example I refresh page
  */
 When('I refresh page', async function () {
-    await browser.refresh();
+    await this.wdio.browser.refresh();
 });
 
 /**
@@ -195,10 +179,10 @@ When('I refresh page', async function () {
  * @example I press 'Enter' key
  * @example I press 'Ctrl+C' keys
  */
-When('I press {string} key(s)', async function (key: string) {
-    const keySequence: string | string[] = await getValue(key);
+When('I press {value} key(s)', async function (key: MemoryValue) {
+    const keySequence: string | string[] = await key.value();
     const keys = parseKeySequence(keySequence);
-    await browser.keys(keys);
+    await this.wdio.browser.keys(keys);
 });
 
 /**
@@ -208,11 +192,11 @@ When('I press {string} key(s)', async function (key: string) {
  * @example I press 'Enter' key 5 times
  * @example I press 'Ctrl+V' keys 4 times
  */
-When('I press {string} key(s) {int} time(s)', async function (key: string, num: number) {
-    const keySequence: string | string[] = await getValue(key);
+When('I press {value} key(s) {int} time(s)', async function (key: MemoryValue, num: number) {
+    const keySequence: string | string[] = await key.value();
     const keys = parseKeySequence(keySequence);
     for (let i: number = 0; i < num; i++) {
-      await browser.keys(keys);
+      await this.wdio.browser.keys(keys);
     }
 });
 
@@ -223,11 +207,8 @@ When('I press {string} key(s) {int} time(s)', async function (key: string, num: 
  * @example I select '1900' option from 'Registration Form > Date Of Birth'
  * @example I select '$dateOfBirth' option from 'Registration Form > Date Of Birth' dropdown
  */
-When('I select {string} option from {string} dropdown', async function (option: string, alias: string) {
-    const optionValue = await getValue(option);
-    const select = await getElement(alias);
-    await conditionWait(select, conditionValidations.VISIBLE, config.browser.timeout.visible);
-    await select.selectByVisibleText(optionValue)
+When('I select {value} option from {wdioLocator} dropdown', async function (option: MemoryValue, select: Locator) {
+    await select().selectByVisibleText(await option.value())
 });
 
 /**
@@ -236,10 +217,8 @@ When('I select {string} option from {string} dropdown', async function (option: 
  * @param {string} alias - alias of select
  * @example I select 1 option from 'Registration Form > Date Of Birth' dropdown
  */
-When('I select {int}(st|nd|rd|th) option from {string} dropdown', async function (optionIndex: number, alias: string) {
-    const select = await getElement(alias);
-    await conditionWait(select, conditionValidations.VISIBLE, config.browser.timeout.visible);
-    await select.selectByIndex(optionIndex - 1)
+When('I select {int}(st|nd|rd|th) option from {wdioLocator} dropdown', async function (optionIndex: number, select: Locator) {
+    await select().selectByIndex(optionIndex - 1)
 });
 
 /**
@@ -247,9 +226,8 @@ When('I select {int}(st|nd|rd|th) option from {string} dropdown', async function
  * @param {string} alias - alias of element
  * @example I scroll to 'Element'
  */
-When('I scroll to {string}', async function (alias) {
-    const element = await getElement(alias);
-    await browser.execute((element: WebdriverIO.Element) => element.scrollIntoView(), element)
+When('I scroll to {wdioLocator}', async function (element: Locator) {
+    await this.wdio.browser.execute((element: HTMLElement) => element.scrollIntoView(), await element().getElement())
 });
 
 /**
@@ -259,7 +237,7 @@ When('I scroll to {string}', async function (alias) {
  * @example I click forward button
  */
 When('I click {wdioBrowserButton} button', async function (button: 'back' | 'forward') {
-    await browser[button]();
+    await this.wdio.browser[button]();
 });
 
 /**
@@ -268,9 +246,9 @@ When('I click {wdioBrowserButton} button', async function (button: 'back' | 'for
  * @example
  * When I scroll by '0, 100'
  */
-When('I scroll by {string}', async function (offset: string) {
-    const [deltaX, deltaY] = parseCoords(await getValue(offset));
-    await browser.action('wheel').scroll({
+When('I scroll by {value}', async function (offset: MemoryValue) {
+    const [deltaX, deltaY] = parseCoords(await offset.value());
+    await this.wdio.browser.action('wheel').scroll({
         deltaX,
         deltaY,
         duration: 100
@@ -284,16 +262,14 @@ When('I scroll by {string}', async function (offset: string) {
  * @example
  * When I scroll by '0, 100' in 'Overflow Container'
  */
-When('I scroll by {string} in {string}', async function (offset: string, alias: string) {
-    const [deltaX, deltaY] = parseCoords(await getValue(offset));
-    const element = await getElement(alias);
-    await conditionWait(element, conditionValidations.VISIBLE, config.browser.timeout.visible);
-    await element.moveTo();
-    await browser.action('wheel').scroll({
+When('I scroll by {value} in {wdioLocator}', async function (offset: MemoryValue, container: Locator) {
+    const [deltaX, deltaY] = parseCoords(await offset.value());
+    await container().moveTo();
+    await this.wdio.browser.action('wheel').scroll({
         deltaX,
         deltaY,
         duration: 100,
-        origin: element
+        origin: container()
     }).perform();
 });
 
@@ -303,18 +279,15 @@ When('I scroll by {string} in {string}', async function (offset: string, alias: 
  * @example
  * When I scroll until 'Row 99' becomes visible
  */
-When('I scroll until {string} to be visible', async function (targetAlias: string) {
-    const isVisible = async () => {
-        const element = await getElement(targetAlias, { immediate: true });
-        return element.isDisplayed();
-    };
+When('I scroll until {wdioLocator} to be visible', async function (element: Locator) {
+    const isVisible = async () => element().isDisplayed();
     while (!await isVisible()) {
-        await browser.action('wheel').scroll({
+        await this.wdio.browser.action('wheel').scroll({
             deltaX: 0,
             deltaY: 100,
             duration: 100
         }).perform();
-        await browser.pause(100);
+        await this.wdio.browser.pause(100);
     }
 });
 
@@ -325,20 +298,16 @@ When('I scroll until {string} to be visible', async function (targetAlias: strin
  * @example
  * When I scroll in 'List' until 'Row 99' to be visible
  */
-When('I scroll in {string} until {string} to be visible', async function (scrollAlias: string, targetAlias: string) {
-    const origin = await getElement(scrollAlias);
-    const isVisible = async () => {
-        const element = await getElement(targetAlias, { immediate: true });
-        return element.isDisplayed();
-    };
+When('I scroll in {wdioLocator} until {wdioLocator} to be visible', async function (origin: Locator, element: Locator) {
+    const isVisible = async () => element().isDisplayed();
     while (!await isVisible()) {
-        await browser.action('wheel').scroll({
+        await this.wdio.browser.action('wheel').scroll({
             deltaX: 0,
             deltaY: 100,
             duration: 100,
-            origin
+            origin: origin()
         }).perform();
-        await browser.pause(50);
+        await this.wdio.browser.pause(50);
     }
 });
 
@@ -348,10 +317,8 @@ When('I scroll in {string} until {string} to be visible', async function (scroll
  * @param {string} value - file path
  * @example I upload '/folder/file.txt' to 'File Input'
  */
-When('I upload {string} file to {string}', async function (value: string, alias: string) {
-    const element = await getElement(alias);
-    const typeValue = await getValue(value);
-    await element.setValue(typeValue);
+When('I upload {value} file to {wdioLocator}', async function (value: MemoryValue, element: Locator) {
+    await element().setValue(await value.value());
 });
 
 /**
@@ -360,11 +327,11 @@ When('I upload {string} file to {string}', async function (value: string, alias:
  * @example I accept alert
  */
 When('I accept alert', async function () {
-    await browser.waitUntil(async () => {
-        await browser.acceptAlert();
+    await this.wdio.browser.waitUntil(async () => {
+        await this.wdio.browser.acceptAlert();
         return true;
     }, {
-        timeout: config.browser.timeout.present,
+        timeout: this.config.browser.timeout.present,
         interval: 2000
     });
 });
@@ -375,11 +342,11 @@ When('I accept alert', async function () {
  * @example I dismiss alert
  */
 When('I dismiss alert', async function () {
-    await browser.waitUntil(async () => {
-        await browser.dismissAlert();
+    await this.wdio.browser.waitUntil(async () => {
+        await this.wdio.browser.dismissAlert();
         return true;
     }, {
-        timeout: config.browser.timeout.present,
+        timeout: this.config.browser.timeout.present,
         interval: 2000
     });
 });
@@ -389,13 +356,13 @@ When('I dismiss alert', async function () {
  * Should be used afterwards the step 'I wait for alert'
  * @example I type 'coffee' to alert
  */
-When('I type {string} to alert', async function (value: string) {
-    await browser.waitUntil(async () => {
-        await browser.sendAlertText(value);
-        await browser.acceptAlert();
+When('I type {value} to alert', async function (value: MemoryValue) {
+    await this.wdio.browser.waitUntil(async () => {
+        await this.wdio.browser.sendAlertText(await value.value());
+        await this.wdio.browser.acceptAlert();
         return true;
     }, {
-        timeout: config.browser.timeout.present,
+        timeout: this.config.browser.timeout.present,
         interval: 2000
     });
 });
@@ -406,10 +373,8 @@ When('I type {string} to alert', async function (value: string) {
  * @param {string} targetAlias - target
  * @example I drag and drop 'Bishop' to 'E4'
  */
-When('I drag and drop {string} to {string}', async function (elementAlias, targetAlias) {
-    const element = await getElement(elementAlias);
-    const target = await getElement(targetAlias);
-    await browser.execute(dragAndDrop, element as any, target as any);
+When('I drag and drop {wdioLocator} to {wdioLocator}', async function (element: Locator, target: Locator) {
+    await this.wdio.browser.execute(dragAndDrop, await element().getElement(), await target().getElement());
 });
 
 /**
@@ -417,7 +382,7 @@ When('I drag and drop {string} to {string}', async function (elementAlias, targe
  * @example I open new tab
  */
 When('I open new tab', async function () {
-    await browser.execute(() => { window.open('about:blank', '_blank') });
+    await this.wdio.browser.execute(() => { window.open('about:blank', '_blank') });
 });
 
 /**
@@ -428,10 +393,14 @@ When('I open new tab', async function () {
  * @example When I click '0, 20' coordinates in 'Element'
  * @example When I click '0, 20' coordinates in 'Element' (disable actionability wait)
  */
-When('I click {string} coordinates in {string}( ){wdioDisableActionabilityCheck}', async function (coordinates: string, alias: string, disableWait: boolean) {
-    const coords = await getValue(coordinates);
+When('I click {value} coordinates in {wdioLocator}', async function (coordinates: MemoryValue, element: Locator) {
+    const coords = coordinates.value();
     const coordsObject = typeof coords === 'string' ? parseCoordsAsObject(coords) : coords;
-    await click(alias, disableWait, coordsObject);
+    const width = await element().getSize('width');
+    const height = await element().getSize('height');
+    coordsObject.x -= Math.floor(width / 2);
+    coordsObject.y -= Math.floor(height / 2);
+    await element().click(coordsObject);
 });
 
 /**
@@ -439,10 +408,9 @@ When('I click {string} coordinates in {string}( ){wdioDisableActionabilityCheck}
  * @param {string} size - desired size
  * @example I set window size '1366,768'
  */
-When('I set window size {string}', async function (size: string) {
-    const viewPort = await getValue(size);
-    const {x, y} = parseCoordsAsObject(viewPort);
-    await browser.setWindowSize(x, y);
+When('I set window size {value}', async function (size: MemoryValue) {
+    const {x, y} = parseCoordsAsObject(await size.value());
+    await this.wdio.browser.setWindowSize(x, y);
 });
 
 /**
@@ -450,7 +418,7 @@ When('I set window size {string}', async function (size: string) {
  * @example I close current tab
  */
 When('I close current tab', async function () {
-    await browser.closeWindow();
-    const windowHandles = await browser.getWindowHandles();
-    await browser.switchToWindow(windowHandles[0]);
+    await this.wdio.browser.closeWindow();
+    const windowHandles = await this.wdio.browser.getWindowHandles();
+    await this.wdio.browser.switchToWindow(windowHandles[0]);
 });

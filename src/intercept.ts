@@ -1,6 +1,6 @@
 import { When } from '@cucumber/cucumber';
-import { getValue } from './transformers';
 import memory from '@qavajs/memory';
+import { MemoryValue } from '@qavajs/core';
 
 /**
  * Create interception for url or predicate function
@@ -8,9 +8,9 @@ import memory from '@qavajs/memory';
  * @param {string} key - memory key to save
  * @example I create interception for '**\/api/qavajs' as 'intercept'
  */
-When('I create interception for {string} as {string}', async function (predicate: string, key: string) {
-    const predicateValue = await getValue(predicate);
-    const mock = await browser.mock(predicateValue);
+When('I create interception for {value} as {value}', async function (predicate: MemoryValue, key: MemoryValue) {
+    const predicateValue = await predicate.value();
+    const mock = await this.wdio.browser.mock(predicateValue);
     const interception = new Promise((resolve) => {
         // @ts-ignore
         mock.respond((response) => {
@@ -18,7 +18,7 @@ When('I create interception for {string} as {string}', async function (predicate
             return response.body
         })
     })
-    memory.setValue(key, interception);
+    key.set(interception);
 });
 
 /**
@@ -26,8 +26,8 @@ When('I create interception for {string} as {string}', async function (predicate
  * @param {string} interception - key of saved interception promise
  * @example I wait for '$interception' response
  */
-When('I wait for {string} response', async function (interception: string) {
-    const interceptionPromise = await getValue(interception);
+When('I wait for {value} response', async function (interception: MemoryValue) {
+    const interceptionPromise = await interception.value();
     await interceptionPromise;
 });
 
@@ -38,7 +38,7 @@ When('I wait for {string} response', async function (interception: string) {
  * When I save '$interception' response as 'response'
  * And I expect '$response.statusCode' to equal '200'
  */
-When('I save {string} response as {string}', async function (interception: string, key: string) {
-    const interceptionPromise = await getValue(interception);
-    memory.setValue(key, await interceptionPromise);
+When('I save {value} response as {value}', async function (interception: MemoryValue, key: MemoryValue) {
+    const interceptionPromise = await interception.value();
+    key.set(await interceptionPromise);
 });

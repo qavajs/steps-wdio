@@ -1,17 +1,28 @@
 import { defineParameterType } from '@cucumber/cucumber';
+import { getConditionWait } from './conditionWait';
+
+function transformString(fn: (value: string) => any) {
+    return function (s1: string, s2: string) {
+        const expression = (s1 || s2 || '').replace(/\\"/g, '"').replace(/\\'/g, "'")
+        return fn(expression);
+    }
+}
 
 defineParameterType({
-    name: 'wdioValidation',
-    regexp: /((?:is |do |does |to )?(not |to not )?(?:to )?(?:be )?(equal|strictly equal|deeply equal|have member|match|contain|above|below|greater than|less than|have type)(?:s|es)?)/,
-    transformer: p => p,
-    useForSnippets: false
+    name: 'wdioLocator',
+    regexp: /"([^"\\]*(\\.[^"\\]*)*)"|'([^'\\]*(\\.[^'\\]*)*)'/,
+    transformer: function (s1: string, s2: string) {
+        const world = this as any;
+        return transformString(function (alias) {
+            return world.element(world.getValue(alias));
+        })(s1, s2);
+    }
 });
 
 defineParameterType({
-    name: 'wdioConditionWait',
+    name: 'wdioCondition',
     regexp: /((not )?to (?:be )?(present|clickable|visible|invisible|enabled|disabled|in viewport))/,
-    transformer: p => p,
-    useForSnippets: false
+    transformer: transformString(getConditionWait)
 });
 
 defineParameterType({
@@ -25,20 +36,6 @@ defineParameterType({
     name: 'wdioTimeout',
     regexp: /(?:\(timeout: (\d+)\))?/,
     transformer: p => p ? parseInt(p) : null,
-    useForSnippets: false
-});
-
-defineParameterType({
-    name: 'wdioDisableActionabilityCheck',
-    regexp: /(\(disable actionability wait\))?/,
-    transformer: p => !p,
-    useForSnippets: false
-});
-
-defineParameterType({
-    name: 'wdioPoType',
-    regexp: /(element|collection)/,
-    transformer: p => p,
     useForSnippets: false
 });
 

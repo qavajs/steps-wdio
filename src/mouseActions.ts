@@ -1,18 +1,16 @@
 import { When } from '@cucumber/cucumber';
-import { getElement, getValue } from './transformers';
 import { parseCoords, virtualPointer } from './utils';
-import { conditionValidations, conditionWait } from './conditionWait';
+import { Locator } from './pageObject';
+import {MemoryValue} from "@qavajs/core";
 
 /**
  * Hover over element
  * @param {string} alias - element to hover over
  * @example I hover over 'Google Button'
  */
-When('I hover over {string}', async function (alias: string) {
-    const element = await getElement(alias);
-    await conditionWait(element, conditionValidations.VISIBLE, config.browser.timeout.visible);
-    await element.moveTo();
-    virtualPointer.hover(element);
+When('I hover over {wdioLocator}', async function (element: Locator) {
+    await element().moveTo();
+    virtualPointer.hover(await element().getElement());
 });
 
 /**
@@ -21,7 +19,7 @@ When('I hover over {string}', async function (alias: string) {
  * @example When I press left mouse button
  */
 When('I press {wdioMouseButton} mouse button', async function (button) {
-    await browser
+    await this.wdio.browser
         .action('pointer')
         .move({ ...virtualPointer.pointer() })
         .down(button)
@@ -34,7 +32,7 @@ When('I press {wdioMouseButton} mouse button', async function (button) {
  * @example When I release left mouse button
  */
 When('I release {wdioMouseButton} mouse button', async function (button) {
-    await browser
+    await this.wdio.browser
         .action('pointer')
         .move({ ...virtualPointer.pointer() })
         .up(button)
@@ -46,10 +44,10 @@ When('I release {wdioMouseButton} mouse button', async function (button) {
  * @param {string} coords - x, y coordinates to move
  * @example When I move mouse to '10, 15'
  */
-When('I move mouse to {string}', async function (coords){
-    const [x, y] = parseCoords(await getValue(coords));
+When('I move mouse to {value}', async function (coords: MemoryValue) {
+    const [x, y] = parseCoords(await coords.value());
     virtualPointer.move(x, y);
-    await browser
+    await this.wdio.browser
         .action('pointer')
         .move({ ...virtualPointer.pointer() })
         .perform(true);
@@ -60,9 +58,9 @@ When('I move mouse to {string}', async function (coords){
  * @param {string} coords - x, y offset to scroll
  * @example When I scroll mouse wheel by '0, 15'
  */
-When('I scroll mouse wheel by {string}', async function (offset) {
-    const [deltaX, deltaY] = parseCoords(await getValue(offset));
-    await browser
+When('I scroll mouse wheel by {value}', async function (offset: MemoryValue) {
+    const [deltaX, deltaY] = parseCoords(await offset.value());
+    await this.wdio.browser
         .action('wheel')
         .scroll({
             deltaX,
