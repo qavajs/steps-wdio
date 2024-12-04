@@ -1,12 +1,13 @@
 {
   "name": "@qavajs/steps-wdio",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "steps to interact with webdriverio",
   "main": "./index.js",
   "types": "./index.d.ts",
   "scripts": {
     "build": "tsc",
     "test": "vitest run",
+    "test:import": "qavajs run --config test-e2e/import.ts",
     "test:e2e:wd": "qavajs run --config test-e2e/webui.ts --profile wd",
     "test:e2e:bidi": "qavajs run --config test-e2e/webui.ts --profile bidi",
     "debug:e2e:wd": "qavajs run --config test-e2e/webui.ts --profile debugWd",
@@ -26,7 +27,7 @@
   },
   "homepage": "https://github.com/qavajs/steps-wdio#readme",
   "devDependencies": {
-    "@cucumber/cucumber": "^11.0.1",
+    "@cucumber/cucumber": "^11.1.0",
     "@qavajs/core": "^2.1.1",
     "@qavajs/console-formatter": "^0.8.0",
     "@qavajs/html-formatter": "^0.18.1",
@@ -35,10 +36,10 @@
     "@types/chai": "^4.3.17",
     "express": "^4.21.1",
     "ts-node": "^10.9.2",
-    "typescript": "^5.6.3",
-    "vitest": "^2.1.3"
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
   },
   "dependencies": {
-    "webdriverio": "^9.2.6"
+    "webdriverio": "^9.4.1"
   }
 }

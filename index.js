@@ -11,6 +11,5 @@ require('./lib/execute.js');
 require('./lib/mock.js');
 require('./lib/intercept.js');
 require('./lib/poDefine.js');
-require('./lib/multiBrowser.js');
 require('./lib/mouseActions.js');
 require('./lib/keyboardActions.js');

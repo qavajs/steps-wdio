@@ -15,7 +15,7 @@ Before({name: 'Init wdio driver'}, async function () {
     };
     this.config.driverConfig = driverConfig;
     this.wdio = {};
-    if ((!this.browser && driverConfig.reuseSession) || !driverConfig.reuseSession) {
+    if ((!this.wdio.browser && driverConfig.reuseSession) || !driverConfig.reuseSession) {
         this.wdio.browser = this.wdio.driver = await remote(driverConfig);
     }
     this.log(`browser instance started:\n${JSON.stringify(driverConfig, null, 2)}`);
