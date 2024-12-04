@@ -5,9 +5,16 @@ All notable changes to the "@qavajs/steps-wdio" will be documented in this file.
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
 :rocket: - new feature
+
 :beetle: - bugfix
+
 :x: - deprecation
+
 :pencil: - chore
+
+## [2.0.1]
+- :beetle: fixed index import
+- :beetle: fixed `reuseSession` flag
 
 ## [2.0.0]
 - :pencil: added memory processor to playwrightLocator parameter type
