@@ -27,19 +27,19 @@
   },
   "homepage": "https://github.com/qavajs/steps-wdio#readme",
   "devDependencies": {
-    "@cucumber/cucumber": "^11.1.0",
+    "@cucumber/cucumber": "^11.1.1",
     "@qavajs/core": "^2.1.1",
     "@qavajs/console-formatter": "^0.8.0",
     "@qavajs/html-formatter": "^0.18.1",
     "@qavajs/wdio-service-adapter": "^0.0.3",
     "@qavajs/webstorm-adapter": "^8.0.0",
     "@types/chai": "^4.3.17",
-    "express": "^4.21.1",
+    "express": "^4.21.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.2",
     "vitest": "^2.1.8"
   },
   "dependencies": {
-    "webdriverio": "^9.4.1"
+    "webdriverio": "^9.4.5"
   }
 }

@@ -16,6 +16,8 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [unreleased]
 - :beetle: fixed publishing workflow
+- :pencil: update dependencies 
+
 ## [2.0.1]
 - :beetle: fixed index import
 - :beetle: fixed `reuseSession` flag
