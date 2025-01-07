@@ -14,7 +14,18 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 :microscope: - experimental
 
-## [unreleased]
+## [2.1.0]
+- :rocket: added `locator.as` method to define top level components (like pages)
+```typescript
+export class App {
+  LoginPage = locator.as(LoginPage);
+}
+
+class LoginPage {
+  username = locator('#username');
+  password = locator('#password');
+}
+```
 - :beetle: fixed publishing workflow
 - :pencil: update dependencies 
 

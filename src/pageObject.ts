@@ -1,12 +1,14 @@
 //@ts-ignore
 import { ChainablePromiseArray, ChainablePromiseElement } from 'webdriverio';
 
+type SelectorDefinition = string | ((argument: string) => string) | ((argument: any) => any) | null;
+
 export class Selector {
-    selector: string | ((argument: string) => string) | ((x: any) => any);
+    selector: SelectorDefinition;
     component!: Function;
     type: string = 'simple';
 
-    constructor(selector: string | ((argument: string) => string) | ((x: any) => any), type?: string) {
+    constructor(selector: SelectorDefinition, type?: string) {
         this.selector = selector;
         if (type) {
             this.type = type;
@@ -47,6 +49,12 @@ export interface LocatorDefinition {
      * @param {(argument: string) => string} selector - selector function
      */
     native: (selector: (params: NativeSelectorParams) => ChainablePromiseElement) => Selector;
+
+    /**
+     * Define component
+     * @param { new () => void } component
+     */
+    as: (component: new () => void) => Selector;
 }
 
 export const locator: LocatorDefinition = function locator(selector: any): Selector {
@@ -59,6 +67,12 @@ locator.template = function(selector: (argument: string) => string) {
 
 locator.native = function(selector: (params: NativeSelectorParams) => ChainablePromiseElement) {
     return new Selector(selector, 'native');
+}
+
+locator.as = function (component: new () => void) {
+    const selector = new Selector(null);
+    selector.component = component;
+    return selector;
 }
 
 export class ChainItem {
@@ -103,7 +117,7 @@ export function query(root: any, path: string) {
 export interface Locator {
     (): ChainablePromiseElement;
     collection: () => ChainablePromiseArray;
-};
+}
 
 export function element(this: any, path: string): Locator {
     const chain = query(this.config.pageObject, path);
@@ -112,7 +126,7 @@ export function element(this: any, path: string): Locator {
         let current = driver as unknown as ChainablePromiseElement;
         for (const item of chain) {
             switch (item.type) {
-                case 'simple': current = current.$(item.selector); break;
+                case 'simple': current = item.selector ? current.$(item.selector) : current; break;
                 case 'template': current = current.$(item.selector(item.argument)); break;
                 case 'native': current = item.selector({
                     browser: driver,
