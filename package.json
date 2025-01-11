@@ -1,6 +1,6 @@
 {
   "name": "@qavajs/steps-wdio",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "steps to interact with webdriverio",
   "main": "./index.js",
   "types": "./index.d.ts",
@@ -27,8 +27,8 @@
   },
   "homepage": "https://github.com/qavajs/steps-wdio#readme",
   "devDependencies": {
-    "@cucumber/cucumber": "^11.1.1",
-    "@qavajs/core": "^2.1.1",
+    "@cucumber/cucumber": "^11.2.0",
+    "@qavajs/core": "^2.2.0",
     "@qavajs/console-formatter": "^0.8.0",
     "@qavajs/html-formatter": "^0.18.1",
     "@qavajs/wdio-service-adapter": "^0.0.3",
@@ -36,10 +36,10 @@
     "@types/chai": "^4.3.17",
     "express": "^4.21.2",
     "ts-node": "^10.9.2",
-    "typescript": "^5.7.2",
+    "typescript": "^5.7.3",
     "vitest": "^2.1.8"
   },
   "dependencies": {
-    "webdriverio": "^9.5.1"
+    "webdriverio": "^9.5.4"
   }
 }
