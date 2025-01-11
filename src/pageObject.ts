@@ -155,7 +155,7 @@ export function element(this: any, path: string): Locator {
                 }
             }
             switch (item.type) {
-                case 'simple': current = current.$(item.selector); break;
+                case 'simple': current = item.selector ? current.$(item.selector) : current; break;
                 case 'template': current = current.$(item.selector(item.argument)); break;
                 case 'native': current = item.selector({
                     browser: driver,

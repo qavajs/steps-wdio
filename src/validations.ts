@@ -221,7 +221,7 @@ Then(
         const propertyName = await property.value();
         const collection = await locator.collection().getElements();
         for (const element of collection) {
-            const value: string = await element.getProperty(propertyName);
+            const value: string = await element.getProperty(propertyName) as string;
             validation(value, expectedValue);
         }
     }

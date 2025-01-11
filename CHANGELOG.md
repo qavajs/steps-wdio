@@ -14,6 +14,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 :microscope: - experimental
 
+## [2.1.1]
+- :beetle: fixed resolving empty selector logic for collections
+
 ## [2.1.0]
 - :rocket: added `locator.as` method to define top level components (like pages)
 ```typescript
