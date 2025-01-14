@@ -14,6 +14,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 :microscope: - experimental
 
+## [Unreleased]
+- :rocket: added capability to pass object as `pageObject` property
+
 ## [2.1.1]
 - :beetle: fixed resolving empty selector logic for collections
 
