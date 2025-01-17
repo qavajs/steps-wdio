@@ -14,7 +14,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 :microscope: - experimental
 
-## [Unreleased]
+## [2.1.2]
 - :rocket: added capability to pass object as `pageObject` property
 
 ## [2.1.1]
