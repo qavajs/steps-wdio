@@ -267,3 +267,31 @@ Then('I expect text of alert {validation} {value}', async function (validation: 
     });
     validation(alertText, await expected.value());
 });
+
+/**
+ * Verify that css property of every element in collection satisfies condition
+ * @param {string} property - property to verify
+ * @param {string} alias - element to verify
+ * @param {string} validationType - validation
+ * @param {string} value - expected value
+ * @example I expect 'color' css property of every element in 'Table > Rows' collection to be equal 'rgb(42, 42, 42)'
+ * @example I expect 'font-family' css property of every element in 'Labels' to contain 'Fira'
+ */
+Then(
+    'I expect {value} css property of every element in {wdioLocator} collection {validation} {value}',
+    async function (property: MemoryValue, locator: Locator, validation: Validation, expected: MemoryValue) {
+        const propertyName = await property.value();
+        const expectedValue = await expected.value();
+        const collection = await locator.collection().getElements();
+        for (const element of collection) {
+            const actualValue = async () => this.wdio.browser.execute(function (element: HTMLElement, propertyName: string) {
+                return getComputedStyle(element).getPropertyValue(propertyName)
+            }, element, propertyName);
+            await validation.poll(actualValue, expectedValue, {
+                timeout: this.config.browser.timeout.value,
+                interval: this.config.browser.timeout.valueInterval
+            });
+        }
+    }
+);
+

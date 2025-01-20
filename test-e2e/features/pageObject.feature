@@ -26,6 +26,6 @@ Feature: page object
   Scenario: template with memory
     When I save '#textValue' to memory as 'selector'
     Then I expect text of 'Simple Text Element Template ({$selector})' to be equal 'text value'
-@debug
+
   Scenario: top level component
     Then I expect text of 'Top Level Component > Text Element' to be equal 'text value'

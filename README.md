@@ -10,7 +10,7 @@ Step library to work with webdriverio in qavajs framework
 ## Configuration
 
 ```typescript
-import App from "./page_object";
+import App from './page_object';
 
 export default {
     require: [
