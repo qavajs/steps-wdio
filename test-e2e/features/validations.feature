@@ -89,6 +89,6 @@ Feature: validations
       | Present Collection | to be present |
 
   @bidi
-  @wd @debug
+  @wd
   Scenario: collection css property
     Then I expect 'background-color' css property of every element in 'Simple Text List Items' collection to be equal 'rgba(0, 0, 0, 0)'
