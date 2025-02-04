@@ -35,7 +35,7 @@ When('I save {value} property of {wdioLocator} as {value}', async function (prop
  */
 When('I save {value} attribute of {wdioLocator} as {value}', async function (attribute: MemoryValue, element: Locator, key: MemoryValue) {
     const attributeName = await attribute.value();
-    key.set(await element().getProperty(attributeName));
+    key.set(await element().getAttribute(attributeName));
 });
 
 /**

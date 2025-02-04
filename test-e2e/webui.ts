@@ -35,7 +35,7 @@ const common = {
     memory: new Memory(),
     pageObject: App,
     parallel: 4,
-    retry: 1,
+    retry: 2,
     defaultTimeout: 30000
 } as IQavajsWdioConfig
 

@@ -124,7 +124,7 @@ When('I switch to {int} frame', async function (index: number) {
  * @example I switch to 'Checkout Iframe' frame
  */
 When('I switch to {wdioLocator} frame', async function (element: Locator) {
-    await this.wdio.browser.switchToFrame(element());
+    await this.wdio.browser.switchFrame(element());
 });
 
 /**
