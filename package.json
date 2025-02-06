@@ -40,6 +40,6 @@
     "vitest": "^3.0.5"
   },
   "dependencies": {
-    "webdriverio": "^9.7.2"
+    "webdriverio": "^9.7.3"
   }
 }
