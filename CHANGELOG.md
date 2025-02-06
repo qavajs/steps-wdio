@@ -14,6 +14,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 :microscope: - experimental
 
+## [Unreleased]
+- :rocket: improved readability of execute steps
+
 ## [2.2.1]
 - :beetle: fixed issue in `save attribute` step
 - :beetle: fixed issue in `switch to frame by element` step
