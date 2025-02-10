@@ -4,7 +4,7 @@ Feature: waits
     When I open '$waitsPage' url
 
   @bidi
-  @wd  @debug
+  @wd
   Scenario Outline: wait for condition
     Then I expect '<element>' <condition>
 
