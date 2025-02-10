@@ -52,19 +52,17 @@ const waits = {
         timeout: number,
         timeoutMsg?: string
     ) => element.waitForEnabled({reverse: !reverse, timeout, timeoutMsg}),
-    [conditionValidations.IN_VIEWPORT]: async (
+    [conditionValidations.IN_VIEWPORT]: (
         element: WebdriverIO.Element,
         reverse: boolean,
         timeout: number,
         timeoutMsg?: string
-    ) => {
-        await element.waitForExist({timeout, timeoutMsg});
-        await element.waitForDisplayed({
+    ) => element.waitForDisplayed({
         withinViewport: true,
         reverse,
         timeout,
         timeoutMsg
-    })}
+    })
 }
 /**
  * Wait for condition
