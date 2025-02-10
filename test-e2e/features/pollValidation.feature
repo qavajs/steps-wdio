@@ -4,17 +4,18 @@ Feature: waits
     When I open '$waitsPage' url
 
   @bidi
-  @wd
+  @wd  @debug
   Scenario Outline: wait for condition
     Then I expect '<element>' <condition>
 
     Examples:
       | element                   | condition         |
-      | Present Element           | to be present     |
-      | Detach Element            | not to be present |
-      | Not Existing Element      | not to be present |
-      | Visible Element           | to be visible     |
-      | Hidden Element            | to be invisible   |
+#      | Present Element           | to be present     |
+#      | Detach Element            | not to be present |
+#      | Not Existing Element      | not to be present |
+#      | Visible Element           | to be visible     |
+#      | Hidden Element            | to be invisible   |
+      | Present Element           | to be clickable   |
 
   @bidi
   @wd

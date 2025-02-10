@@ -10,8 +10,9 @@ import { Locator } from './pageObject';
  * @example I expect 'Loading' not to be present
  * @example I expect 'Search Bar > Submit Button' to be clickable
  */
-Then('I expect {wdioLocator} {wdioCondition}', async function (element: any, condition: Function) {
-    await condition(element(), this.config.browser.timeout.page);
+Then('I expect {wdioLocator} {wdioCondition}', async function (element: Locator, condition: Function & { validation: string }) {
+    const timeout = this.config.browser.timeout[condition.validation] ?? this.config.browser.timeout.page;
+    await condition(element(), timeout);
 });
 
 /**
