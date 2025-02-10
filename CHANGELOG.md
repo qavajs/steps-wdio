@@ -14,8 +14,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 :microscope: - experimental
 
-## [Unreleased]
+## [2.3.0]
 - :rocket: improved readability of execute steps
+- :beetle: pass corresponding timeout into condition waits
 
 ## [2.2.1]
 - :beetle: fixed issue in `save attribute` step

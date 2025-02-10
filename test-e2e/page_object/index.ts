@@ -74,6 +74,7 @@ export default class App {
     BodyComponentNative = locator.native(({ browser }) => browser.$('body')).as(BodyComponent);
 
     TopLevelComponent = locator.as(BodyComponent);
+    NotExistingComponent = locator('#not-existingComponent').as(BodyComponent);
 }
 
 class BodyComponent {
