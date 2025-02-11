@@ -13,5 +13,6 @@ import { locator } from './pageObject';
 When('I define {value} as {value} locator', async function (selectorKey: MemoryValue, aliasKey: MemoryValue) {
     const selector = await selectorKey.value();
     const alias = (await aliasKey.value()).replace(/\s/g, '');
-    this.config.pageObject.prototype[alias] = locator(selector);
+    const po = this.config.pageObject.prototype ?? this.config.pageObject;
+    po[alias] = locator(selector);
 });

@@ -33,7 +33,7 @@ const common = {
     },
     service: [localServer],
     memory: new Memory(),
-    pageObject: App,
+    pageObject: new App(),
     parallel: 4,
     retry: 2,
     defaultTimeout: 30000
@@ -73,6 +73,7 @@ export const debugWd = {
             'wdio:enforceWebDriverClassic': true,
             'goog:chromeOptions': {
                 args: [
+                    '--incognito',
                     '--window-size=1280,720',
                     '--disable-search-engine-choice-screen'
                 ]
