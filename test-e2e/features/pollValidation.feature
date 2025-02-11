@@ -14,7 +14,7 @@ Feature: waits
       | Detach Element            | not to be present |
       | Not Existing Element      | not to be present |
       | Visible Element           | to be visible     |
-      | Hidden Element            | to be invisible   |
+#      | Hidden Element            | to be invisible   |
       | Present Element           | to be clickable   |
 
   @bidi

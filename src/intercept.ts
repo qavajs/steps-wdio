@@ -1,5 +1,4 @@
 import { When } from '@cucumber/cucumber';
-import memory from '@qavajs/memory';
 import { MemoryValue } from '@qavajs/core';
 
 /**
@@ -9,14 +8,16 @@ import { MemoryValue } from '@qavajs/core';
  * @example I create interception for '**\/api/qavajs' as 'intercept'
  */
 When('I create interception for {value} as {value}', async function (predicate: MemoryValue, key: MemoryValue) {
-    const predicateValue = await predicate.value();
-    const mock = await this.wdio.browser.mock(predicateValue);
-    const interception = new Promise((resolve) => {
-        // @ts-ignore
-        mock.respond((response) => {
-            resolve(response)
-            return response.body
-        })
+    const urlPattern = await predicate.value();
+    const mock = await this.wdio.browser.mock(urlPattern);
+    const interception = new Promise(resolve => {
+        const interval = setInterval(async () => {
+            if (mock.calls.length > 0) {
+                const call = mock.calls.at(-1);
+                clearInterval(interval);
+                resolve(call);
+            }
+        }, 1000);
     })
     key.set(interception);
 });

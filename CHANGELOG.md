@@ -14,6 +14,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 :microscope: - experimental
 
+## [2.3.1]
+- :beetle: fixed intercept steps
+
 ## [2.3.0]
 - :rocket: improved readability of execute steps
 - :beetle: pass corresponding timeout into condition waits
