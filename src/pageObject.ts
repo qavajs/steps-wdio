@@ -122,9 +122,11 @@ export interface Locator {
 export function element(this: any, path: string): Locator {
     const chain = query(this.config.pageObject, path);
     const driver = this.wdio.driver as WebdriverIO.Browser;
+    const logger = this;
     const getter: Locator = function () {
         let current = driver as unknown as ChainablePromiseElement;
         for (const item of chain) {
+            logger.log(`${item.alias} -> ${item.selector}`);
             switch (item.type) {
                 case 'simple': current = item.selector ? current.$(item.selector) : current; break;
                 case 'template': current = current.$(item.selector(item.argument)); break;
@@ -142,6 +144,7 @@ export function element(this: any, path: string): Locator {
         let current = driver as unknown as ChainablePromiseElement;
         for (let i = 0; i < chain.length; i++) {
             const item = chain[i];
+            logger.log(`${item.alias} -> ${item.selector}`);
             if (i === chain.length - 1) {
                 switch (item.type) {
                     case 'simple': return current.$$(item.selector);
