@@ -106,7 +106,7 @@ When(
  * @example I switch to parent frame
  */
 When('I switch to parent frame', async function () {
-    await this.wdio.browser.switchToParentFrame();
+    await this.wdio.browser.switchFrame(null);
 });
 
 /**
@@ -115,7 +115,8 @@ When('I switch to parent frame', async function () {
  * @example I switch to 2 frame
  */
 When('I switch to {int} frame', async function (index: number) {
-    await this.wdio.browser.switchToFrame(index - 1);
+    const frame = this.wdio.browser.$$('iframe, frame')[index - 1];
+    await this.wdio.browser.switchFrame(frame);
 });
 
 /**

@@ -13,7 +13,6 @@ const common = {
             'wdio:enforceWebDriverClassic': true,
             'goog:chromeOptions': {
                 args: [
-                    '--headless',
                     '--window-size=1280,720',
                     '--disable-search-engine-choice-screen'
                 ]
@@ -51,6 +50,7 @@ export const bidi = {
         logLevel: 'warn',
         capabilities: {
             browserName: 'chrome',
+            unhandledPromptBehavior: 'ignore',
             'goog:chromeOptions': {
                 args: [
                     '--headless',
@@ -73,7 +73,6 @@ export const debugWd = {
             'wdio:enforceWebDriverClassic': true,
             'goog:chromeOptions': {
                 args: [
-                    '--incognito',
                     '--window-size=1280,720',
                     '--disable-search-engine-choice-screen'
                 ]

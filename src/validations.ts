@@ -182,9 +182,10 @@ Then(
  * @example I expect every element in 'Header > Links' collection to be visible
  * @example I expect every element in 'Loading Bars' collection not to be present
  */
-Then('I expect every element in {wdioLocator} collection {wdioCondition}', async function (locator: Locator, condition: Function) {
+Then('I expect every element in {wdioLocator} collection {wdioCondition}', async function (locator: Locator, condition: Function & { validation: string }) {
     const collection = locator.collection();
-    const conditionWait = (element: WebdriverIO.Element) => condition(element, this.config.browser.timeout.page);
+    const timeout = this.config.browser.timeout[condition.validation] ?? this.config.browser.timeout.page;
+    const conditionWait = (element: WebdriverIO.Element) => condition(element, timeout);
     await Promise.all(await collection.map(conditionWait))
 });
 
@@ -263,8 +264,8 @@ Then('I expect text of alert {validation} {value}', async function (validation: 
     const alertText = await this.wdio.browser.waitUntil(async () => {
         return await this.wdio.browser.getAlertText();
     }, {
-        timeout: this.config.browser.timeout.present,
-        interval: 2000
+        timeout: this.config.browser.timeout.value,
+        interval: this.config.browser.timeout.valueInterval
     });
     validation(alertText, await expected.value());
 });
