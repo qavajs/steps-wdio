@@ -14,6 +14,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 :microscope: - experimental
 
+## [2.4.0]
+- :rocket: added selector logging
+
 ## [2.3.1]
 - :beetle: fixed intercept steps
 
