@@ -1,10 +1,17 @@
-import { After, AfterStep, Before, BeforeStep, Status } from '@cucumber/cucumber';
+import { After, AfterAll, AfterStep, Before, BeforeStep, Status } from '@cucumber/cucumber';
 import defaultTimeouts from './defaultTimeouts';
 import { ScreenshotEvent, SnapshotEvent } from './events';
 import { equalOrIncludes, getEventValue } from './utils';
 import getSnapshot from './client_script/snapshot';
 import { element } from './pageObject';
 const remotePromise = import('webdriverio').then(wdio => wdio.remote);
+
+class DriverHolder {
+    driver!: WebdriverIO.Browser;
+    reuseSession = false;
+}
+
+const driverHolder = new DriverHolder();
 
 Before({name: 'Init wdio driver'}, async function () {
     const remote = await remotePromise;
@@ -15,10 +22,12 @@ Before({name: 'Init wdio driver'}, async function () {
     };
     this.config.driverConfig = driverConfig;
     this.wdio = {};
-    if ((!this.wdio.browser && driverConfig.reuseSession) || !driverConfig.reuseSession) {
-        this.wdio.browser = this.wdio.driver = await remote(driverConfig);
+    driverHolder.reuseSession = driverConfig.reuseSession;
+    if ((!driverHolder.driver && driverConfig.reuseSession) || !driverConfig.reuseSession) {
+        driverHolder.driver = await remote(driverConfig);
+        this.log(`browser instance started:\n${JSON.stringify(driverConfig, null, 2)}`);
     }
-    this.log(`browser instance started:\n${JSON.stringify(driverConfig, null, 2)}`);
+    this.wdio.browser = this.wdio.driver = driverHolder.driver;
     if (driverConfig.timeout.implicit > 0) await this.wdio.browser.setTimeout({ 'implicit': driverConfig.timeout.implicit });
     this.element = element;
 });
@@ -78,5 +87,15 @@ After({name: 'Shutdown wdio driver'}, async function () {
     if (this.wdio.browser && !this.config.driverConfig.reuseSession) {
         await this.wdio.browser.deleteSession();
         this.log('browser instance closed');
+    }
+});
+
+AfterAll(async function () {
+    if (driverHolder.reuseSession) {
+        try {
+            await driverHolder.driver.deleteSession();
+        } catch (err) {
+            console.error(err);
+        }
     }
 });

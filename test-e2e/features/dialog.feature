@@ -1,4 +1,5 @@
-Feature: actions
+@debug
+Feature: dialog
 
   Background:
     When I open '$actionsPage' url
