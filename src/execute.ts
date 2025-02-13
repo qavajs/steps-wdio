@@ -2,6 +2,9 @@ import { When } from '@cucumber/cucumber';
 import { MemoryValue } from '@qavajs/core';
 import { Locator } from './pageObject';
 
+function resolveFunction(script: string | Function) {
+    return typeof script === 'function' ? script : new Function(script);
+}
 /**
  * Execute client function
  * @param {string} functionKey - memory key of function
@@ -9,7 +12,8 @@ import { Locator } from './pageObject';
  * @example I execute 'window.scrollBy(0, 100)' function
  */
 When('I execute {value} function/script', async function (functionKey: MemoryValue) {
-    await this.wdio.browser.execute(await functionKey.value());
+    const fn = resolveFunction(await functionKey.value());
+    await this.wdio.browser.execute(fn);
 });
 
 /**
@@ -20,7 +24,8 @@ When('I execute {value} function/script', async function (functionKey: MemoryVal
  * @example I execute 'window.scrollY' function and save result as 'scroll'
  */
 When('I execute {value} function/script and save result as {value}', async function (functionKey: MemoryValue, memoryKey: MemoryValue) {
-    memoryKey.set(await this.wdio.browser.execute(await functionKey.value()));
+    const fn = resolveFunction(await functionKey.value());
+    memoryKey.set(await this.wdio.browser.execute(fn));
 });
 
 /**
@@ -31,7 +36,7 @@ When('I execute {value} function/script and save result as {value}', async funct
  * @example I execute 'arguments[0].scrollIntoView()' function on 'Component > Element'
  */
 When('I execute {value} function/script on {wdioLocator}', async function (functionKey: MemoryValue, locator: Locator) {
-    const fn = await functionKey.value();
+    const fn = resolveFunction(await functionKey.value());
     const element = locator();
     await this.wdio.browser.execute(fn, await element.getElement());
 });
@@ -46,7 +51,7 @@ When('I execute {value} function/script on {wdioLocator}', async function (funct
 When(
     'I execute {value} function/script on {wdioLocator} and save result as {value}',
     async function (functionKey: MemoryValue, locator: Locator, memoryKey: MemoryValue) {
-        const fn = await functionKey.value();
+        const fn = resolveFunction(await functionKey.value());
         const element = locator();
         memoryKey.set(await this.wdio.browser.execute(fn, await element.getElement()));
     }

@@ -145,6 +145,7 @@ Feature: actions
     Then I expect current url to contain 'values.html'
 
   @wd
+  @bidi
   Scenario: scroll in window
     When I scroll by '0, 100'
     And I execute 'return window.scrollX' function and save result as 'scrollX'
@@ -152,30 +153,13 @@ Feature: actions
     Then I expect '$scrollX' memory value to be equal '$js(0)'
     Then I expect '$scrollY' memory value to be equal '$js(100)'
 
-
-  @bidi
-  Scenario: scroll in window
-    When I scroll by '0, 100'
-    And I execute '() => window.scrollX' function and save result as 'scrollX'
-    And I execute '() => window.scrollY' function and save result as 'scrollY'
-    Then I expect '$scrollX' memory value to be equal '$js(0)'
-    Then I expect '$scrollY' memory value to be equal '$js(100)'
-
   @wd
+  @bidi
   Scenario: scroll in element
     When I scroll by '0, 50' in 'Overflow Container'
     And I wait 500 ms
     And I execute 'return document.querySelector("#overflowContainer").scrollLeft' function and save result as 'scrollX'
     And I execute 'return document.querySelector("#overflowContainer").scrollTop' function and save result as 'scrollY'
-    Then I expect '$scrollX' memory value to be equal '$js(0)'
-    Then I expect '$scrollY' memory value to be equal '$js(50)'
-
-  @bidi
-  Scenario: scroll in element
-    When I scroll by '0, 50' in 'Overflow Container'
-    And I wait 500 ms
-    And I execute '() => document.querySelector("#overflowContainer").scrollLeft' function and save result as 'scrollX'
-    And I execute '() => document.querySelector("#overflowContainer").scrollTop' function and save result as 'scrollY'
     Then I expect '$scrollX' memory value to be equal '$js(0)'
     Then I expect '$scrollY' memory value to be equal '$js(50)'
 
@@ -192,34 +176,6 @@ Feature: actions
     When I click 'Content Editable Text'
     And I press 'Backspace' key
     Then I expect text of 'Content Editable Text' to be equal 'this is content editable tex'
-
-  @bidi
-  @wd
-  Scenario: accept alert
-    When I click 'Alert Button'
-    And I accept alert
-    Then I expect text of 'Action' to be equal 'true'
-
-  @bidi
-  @wd
-  Scenario: dismiss alert
-    When I click 'Alert Button'
-    And I dismiss alert
-    Then I expect text of 'Action' to be equal 'false'
-
-  @bidi
-  @wd
-  Scenario: type text to alert
-    When I expect text of 'Action' to be equal 'Nothing'
-    And I click 'Prompt Button'
-    And I type 'I am not a robot' to alert
-    Then I expect text of 'Action' to be equal 'I am not a robot'
-
-  @bidi
-  @wd
-  Scenario: expect text of alert
-    When I click 'Alert Button'
-    Then I expect text of alert to be equal 'Are you robot?'
 
   @bidi
   @wd

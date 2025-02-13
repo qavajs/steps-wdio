@@ -17,7 +17,7 @@ When('I create interception for {value} as {value}', async function (predicate: 
                 clearInterval(interval);
                 resolve(call);
             }
-        }, 1000);
+        }, 100);
     })
     key.set(interception);
 });
