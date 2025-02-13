@@ -14,6 +14,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 :microscope: - experimental
 
+## [2.5.1]
+- :beetle: fixed `reuseSession` flag
+
 ## [2.5.0]
 - :rocket: added bidi step `I will wait for alert/dialog`
 
