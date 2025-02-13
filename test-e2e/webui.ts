@@ -73,7 +73,6 @@ export const debugWd = {
             'wdio:enforceWebDriverClassic': true,
             'goog:chromeOptions': {
                 args: [
-                    '--incognito',
                     '--window-size=1280,720',
                     '--disable-search-engine-choice-screen'
                 ]
@@ -96,7 +95,8 @@ export const debugBidi = {
                     '--window-size=1280,720',
                     '--disable-search-engine-choice-screen'
                 ]
-            }
+            },
+            unhandledPromptBehavior: 'ignore'
         }
     },
 }

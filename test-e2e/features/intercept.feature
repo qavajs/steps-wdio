@@ -5,7 +5,6 @@ Feature: intercept
     And I open '$mockPage' url
     And I wait for '$usersInterception' response
 
-  @bidi
   Scenario: save intercepted response
     And I open '$mockPage' url
     When I create interception for '**/users' as 'usersInterception'

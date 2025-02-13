@@ -106,7 +106,7 @@ When(
  * @example I switch to parent frame
  */
 When('I switch to parent frame', async function () {
-    await this.wdio.browser.switchToParentFrame();
+    await this.wdio.browser.switchFrame(null);
 });
 
 /**
@@ -115,7 +115,8 @@ When('I switch to parent frame', async function () {
  * @example I switch to 2 frame
  */
 When('I switch to {int} frame', async function (index: number) {
-    await this.wdio.browser.switchToFrame(index - 1);
+    const frame = this.wdio.browser.$$('iframe, frame')[index - 1];
+    await this.wdio.browser.switchFrame(frame);
 });
 
 /**
@@ -319,52 +320,6 @@ When('I scroll in {wdioLocator} until {wdioLocator} to be visible', async functi
  */
 When('I upload {value} file to {wdioLocator}', async function (value: MemoryValue, element: Locator) {
     await element().setValue(await value.value());
-});
-
-/**
- * Accept alert
- * Should be used afterwards the step 'I wait for alert'
- * @example I accept alert
- */
-When('I accept alert', async function () {
-    await this.wdio.browser.waitUntil(async () => {
-        await this.wdio.browser.acceptAlert();
-        return true;
-    }, {
-        timeout: this.config.browser.timeout.present,
-        interval: 2000
-    });
-});
-
-/**
- * Dismiss alert
- * Should be used afterwards the step 'I wait for alert'
- * @example I dismiss alert
- */
-When('I dismiss alert', async function () {
-    await this.wdio.browser.waitUntil(async () => {
-        await this.wdio.browser.dismissAlert();
-        return true;
-    }, {
-        timeout: this.config.browser.timeout.present,
-        interval: 2000
-    });
-});
-
-/**
- * I type {string} to alert
- * Should be used afterwards the step 'I wait for alert'
- * @example I type 'coffee' to alert
- */
-When('I type {value} to alert', async function (value: MemoryValue) {
-    await this.wdio.browser.waitUntil(async () => {
-        await this.wdio.browser.sendAlertText(await value.value());
-        await this.wdio.browser.acceptAlert();
-        return true;
-    }, {
-        timeout: this.config.browser.timeout.present,
-        interval: 2000
-    });
 });
 
 /**

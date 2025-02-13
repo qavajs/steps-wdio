@@ -253,23 +253,6 @@ Then(
 );
 
 /**
- * Verify that text of an alert meets expectation
- * Should be used afterwards the step 'I wait for alert'
- * @param {string} validationType - validation
- * @param {string} value - expected text value
- * @example I expect text of alert does not contain 'coffee'
- */
-Then('I expect text of alert {validation} {value}', async function (validation: Validation, expected: MemoryValue) {
-    const alertText = await this.wdio.browser.waitUntil(async () => {
-        return await this.wdio.browser.getAlertText();
-    }, {
-        timeout: this.config.browser.timeout.present,
-        interval: 2000
-    });
-    validation(alertText, await expected.value());
-});
-
-/**
  * Verify that css property of every element in collection satisfies condition
  * @param {string} property - property to verify
  * @param {string} alias - element to verify
