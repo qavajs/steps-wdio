@@ -1,6 +1,6 @@
 import { When } from '@cucumber/cucumber';
-import { MemoryValue } from '@qavajs/core';
-import { Locator } from './pageObject';
+import type { MemoryValue } from '@qavajs/core';
+import type { Locator } from './pageObject';
 
 function resolveFunction(script: string | Function) {
     return typeof script === 'function' ? script : new Function(script);
