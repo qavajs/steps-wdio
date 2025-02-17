@@ -19,7 +19,8 @@
     "types": [
       "node",
       "@wdio/types",
-      "webdriverio"
+      "webdriverio",
+      "express"
     ]
   }
 }
