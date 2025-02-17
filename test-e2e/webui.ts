@@ -1,6 +1,5 @@
 import Memory from './memory';
 import App from './page_object';
-import localServer from './support/server';
 import { IQavajsWdioConfig } from '../src/IQavajsWdioConfig';
 
 const common = {
@@ -31,7 +30,6 @@ const common = {
             showProgress: false
         }
     },
-    service: [localServer],
     memory: new Memory(),
     pageObject: new App(),
     parallel: 4,
