@@ -31,7 +31,7 @@ export default {
             browserName: 'chrome'
         }
     },
-    pageObject: App
+    pageObject: new App()
 }
 ```
 
