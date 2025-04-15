@@ -14,7 +14,15 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 :microscope: - experimental
 
-## [2.5.1]
+## [2.6.0]
+- Added capability to provide _defaultResolver_ to define default logic to identify element
+```typescript
+class App {
+    defaultResolver({ alias }) {
+        return ({ parent }) => parent.$(`//*[text()="${alias}"]`);
+    }
+}
+```
 - :beetle: fixed `reuseSession` flag
 
 ## [2.5.0]
