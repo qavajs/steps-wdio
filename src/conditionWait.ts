@@ -1,3 +1,11 @@
+class SoftAssertionError extends Error {
+    constructor(...args: any[]) {
+        super(...args);
+    }
+
+    name = 'SoftAssertionError';
+}
+
 export const conditionValidations = {
     PRESENT: 'present',
     CLICKABLE: 'clickable',
@@ -10,10 +18,10 @@ export const conditionValidations = {
 
 const notClause = '(not )?';
 const toBeClause = 'to (?:be )?';
+const softClause = '(softly )?'
 const validationClause = `(${Object.values(conditionValidations).join('|')})`;
 
-export const conditionWaitExtractRegexp = new RegExp(`^${notClause}${toBeClause}${validationClause}$`);
-export const conditionWaitRegexp = new RegExp(`(${notClause}${toBeClause}${validationClause})`);
+export const conditionWaitExtractRegexp = new RegExp(`^${notClause}${toBeClause}${softClause}${validationClause}$`);
 
 const waits = {
     [conditionValidations.PRESENT]: (
@@ -85,9 +93,14 @@ export async function conditionWait(
 export function getConditionWait(condition: string): (element: WebdriverIO.Element, timeout: number) => Promise<void> {
     const match = condition.match(conditionWaitExtractRegexp) as RegExpMatchArray;
     if (!match) throw new Error(`${condition} wait is not implemented`);
-    const [ _, reverse, validation ] = match;
+    const [ _, reverse, soft, validation ] = match;
     const fn = async function (element: WebdriverIO.Element, timeout: number) {
-        await conditionWait(element, validation, timeout, Boolean(reverse));
+        try {
+            await conditionWait(element, validation, timeout, Boolean(reverse));
+        } catch (error) {
+            if (soft && error instanceof Error) throw new SoftAssertionError(error.message, { cause: error });
+            throw error;
+        }
     }
     fn.validation = validation;
     return fn;

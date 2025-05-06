@@ -14,6 +14,13 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 :microscope: - experimental
 
+## [2.7.0]
+- :rocket: added capability to perform soft validation of element condition validations
+```gherkin
+  Scenario Outline: wait for condition
+    Then I expect 'Element' to be softly present
+```
+
 ## [2.6.0]
 - Added capability to provide _defaultResolver_ to define default logic to identify element
 ```typescript
