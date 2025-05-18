@@ -1,7 +1,7 @@
 [![npm version](https://badge.fury.io/js/@qavajs%2Fsteps-wdio.svg)](https://badge.fury.io/js/@qavajs%2Fsteps-wdio)
 
 # @qavajs/steps-wdio
-**`@qavajs/steps-wdio`** provides a comprehensive set of pre-built step definitions for [qavajs](https://github.com/qavajs/qavajs), powered by [webdriver.io]([https://playwright.dev](https://webdriver.io/)). 
+**`@qavajs/steps-wdio`** provides a comprehensive set of pre-built step definitions for [qavajs](https://github.com/qavajs/qavajs), powered by [webdriver.io](https://webdriver.io/)). 
 It enables easy and efficient browser automation in a behavior-driven development (BDD) style using Cucumber syntax.
 
 ## Features
