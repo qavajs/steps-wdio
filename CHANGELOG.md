@@ -14,6 +14,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 :microscope: - experimental
 
+## [2.8.0]
+- :rocket: improved logging to show resolved selectors
+
 ## [2.7.0]
 - :rocket: added capability to perform soft validation of element condition validations
 ```gherkin
