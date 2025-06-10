@@ -1,6 +1,6 @@
 import Memory from './memory';
 import App from './page_object';
-import { IQavajsWdioConfig } from '../src/IQavajsWdioConfig';
+import { IQavajsWdioConfig } from '../src';
 
 const common = {
     paths: ['test-e2e/features/*.feature'],
