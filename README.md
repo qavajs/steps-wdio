@@ -25,7 +25,7 @@ import App from './page_object';
 
 export default {
     require: [
-        'node_modules/@qavajs/steps-wdio/index.js'
+        'node_modules/@qavajs/steps-wdio/steps.js'
     ],
     browser: {
         timeout: {

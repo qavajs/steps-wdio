@@ -1,4 +1,4 @@
-import { locator } from '../../src/pageObject';
+import { locator } from '../../src';
 
 export default class App {
     SimpleTextElement = locator('#textValue');
@@ -76,8 +76,8 @@ export default class App {
     TopLevelComponent = locator.as(BodyComponent);
     NotExistingComponent = locator('#not-existingComponent').as(BodyComponent);
 
-    defaultResolver({ alias }) {
-        return ({ parent }) => parent.$(`//*[text()="${alias}"]`);
+    defaultResolver({ alias }: { alias: string }) {
+        return ({ parent }: { parent: any }) => parent.$(`//*[text()="${alias}"]`);
     }
 }
 

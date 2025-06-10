@@ -16,6 +16,7 @@
     "skipLibCheck": true,
     "allowJs": true,
     "sourceMap": true,
+    "declaration": true,
     "types": [
       "node",
       "@wdio/types",

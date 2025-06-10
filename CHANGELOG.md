@@ -14,6 +14,21 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 :microscope: - experimental
 
+## [3.0.0]
+[Breaking Changes]
+- :rocket: moved steps exports to `steps.js`
+```typescript
+export default {
+    require: [
+        'node_modules/@qavajs/steps-wdio/steps.js'
+    ]
+}
+```
+- :rocket: moved types and utils exports to `index.js`
+```typescript
+import { locator } from '@qavajs/steps-wdio';
+```
+
 ## [2.8.0]
 - :rocket: improved logging to show resolved selectors
 
