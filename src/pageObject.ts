@@ -130,11 +130,13 @@ export function element(this: any, path: string): Locator {
     const chain = query(this.config.pageObject, path);
     const driver = this.wdio.driver as WebdriverIO.Browser;
     const logger = this;
-    const log = (item: ChainItem) => logger.log(`${item.alias} -> ${item.type === 'template' ? item.selector(item.argument) : item.selector}`);
+    const logItem = (item: ChainItem) => `.$('${item.type === 'template' ? item.selector(item.argument) : item.selector}')`;
+    const log = (logChain: string) => logger.log(`${path} -> ${logChain.replace(/^\./, '')}`);
     const getter: Locator = function () {
         let current = driver as unknown as ChainablePromiseElement;
+        let logChain = '';
         for (const item of chain) {
-            log(item);
+            logChain += logItem(item);
             switch (item.type) {
                 case 'simple': current = item.selector ? current.$(item.selector) : current; break;
                 case 'template': current = current.$(item.selector(item.argument)); break;
@@ -146,14 +148,17 @@ export function element(this: any, path: string): Locator {
                 }); break;
             }
         }
+        log(logChain);
         return current
     }
     getter.collection = function () {
         let current = driver as unknown as ChainablePromiseElement;
+        let logChain = '';
         for (let i = 0; i < chain.length; i++) {
             const item = chain[i];
-            log(item);
+            logChain += logItem(item);
             if (i === chain.length - 1) {
+                log(logChain);
                 switch (item.type) {
                     case 'simple': return current.$$(item.selector);
                     case 'template': return current.$$(item.selector(item.argument));
