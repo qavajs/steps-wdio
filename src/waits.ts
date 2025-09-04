@@ -1,6 +1,5 @@
-import { When } from '@cucumber/cucumber';
 import { Locator } from './pageObject';
-import { MemoryValue, Validation } from '@qavajs/core';
+import { type MemoryValue, type Validation, When } from '@qavajs/core';
 
 /**
  * Explicit wait

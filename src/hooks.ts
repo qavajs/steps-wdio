@@ -1,4 +1,4 @@
-import { After, AfterAll, AfterStep, Before, BeforeStep, Status } from '@cucumber/cucumber';
+import { After, AfterAll, AfterStep, Before, BeforeStep, Status } from '@qavajs/core';
 import defaultTimeouts from './defaultTimeouts';
 import { ScreenshotEvent, SnapshotEvent } from './events';
 import { equalOrIncludes, getEventValue } from './utils';

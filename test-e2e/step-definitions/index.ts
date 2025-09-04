@@ -1,6 +1,5 @@
-import { Then } from '@cucumber/cucumber';
 import { expect } from 'chai';
-import { type MemoryValue } from '@qavajs/core';
+import { type MemoryValue, Then } from '@qavajs/core';
 
 Then('I expect {string} memory value to be equal {string}', async function(actual, expected) {
     const actualValue = await this.memory.getValue(actual);

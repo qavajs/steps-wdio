@@ -1,6 +1,4 @@
-import { When } from '@cucumber/cucumber';
-import memory from '@qavajs/memory';
-import {MemoryValue} from "@qavajs/core";
+import { type MemoryValue, When } from '@qavajs/core';
 type ErrorReason = ('Failed' | 'Aborted' | 'TimedOut' | 'AccessDenied' | 'ConnectionClosed' | 'ConnectionReset' | 'ConnectionRefused' | 'ConnectionAborted' | 'ConnectionFailed' | 'NameNotResolved' | 'InternetDisconnected' | 'AddressUnreachable' | 'BlockedByClient' | 'BlockedByResponse');
 
 /**

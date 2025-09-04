@@ -1,6 +1,5 @@
-import { When } from '@cucumber/cucumber';
 import { parseCoords, parseKeySequence, parseCoordsAsObject, dragAndDrop } from './utils';
-import { MemoryValue } from '@qavajs/core';
+import { type MemoryValue, When } from '@qavajs/core';
 import { Locator } from './pageObject';
 
 /**
