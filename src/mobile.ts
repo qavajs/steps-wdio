@@ -1,6 +1,5 @@
-import { DataTable, When } from '@cucumber/cucumber';
 import { Locator } from './pageObject';
-import {MemoryValue} from "@qavajs/core";
+import { type MemoryValue, DataTable, When } from '@qavajs/core';
 
 /**
  * Tap element

@@ -1,4 +1,4 @@
-import { When } from '@cucumber/cucumber';
+import { When } from '@qavajs/core';
 import { parseKeySequence } from './utils';
 
 /**

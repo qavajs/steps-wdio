@@ -1,5 +1,4 @@
-import { When, Then } from '@cucumber/cucumber';
-import { type Validation, type MemoryValue } from '@qavajs/core';
+import { type Validation, type MemoryValue, When, Then } from '@qavajs/core';
 
 class DialogHolder {
     currentDialog!: Promise<WebdriverIO.Dialog>;
