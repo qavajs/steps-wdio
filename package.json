@@ -1,7 +1,7 @@
 {
   "name": "@qavajs/steps-wdio",
-  "version": "2.9.0",
-  "description": "steps to interact with webdriverio",
+  "version": "2.10.0",
+  "description": "qavajs steps to interact with webdriverio",
   "main": "./index.js",
   "types": "./index.d.ts",
   "scripts": {
@@ -41,5 +41,32 @@
   },
   "dependencies": {
     "webdriverio": "^9.19.2"
-  }
+  },
+  "keywords": [
+    "test",
+    "automation",
+    "testing",
+    "qa",
+    "quality-assurance",
+    "test-framework",
+    "test-runner",
+    "test-automation",
+    "e2e",
+    "end-to-end",
+    "ui-testing",
+    "integration-testing",
+    "acceptance-testing",
+    "functional-testing",
+    "browser-testing",
+    "mobile-testing",
+    "cross-browser",
+    "bdd",
+    "gherkin",
+    "assertions",
+    "continuous-delivery",
+    "automation-framework",
+    "webdriverio",
+    "wdio",
+    "webdriver"
+  ]
 }
