@@ -127,3 +127,22 @@ When('I pull {value} file as {value}', async function (path: MemoryValue, key: M
     const fileData = await this.wdio.driver.pullFile(await path.value());
     key.set(fileData);
 });
+
+/**
+ * Hide keyboard using default strategy
+ * @example
+ * When I hide keyboard
+ */
+When('I hide keyboard', async function () {
+    await this.wdio.driver.hideKeyboard();
+});
+
+/**
+ * Hide keyboard pressing certain key
+ * @param {string} key - key to press
+ * @example
+ * When I hide keyboard pressing 'Return'
+ */
+When('I hide keyboard pressing {value}', async function (key: MemoryValue) {
+    await this.wdio.driver.hideKeyboard('pressKey', await key.value());
+});

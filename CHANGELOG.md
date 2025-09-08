@@ -14,6 +14,13 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 :microscope: - experimental
 
+## [2.10.0]
+- :rocket: added steps to hide mobile keyboard
+```gherkin
+When I hide keyboard
+And I hide keyboard pressing Return
+```
+
 ## [2.9.0]
 - :rocket: improved logging to display full path
 
