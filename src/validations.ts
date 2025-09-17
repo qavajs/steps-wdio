@@ -19,8 +19,8 @@ Then('I expect {wdioLocator} {wdioCondition}', async function (element: Locator,
  * @param {string} alias - element to get text
  * @param {string} validationType - validation
  * @param {string} value - expected result
- * @example I expect text of '#1 of Search Results' equals to 'google'
- * @example I expect text of '#2 of Search Results' does not contain 'yandex'
+ * @example I expect text of 'Search Result (1)' equals to 'google'
+ * @example I expect text of 'Search Result (2)' does not contain 'duckduckgo'
  */
 Then(
     'I expect text of {wdioLocator} {validation} {value}',
@@ -161,7 +161,7 @@ Then(
  * @param {string} validationType - validation
  * @param {string} value - expected result
  * @example I expect text of every element in 'Search Results' collection equals to 'google'
- * @example I expect text of every element in 'Search Results' collection does not contain 'yandex'
+ * @example I expect text of every element in 'Search Results' collection does not contain 'duckduckgo'
  */
 Then(
     'I expect text of every element in {wdioLocator} collection {validation} {value}',

@@ -16,8 +16,9 @@ When('I open {value} url', async function (url: MemoryValue) {
  * @param {string} alias - element to type
  * @param {string} value - value to type
  * @example I type 'wikipedia' to 'Google Input'
+ * @example I type 'wikipedia' into 'Google Input'
  */
-When('I type {value} to {wdioLocator}', async function (typeValue: MemoryValue, element: Locator) {
+When('I type {value} (in)to {wdioLocator}', async function (typeValue: MemoryValue, element: Locator) {
     await element().addValue(await typeValue.value());
 });
 
@@ -26,8 +27,9 @@ When('I type {value} to {wdioLocator}', async function (typeValue: MemoryValue, 
  * @param {string} alias - element to type
  * @param {string} value - value to type
  * @example I type 'wikipedia' chars to 'Google Input'
+ * @example I type 'wikipedia' chars into 'Google Input'
  */
-When('I type {value} chars to {wdioLocator}', async function (typeValue: MemoryValue, element: Locator) {
+When('I type {value} chars (in)to {wdioLocator}', async function (typeValue: MemoryValue, element: Locator) {
     await element().click();
     await this.wdio.browser.keys(await typeValue.value());
 });

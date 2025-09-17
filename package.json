@@ -28,9 +28,9 @@
   "homepage": "https://github.com/qavajs/steps-wdio#readme",
   "devDependencies": {
     "@cucumber/cucumber": "^12.2.0",
-    "@qavajs/console-formatter": "^1.0.0",
-    "@qavajs/core": "^2.6.0",
-    "@qavajs/html-formatter": "^0.18.1",
+    "@qavajs/console-formatter": "^1.1.1",
+    "@qavajs/core": "^2.7.0",
+    "@qavajs/html-formatter": "^1.0.0",
     "@qavajs/webstorm-adapter": "^8.0.0",
     "@types/chai": "^4.3.20",
     "express": "^5.1.0",
