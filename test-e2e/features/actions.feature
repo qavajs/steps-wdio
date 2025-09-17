@@ -29,15 +29,25 @@ Feature: actions
 
   @bidi
   @wd
-  Scenario: type
-    When I type 'test value' to 'Input'
+  Scenario Outline: type (<word>)
+    When I type 'test value' <word> 'Input'
     Then I expect text of 'Action' to be equal 'test value'
+
+    Examples:
+      | word |
+      | to   |
+      | into |
 
   @bidi
   @wd
-  Scenario: type chars
-    When I type 'test value' chars to 'Input'
+  Scenario Outline: type chars (<word>)
+    When I type 'test value' chars <word> 'Input'
     Then I expect text of 'Action' to be equal 'test value'
+
+    Examples:
+      | word |
+      | to   |
+      | into |
 
   @bidi
   @wd
