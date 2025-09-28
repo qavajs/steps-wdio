@@ -6,5 +6,5 @@ export interface QavajsWdioWorld extends IQavajsWorld {
         browser: WebdriverIO.Browser;
         driver: WebdriverIO.Browser;
     },
-    element: (this: any, path: string) => Locator
+    element(path: string): Locator
 }
