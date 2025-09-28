@@ -1,5 +1,6 @@
 import { type Validation, type MemoryValue, Then } from '@qavajs/core';
 import { Locator } from './pageObject';
+import { QavajsWdioWorld } from './QavajsWdioWorld';
 
 /**
  * Verify element condition
@@ -9,7 +10,7 @@ import { Locator } from './pageObject';
  * @example I expect 'Loading' not to be present
  * @example I expect 'Search Bar > Submit Button' to be clickable
  */
-Then('I expect {wdioLocator} {wdioCondition}', async function (element: Locator, condition: Function & { validation: string }) {
+Then('I expect {wdioLocator} {wdioCondition}', async function (this: QavajsWdioWorld, element: Locator, condition: Function & { validation: string }) {
     const timeout = this.config.browser.timeout[condition.validation] ?? this.config.browser.timeout.page;
     await condition(element(), timeout);
 });
@@ -24,7 +25,7 @@ Then('I expect {wdioLocator} {wdioCondition}', async function (element: Locator,
  */
 Then(
     'I expect text of {wdioLocator} {validation} {value}',
-    async function (element: Locator, validation: Validation, expected: MemoryValue) {
+    async function (this: QavajsWdioWorld, element: Locator, validation: Validation, expected: MemoryValue) {
         const expectedValue = await expected.value();
         const elementText = () => element().getText();
         await validation.poll(elementText, expectedValue, {
@@ -45,7 +46,7 @@ Then(
  */
 Then(
     'I expect number of elements in {wdioLocator} collection {validation} {value}',
-    async function (locator: Locator, validation: Validation, expected: MemoryValue) {
+    async function (this: QavajsWdioWorld, locator: Locator, validation: Validation, expected: MemoryValue) {
         const collectionLength = () => locator.collection().length;
         const expectedValue = await expected.value();
         await validation.poll(collectionLength, expectedValue, {
@@ -65,7 +66,7 @@ Then(
  */
 Then(
     'I expect value of {wdioLocator} {validation} {value}',
-    async function (element: Locator, validation: Validation, expected: MemoryValue) {
+    async function (this: QavajsWdioWorld, element: Locator, validation: Validation, expected: MemoryValue) {
         const actualValue = () => element().getValue();
         const expectedValue = await expected.value();
         await validation.poll(actualValue, expectedValue, {
@@ -86,7 +87,7 @@ Then(
  */
 Then(
     'I expect {value} property of {wdioLocator} {validation} {value}',
-    async function (property: MemoryValue, element: Locator, validation: Validation, expected: MemoryValue) {
+    async function (this: QavajsWdioWorld, property: MemoryValue, element: Locator, validation: Validation, expected: MemoryValue) {
         const propertyName = await property.value();
         const expectedValue = await expected.value();
         const actualValue = () => element().getProperty(propertyName);
@@ -107,7 +108,7 @@ Then(
  */
 Then(
     'I expect {value} attribute of {wdioLocator} {validation} {value}',
-    async function (attribute: MemoryValue, element: Locator, validation: Validation, expected: MemoryValue) {
+    async function (this: QavajsWdioWorld, attribute: MemoryValue, element: Locator, validation: Validation, expected: MemoryValue) {
         const attributeName = await attribute.value();
         const expectedValue = await expected.value();
         const actualValue = () => element().getAttribute(attributeName);
@@ -127,7 +128,7 @@ Then(
  */
 Then(
     'I expect current url {validation} {value}',
-    async function (validation: Validation, expected: MemoryValue) {
+    async function (this: QavajsWdioWorld, validation: Validation, expected: MemoryValue) {
         const expectedUrl = await expected.value();
         const actualUrl = () => this.wdio.browser.getUrl();
         await validation.poll(actualUrl, expectedUrl, {
@@ -145,7 +146,7 @@ Then(
  */
 Then(
     'I expect page title {validation} {value}',
-    async function (validation: Validation, expected: MemoryValue) {
+    async function (this: QavajsWdioWorld, validation: Validation, expected: MemoryValue) {
         const expectedTitle = await expected.value();
         const actualTitle = () => this.wdio.browser.getTitle();
         await validation.poll(actualTitle, expectedTitle, {
@@ -165,7 +166,7 @@ Then(
  */
 Then(
     'I expect text of every element in {wdioLocator} collection {validation} {value}',
-    async function (locator: Locator, validation: Validation, expected: MemoryValue) {
+    async function (this: QavajsWdioWorld, locator: Locator, validation: Validation, expected: MemoryValue) {
         const expectedValue = await expected.value();
         const collection = await locator.collection().getElements();
         for (const element of collection) {
@@ -181,10 +182,11 @@ Then(
  * @example I expect every element in 'Header > Links' collection to be visible
  * @example I expect every element in 'Loading Bars' collection not to be present
  */
-Then('I expect every element in {wdioLocator} collection {wdioCondition}', async function (locator: Locator, condition: Function) {
-    const collection = locator.collection();
-    const conditionWait = (element: WebdriverIO.Element) => condition(element, this.config.browser.timeout.page);
-    await Promise.all(await collection.map(conditionWait))
+Then('I expect every element in {wdioLocator} collection {wdioCondition}', 
+    async function (this: QavajsWdioWorld, locator: Locator, condition: Function) {
+        const collection = locator.collection();
+        const conditionWait = (element: WebdriverIO.Element) => condition(element, this.config.browser.timeout.page);
+        await Promise.all(await collection.map(conditionWait))
 });
 
 /**
@@ -196,7 +198,7 @@ Then('I expect every element in {wdioLocator} collection {wdioCondition}', async
  */
 Then(
     'I expect {value} attribute of every element in {wdioLocator} collection {validation} {value}',
-    async function (attribute: MemoryValue, locator: Locator, validation: Validation, expected: MemoryValue) {
+    async function (this: QavajsWdioWorld, attribute: MemoryValue, locator: Locator, validation: Validation, expected: MemoryValue) {
         const expectedValue = await expected.value();
         const attributeName = await attribute.value();
         const collection = await locator.collection().getElements();
@@ -216,7 +218,7 @@ Then(
  */
 Then(
     'I expect {value} property of every element in {wdioLocator} collection {validation} {value}',
-    async function (property: MemoryValue, locator: Locator, validation: Validation, expected: MemoryValue) {
+    async function (this: QavajsWdioWorld, property: MemoryValue, locator: Locator, validation: Validation, expected: MemoryValue) {
         const expectedValue = await expected.value();
         const propertyName = await property.value();
         const collection = await locator.collection().getElements();
@@ -238,10 +240,10 @@ Then(
  */
 Then(
     'I expect {value} css property of {wdioLocator} {validation} {value}',
-    async function (property: MemoryValue, locator: Locator, validation: Validation, expected: MemoryValue) {
+    async function (this: QavajsWdioWorld, property: MemoryValue, locator: Locator, validation: Validation, expected: MemoryValue) {
         const propertyName = await property.value();
         const expectedValue = await expected.value();
-        const actualValue = async () => this.wdio.browser.execute(function (element: HTMLElement, propertyName: string) {
+        const actualValue = async () => this.wdio.browser.execute<any, any>(function (element: HTMLElement, propertyName: string) {
             return getComputedStyle(element).getPropertyValue(propertyName)
         }, await locator().getElement(), propertyName);
         await validation.poll(actualValue, expectedValue, {
@@ -262,12 +264,12 @@ Then(
  */
 Then(
     'I expect {value} css property of every element in {wdioLocator} collection {validation} {value}',
-    async function (property: MemoryValue, locator: Locator, validation: Validation, expected: MemoryValue) {
+    async function (this: QavajsWdioWorld, property: MemoryValue, locator: Locator, validation: Validation, expected: MemoryValue) {
         const propertyName = await property.value();
         const expectedValue = await expected.value();
         const collection = await locator.collection().getElements();
         for (const element of collection) {
-            const actualValue = async () => this.wdio.browser.execute(function (element: HTMLElement, propertyName: string) {
+            const actualValue = async () => this.wdio.browser.execute<any, any>(function (element: HTMLElement, propertyName: string) {
                 return getComputedStyle(element).getPropertyValue(propertyName)
             }, element, propertyName);
             await validation.poll(actualValue, expectedValue, {

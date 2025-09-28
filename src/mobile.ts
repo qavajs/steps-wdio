@@ -1,12 +1,13 @@
 import { Locator } from './pageObject';
 import { type MemoryValue, DataTable, When } from '@qavajs/core';
+import { QavajsWdioWorld } from './QavajsWdioWorld';
 
 /**
  * Tap element
  * @param {string} alias - element to tap
  * @example I tap 'Google Button'
  */
-When('I tap {wdioLocator}', async function(locator: Locator) {
+When('I tap {wdioLocator}', async function(this: QavajsWdioWorld, locator: Locator) {
     await locator().click();
 });
 
@@ -14,7 +15,7 @@ When('I tap {wdioLocator}', async function(locator: Locator) {
  * Shake device
  * @example I shake device
  */
-When('I shake device', async function() {
+When('I shake device', async function(this: QavajsWdioWorld) {
     await this.wdio.driver.shake();
 });
 
@@ -22,7 +23,7 @@ When('I shake device', async function() {
  * Lock device (Android)
  * @example I lock device
  */
-When('I lock device', async function() {
+When('I lock device', async function(this: QavajsWdioWorld) {
     await this.wdio.driver.lock();
 });
 
@@ -30,7 +31,7 @@ When('I lock device', async function() {
  * Unlock device
  * @example I unlock device
  */
-When('I unlock device', async function() {
+When('I unlock device', async function(this: QavajsWdioWorld) {
     await this.wdio.driver.unlock();
 });
 
@@ -38,7 +39,7 @@ When('I unlock device', async function() {
  * Lock device for particular time
  * @example I lock device for 2 sec
  */
-When('I lock device for {int} sec', async function(time) {
+When('I lock device for {int} sec', async function(this: QavajsWdioWorld, time) {
     await this.wdio.driver.lock(time);
 });
 
@@ -48,7 +49,7 @@ When('I lock device for {int} sec', async function(time) {
  * @param {string} message - the SMS message
  * @example I send sms to '5551234567' with 'some text' message
  */
-When('I send sms to {value} with {value} message', async function(phoneNumber: MemoryValue, message: MemoryValue) {
+When('I send sms to {value} with {value} message', async function(this: QavajsWdioWorld, phoneNumber: MemoryValue, message: MemoryValue) {
     await this.wdio.driver.sendSms(await phoneNumber.value(), await message.value());
 });
 
@@ -57,7 +58,7 @@ When('I send sms to {value} with {value} message', async function(phoneNumber: M
  * @param {string} phoneNumber - the phone number to make call
  * @example I call to '5551234567'
  */
-When('I call to {value}', async function(phoneNumber: MemoryValue) {
+When('I call to {value}', async function(this: QavajsWdioWorld, phoneNumber: MemoryValue) {
     await this.wdio.driver.gsmCall(await phoneNumber.value(), 'call');
 });
 
@@ -74,7 +75,7 @@ When('I call to {value}', async function(phoneNumber: MemoryValue) {
  *   | moveTo  | 10, 80 |
  *   | release |        |
  */
-When('I perform touch action:', async function(actionsTable: DataTable) {
+When('I perform touch action:', async function(this: QavajsWdioWorld, actionsTable: DataTable) {
     const { width, height } = await this.wdio.driver.getWindowSize();
     const actions = await Promise.all(actionsTable.raw().map(async ([action, params]) => {
         const options: any = {};
@@ -98,7 +99,7 @@ When('I perform touch action:', async function(actionsTable: DataTable) {
  * @example
  * When I perform touch action '$actions'
  */
-When('I perform touch action {value}', async function (actions: MemoryValue) {
+When('I perform touch action {value}', async function (this: QavajsWdioWorld, actions: MemoryValue) {
     await this.wdio.driver.touchPerform(await actions.value());
 });
 
@@ -109,7 +110,7 @@ When('I perform touch action {value}', async function (actions: MemoryValue) {
  * @example
  * When I push '$fileData' file as '/data/local/tmp/foo.bar'
  */
-When('I push {value} file as {value}', async function (file: MemoryValue, path: MemoryValue) {
+When('I push {value} file as {value}', async function (this: QavajsWdioWorld, file: MemoryValue, path: MemoryValue) {
     const fileData = await file.value();
     const devicePath = await path.value();
     const base64Content = fileData instanceof Buffer ? fileData.toString('base64') : fileData;
@@ -123,7 +124,7 @@ When('I push {value} file as {value}', async function (file: MemoryValue, path: 
  * @example
  * When I pull '/data/local/tmp/foo.bar' file as 'fileData'
  */
-When('I pull {value} file as {value}', async function (path: MemoryValue, key: MemoryValue) {
+When('I pull {value} file as {value}', async function (this: QavajsWdioWorld, path: MemoryValue, key: MemoryValue) {
     const fileData = await this.wdio.driver.pullFile(await path.value());
     key.set(fileData);
 });
@@ -133,7 +134,7 @@ When('I pull {value} file as {value}', async function (path: MemoryValue, key: M
  * @example
  * When I hide keyboard
  */
-When('I hide keyboard', async function () {
+When('I hide keyboard', async function (this: QavajsWdioWorld) {
     await this.wdio.driver.hideKeyboard();
 });
 
@@ -143,6 +144,6 @@ When('I hide keyboard', async function () {
  * @example
  * When I hide keyboard pressing 'Return'
  */
-When('I hide keyboard pressing {value}', async function (key: MemoryValue) {
+When('I hide keyboard pressing {value}', async function (this: QavajsWdioWorld, key: MemoryValue) {
     await this.wdio.driver.hideKeyboard('pressKey', await key.value());
 });

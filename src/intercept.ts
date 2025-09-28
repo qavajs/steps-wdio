@@ -1,4 +1,5 @@
 import { type MemoryValue, When } from '@qavajs/core';
+import { QavajsWdioWorld } from './QavajsWdioWorld';
 
 /**
  * Create interception for url or predicate function
@@ -6,7 +7,7 @@ import { type MemoryValue, When } from '@qavajs/core';
  * @param {string} key - memory key to save
  * @example I create interception for '**\/api/qavajs' as 'intercept'
  */
-When('I create interception for {value} as {value}', async function (predicate: MemoryValue, key: MemoryValue) {
+When('I create interception for {value} as {value}', async function (this: QavajsWdioWorld, predicate: MemoryValue, key: MemoryValue) {
     const urlPattern = await predicate.value();
     const mock = await this.wdio.browser.mock(urlPattern);
     const interception = new Promise(resolve => {
@@ -26,7 +27,7 @@ When('I create interception for {value} as {value}', async function (predicate: 
  * @param {string} interception - key of saved interception promise
  * @example I wait for '$interception' response
  */
-When('I wait for {value} response', async function (interception: MemoryValue) {
+When('I wait for {value} response', async function (this: QavajsWdioWorld, interception: MemoryValue) {
     const interceptionPromise = await interception.value();
     await interceptionPromise;
 });
@@ -38,7 +39,7 @@ When('I wait for {value} response', async function (interception: MemoryValue) {
  * When I save '$interception' response as 'response'
  * And I expect '$response.statusCode' to equal '200'
  */
-When('I save {value} response as {value}', async function (interception: MemoryValue, key: MemoryValue) {
+When('I save {value} response as {value}', async function (this: QavajsWdioWorld, interception: MemoryValue, key: MemoryValue) {
     const interceptionPromise = await interception.value();
     key.set(await interceptionPromise);
 });

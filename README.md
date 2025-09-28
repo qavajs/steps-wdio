@@ -88,7 +88,7 @@ export default {
 ```
 
 ## reuseSession
-reuseSession flag allows to share session between tests in frames of process. But setting of this flag 
+`reuseSession` flag allows to share session between tests in frames of process. But setting of this flag 
 transfer session control to user.
 
 ```javascript

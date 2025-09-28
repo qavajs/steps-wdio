@@ -1,5 +1,6 @@
 //@ts-ignore
 import { ChainablePromiseArray, ChainablePromiseElement } from 'webdriverio';
+import { QavajsWdioWorld } from './QavajsWdioWorld';
 
 type SelectorDefinition = string | ((argument: string) => string) | ((argument: any) => any) | null;
 
@@ -126,7 +127,7 @@ export interface Locator {
     collection: () => ChainablePromiseArray;
 }
 
-export function element(this: any, path: string): Locator {
+export function element(this: QavajsWdioWorld, path: string): Locator {
     const chain = query(this.config.pageObject, path);
     const driver = this.wdio.driver as WebdriverIO.Browser;
     const logger = this;

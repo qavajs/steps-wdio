@@ -1,12 +1,13 @@
 import { When } from '@qavajs/core';
 import { parseKeySequence } from './utils';
+import { QavajsWdioWorld } from './QavajsWdioWorld';
 
 /**
  * Press and hold keyboard key
  * @param {string} key - key to press
  * @example When I hold down 'Q' key
  */
-When('I hold down {string} key', async function (key) {
+When('I hold down {string} key', async function (this: QavajsWdioWorld, key) {
     const [keyToPress] = parseKeySequence(key);
     await this.wdio.browser.action('key').down(keyToPress).perform(true);
 });
@@ -16,7 +17,7 @@ When('I hold down {string} key', async function (key) {
  * @param {string} key - key to release
  * @example When I release 'A' key
  */
-When('I release {string} key', async function (key) {
+When('I release {string} key', async function (this: QavajsWdioWorld, key) {
     const [keyToPress] = parseKeySequence(key);
     await this.wdio.browser.action('key').up(keyToPress).perform();
 });

@@ -1,5 +1,6 @@
 import { Locator } from './pageObject';
 import { type MemoryValue, When } from '@qavajs/core';
+import { QavajsWdioWorld } from './QavajsWdioWorld';
 
 /**
  * Save text of element to memory
@@ -7,7 +8,7 @@ import { type MemoryValue, When } from '@qavajs/core';
  * @param {string} key - key to store value
  * @example I save text of 'Search Result (1)' as 'firstSearchResult'
  */
-When('I save text of {wdioLocator} as {value}', async function (element: Locator, key: MemoryValue) {
+When('I save text of {wdioLocator} as {value}', async function (this: QavajsWdioWorld, element: Locator, key: MemoryValue) {
     key.set(await element().getText());
 });
 
@@ -19,7 +20,7 @@ When('I save text of {wdioLocator} as {value}', async function (element: Locator
  * @example I save 'checked' property of 'Checkbox' as 'checked'
  * @example I save '$prop' property of 'Checkbox' as 'checked'
  */
-When('I save {value} property of {wdioLocator} as {value}', async function (property: MemoryValue, element: Locator, key: MemoryValue) {
+When('I save {value} property of {wdioLocator} as {value}', async function (this: QavajsWdioWorld, property: MemoryValue, element: Locator, key: MemoryValue) {
     const propertyName = await property.value();
     key.set(await element().getProperty(propertyName));
 });
@@ -32,7 +33,7 @@ When('I save {value} property of {wdioLocator} as {value}', async function (prop
  * @example I save 'href' attribute of 'Link' as 'linkHref'
  * @example I save '$prop' attribute of 'Link' as 'linkHref'
  */
-When('I save {value} attribute of {wdioLocator} as {value}', async function (attribute: MemoryValue, element: Locator, key: MemoryValue) {
+When('I save {value} attribute of {wdioLocator} as {value}', async function (this: QavajsWdioWorld, attribute: MemoryValue, element: Locator, key: MemoryValue) {
     const attributeName = await attribute.value();
     key.set(await element().getAttribute(attributeName));
 });
@@ -43,7 +44,7 @@ When('I save {value} attribute of {wdioLocator} as {value}', async function (att
  * @param {string} key - key to store value
  * @example I save number of elements in 'Search Results' as 'numberOfSearchResults'
  */
-When('I save number of elements in {wdioLocator} collection as {value}', async function (locator: Locator, key: MemoryValue) {
+When('I save number of elements in {wdioLocator} collection as {value}', async function (this: QavajsWdioWorld, locator: Locator, key: MemoryValue) {
     key.set(await locator.collection().length)
 });
 
@@ -96,7 +97,7 @@ When(
  * @param {string} key - key to store value
  * @example I save current url as 'currentUrl'
  */
-When('I save current url as {value}', async function (key: MemoryValue) {
+When('I save current url as {value}', async function (this: QavajsWdioWorld, key: MemoryValue) {
     const url = await this.wdio.browser.getUrl();
     key.set(url);
 });
@@ -106,7 +107,7 @@ When('I save current url as {value}', async function (key: MemoryValue) {
  * @param {string} key - key to store value
  * @example I save page title as 'currentTitle'
  */
-When('I save page title as {value}', async function (key: MemoryValue) {
+When('I save page title as {value}', async function (this: QavajsWdioWorld, key: MemoryValue) {
     const title = await this.wdio.browser.getTitle();
     key.set(title);
 });
@@ -140,9 +141,9 @@ When('I save screenshot of {wdioLocator} as {value}', async function(locator: Lo
  * @example I save 'color' css property of 'Checkbox' as 'checkboxColor'
  * @example I save '$propertyName' property of 'Checkbox' as 'checkboxColor'
  */
-When('I save {value} css property of {wdioLocator} as {value}', async function (property: MemoryValue, locator: Locator, key: MemoryValue) {
+When('I save {value} css property of {wdioLocator} as {value}', async function (this: QavajsWdioWorld, property: MemoryValue, locator: Locator, key: MemoryValue) {
     const propertyName = await property.value();
-    const value = await this.wdio.browser.execute(function (element: WebdriverIO.Element, propertyName: string) {
+    const value = await this.wdio.browser.execute<any, any>(function (element: WebdriverIO.Element, propertyName: string) {
         return getComputedStyle(element as any).getPropertyValue(propertyName)
     }, await locator().getElement(), propertyName);
     key.set(value);
@@ -157,8 +158,8 @@ When('I save {value} css property of {wdioLocator} as {value}', async function (
  * When I save bounding rect of 'Node' as 'boundingRect'
  * Then I expect '$boundingRect.width' to equal '42'
  */
-When('I save bounding rect of {wdioLocator} as {value}', async function (locator: Locator, key: MemoryValue) {
-    const value = await this.wdio.browser.execute(function (element: HTMLElement) {
+When('I save bounding rect of {wdioLocator} as {value}', async function (this: QavajsWdioWorld, locator: Locator, key: MemoryValue) {
+    const value = await this.wdio.browser.execute<any, any[]>(function (element: HTMLElement) {
         return JSON.stringify(element.getBoundingClientRect());
     }, await locator().getElement());
     key.set(JSON.parse(value));

@@ -1,4 +1,5 @@
 import { type Validation, type MemoryValue, When, Then } from '@qavajs/core';
+import { QavajsWdioWorld } from './QavajsWdioWorld';
 
 class DialogHolder {
     currentDialog!: Promise<WebdriverIO.Dialog>;
@@ -16,7 +17,7 @@ function checkIfListening(isListening: boolean) {
  * Start listen for alert
  * @example I will wait for dialog
  */
-When('I will wait for alert/dialog', async function () {
+When('I will wait for alert/dialog', async function (this: QavajsWdioWorld) {
     if (this.wdio.browser.isBidi) {
         dialogHolder.isListening = true;
         dialogHolder.currentDialog = new Promise(resolve => this.wdio.browser.on('dialog', resolve));
@@ -27,7 +28,7 @@ When('I will wait for alert/dialog', async function () {
  * Accept alert
  * @example I accept alert
  */
-When('I accept alert/dialog', async function () {
+When('I accept alert/dialog', async function (this: QavajsWdioWorld) {
     if (this.wdio.browser.isBidi) {
         checkIfListening(dialogHolder.isListening);
         const dialog = await dialogHolder.currentDialog;
@@ -48,7 +49,7 @@ When('I accept alert/dialog', async function () {
  * Dismiss alert
  * @example I dismiss alert
  */
-When('I dismiss alert', async function () {
+When('I dismiss alert', async function (this: QavajsWdioWorld) {
     if (this.wdio.browser.isBidi) {
         checkIfListening(dialogHolder.isListening);
         const dialog = await dialogHolder.currentDialog;
@@ -68,7 +69,7 @@ When('I dismiss alert', async function () {
  * I type {string} to alert
  * @example I type 'coffee' to alert
  */
-When('I type {value} to alert', async function (value: MemoryValue) {
+When('I type {value} to alert', async function (this: QavajsWdioWorld, value: MemoryValue) {
     const message = await value.value();
     if (this.wdio.browser.isBidi) {
         checkIfListening(dialogHolder.isListening);
@@ -92,7 +93,7 @@ When('I type {value} to alert', async function (value: MemoryValue) {
  * @param {string} value - expected text value
  * @example I expect text of alert does not contain 'coffee'
  */
-Then('I expect text of alert {validation} {value}', async function (validation: Validation, expected: MemoryValue) {
+Then('I expect text of alert {validation} {value}', async function (this: QavajsWdioWorld, validation: Validation, expected: MemoryValue) {
     let alertText;
     if (this.wdio.browser.isBidi) {
         checkIfListening(dialogHolder.isListening);

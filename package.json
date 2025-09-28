@@ -1,6 +1,6 @@
 {
   "name": "@qavajs/steps-wdio",
-  "version": "2.10.0",
+  "version": "2.11.0",
   "description": "qavajs steps to interact with webdriverio",
   "main": "./index.js",
   "types": "./index.d.ts",
@@ -40,7 +40,7 @@
     "@types/express": "^5.0.3"
   },
   "dependencies": {
-    "webdriverio": "^9.19.2"
+    "webdriverio": "^9.20.0"
   },
   "keywords": [
     "test",
