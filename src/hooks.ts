@@ -1,9 +1,9 @@
 import { After, AfterAll, AfterStep, Before, BeforeStep, Status } from '@qavajs/core';
 import defaultTimeouts from './defaultTimeouts';
-import { ScreenshotEvent, SnapshotEvent } from './events';
-import { equalOrIncludes, getEventValue } from './utils';
+import { equalOrIncludes, getEventValue, ScreenshotEvent, SnapshotEvent } from './utils';
 import getSnapshot from './client_script/snapshot';
 import { element } from './pageObject';
+import { QavajsWdioWorld } from './QavajsWdioWorld';
 const remotePromise = import('webdriverio').then(wdio => wdio.remote);
 
 class DriverHolder {
@@ -13,7 +13,7 @@ class DriverHolder {
 
 const driverHolder = new DriverHolder();
 
-Before({name: 'Init wdio driver'}, async function () {
+Before({name: 'Init wdio driver'}, async function (this: QavajsWdioWorld) {
     const remote = await remotePromise;
     const driverConfig = this.config.browser ?? this.config.driver;
     driverConfig.timeout = {
@@ -21,18 +21,18 @@ Before({name: 'Init wdio driver'}, async function () {
         ...driverConfig.timeout
     };
     this.config.driverConfig = driverConfig;
-    this.wdio = {};
     driverHolder.reuseSession = driverConfig.reuseSession;
     if ((!driverHolder.driver && driverConfig.reuseSession) || !driverConfig.reuseSession) {
         driverHolder.driver = await remote(driverConfig);
         this.log(`browser instance started:\n${JSON.stringify(driverConfig, null, 2)}`);
     }
+    this.wdio = {} as any;
     this.wdio.browser = this.wdio.driver = driverHolder.driver;
     if (driverConfig.timeout.implicit > 0) await this.wdio.browser.setTimeout({ 'implicit': driverConfig.timeout.implicit });
     this.element = element;
 });
 
-BeforeStep(async function () {
+BeforeStep(async function (this: QavajsWdioWorld) {
     const screenshotEvent = getEventValue(this.config.driverConfig.screenshot);
     const isBeforeStepScreenshot = equalOrIncludes(screenshotEvent, ScreenshotEvent.BEFORE_STEP);
     if (isBeforeStepScreenshot) {
@@ -53,7 +53,7 @@ BeforeStep(async function () {
     }
 });
 
-AfterStep(async function (step) {
+AfterStep(async function (this: QavajsWdioWorld, step) {
     const screenshotEvent = getEventValue(this.config.driverConfig.screenshot);
     const isAfterStepScreenshot = equalOrIncludes(screenshotEvent, ScreenshotEvent.AFTER_STEP);
     const isOnFailScreenshot = equalOrIncludes(screenshotEvent, ScreenshotEvent.ON_FAIL)
@@ -83,7 +83,7 @@ AfterStep(async function (step) {
     }
 });
 
-After({name: 'Shutdown wdio driver'}, async function () {
+After({name: 'Shutdown wdio driver'}, async function (this: QavajsWdioWorld) {
     if (this.wdio.browser && !this.config.driverConfig.reuseSession) {
         await this.wdio.browser.deleteSession();
         this.log('browser instance closed');

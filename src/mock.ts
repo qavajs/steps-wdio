@@ -1,4 +1,5 @@
 import { type MemoryValue, When } from '@qavajs/core';
+import { QavajsWdioWorld } from './QavajsWdioWorld';
 type ErrorReason = ('Failed' | 'Aborted' | 'TimedOut' | 'AccessDenied' | 'ConnectionClosed' | 'ConnectionReset' | 'ConnectionRefused' | 'ConnectionAborted' | 'ConnectionFailed' | 'NameNotResolved' | 'InternetDisconnected' | 'AddressUnreachable' | 'BlockedByClient' | 'BlockedByResponse');
 
 /**
@@ -8,7 +9,7 @@ type ErrorReason = ('Failed' | 'Aborted' | 'TimedOut' | 'AccessDenied' | 'Connec
  * @example When I create mock for '/yourservice/**' as 'mock1'
  * @example When I create mock for '$mockUrlTemplate' as 'mock1'
  */
-When('I create mock for {value} as {value}', async function (urlTemplate: MemoryValue, memoryKey: MemoryValue) {
+When('I create mock for {value} as {value}', async function (this: QavajsWdioWorld, urlTemplate: MemoryValue, memoryKey: MemoryValue) {
     const url = await urlTemplate.value();
     memoryKey.set(await this.wdio.browser.mock(url));
 });
@@ -57,7 +58,7 @@ When('I set {value} mock to respond {value} with {value}', respondWith);
  * When I create mock for '/yourservice/**' as 'myServiceMock'
  * And I set '$myServiceMock' mock to abort with 'Failed' reason
  */
-When('I set {value} mock to abort with {value} reason', async function (mockKey: MemoryValue, reason: MemoryValue) {
+When('I set {value} mock to abort with {value} reason', async function (this: QavajsWdioWorld, mockKey: MemoryValue, reason: MemoryValue) {
     const mock = await mockKey.value();
     const errorCode: ErrorReason = await reason.value();
     mock.abort(errorCode);
@@ -68,7 +69,7 @@ When('I set {value} mock to abort with {value} reason', async function (mockKey:
  * @param {string} mockKey - memory key to get mock instance
  * @example When I restore '$myServiceMock'
  */
-When('I restore {value} mock', async function (mockKey: MemoryValue) {
+When('I restore {value} mock', async function (this: QavajsWdioWorld, mockKey: MemoryValue) {
     const mock = await mockKey.value();
     await mock.restore();
 });
@@ -77,6 +78,6 @@ When('I restore {value} mock', async function (mockKey: MemoryValue) {
  * Restore all mocks
  * @example When I restore all mocks
  */
-When('I restore all mocks', async function () {
+When('I restore all mocks', async function (this: QavajsWdioWorld) {
     await this.wdio.browser.mockRestoreAll();
 });

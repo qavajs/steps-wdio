@@ -1,12 +1,13 @@
 import { Locator } from './pageObject';
 import { type MemoryValue, type Validation, When } from '@qavajs/core';
+import { QavajsWdioWorld } from './QavajsWdioWorld';
 
 /**
  * Explicit wait
  * @param {number} ms - milliseconds
  * @example I wait 1000 ms
  */
-When('I wait {int} ms', async function (ms: number) {
+When('I wait {int} ms', async function (this: QavajsWdioWorld, ms: number) {
     await this.wdio.browser.pause(ms);
 });
 
@@ -21,7 +22,7 @@ When('I wait {int} ms', async function (ms: number) {
  */
 When(
     'I refresh page until {wdioLocator} {wdioCondition}( ){wdioTimeout}',
-    async function (element: Locator, condition: Function, timeoutValue: number | null) {
+    async function (this: QavajsWdioWorld, element: Locator, condition: Function, timeoutValue: number | null) {
         const timeout = timeoutValue ?? this.config.browser.timeout.value;
         await this.wdio.browser.waitUntil(async () => {
             await this.wdio.browser.refresh();
@@ -42,7 +43,7 @@ When(
  */
 When(
     'I refresh page until text of {wdioLocator} {validation} {value}( ){wdioTimeout}',
-    async function (element: Locator, validation: Validation, expected: MemoryValue, timeoutValue: number | null) {
+    async function (this: QavajsWdioWorld, element: Locator, validation: Validation, expected: MemoryValue, timeoutValue: number | null) {
         const timeout = timeoutValue ?? this.config.browser.timeout.value;
         await this.wdio.browser.waitUntil(async () => {
             await this.wdio.browser.refresh();
@@ -69,6 +70,7 @@ When(
 When(
     'I click {wdioLocator} until text of {wdioLocator} {validation} {value}( ){wdioTimeout}',
     async function (
+        this: QavajsWdioWorld,
         elementToClick: Locator,
         elementToCheck: Locator,
         validation: Validation,
@@ -100,6 +102,7 @@ When(
 When(
     'I click {wdioLocator} until value of {wdioLocator} {validation} {value}( ){wdioTimeout}',
     async function (
+        this: QavajsWdioWorld,
         elementToClick: Locator,
         elementToCheck: Locator,
         validation: Validation,

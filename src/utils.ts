@@ -1,5 +1,17 @@
 const MODIFIER_KEYS = ['Control', 'Shift', 'Alt', 'Command', 'Ctrl'];
 
+export enum ScreenshotEvent {
+    ON_FAIL = 'onFail',
+    BEFORE_STEP = 'beforeStep',
+    AFTER_STEP = 'afterStep'
+}
+
+export enum SnapshotEvent {
+    ON_FAIL = 'onFail',
+    BEFORE_STEP = 'beforeStep',
+    AFTER_STEP = 'afterStep'
+}
+
 /**
  * Parse 'x, y' string to coordinates array
  * @param {string} coords - 'x, y' string

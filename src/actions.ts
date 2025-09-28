@@ -1,13 +1,14 @@
 import { parseCoords, parseKeySequence, parseCoordsAsObject, dragAndDrop } from './utils';
 import { type MemoryValue, When } from '@qavajs/core';
 import { Locator } from './pageObject';
+import { QavajsWdioWorld } from './QavajsWdioWorld';
 
 /**
  * Opens provided url
  * @param {string} url - url to navigate
  * @example I open 'https://google.com'
  */
-When('I open {value} url', async function (url: MemoryValue) {
+When('I open {value} url', async function (this: QavajsWdioWorld, url: MemoryValue) {
     await this.wdio.browser.url(await url.value());
 });
 
@@ -18,7 +19,7 @@ When('I open {value} url', async function (url: MemoryValue) {
  * @example I type 'wikipedia' to 'Google Input'
  * @example I type 'wikipedia' into 'Google Input'
  */
-When('I type {value} (in)to {wdioLocator}', async function (typeValue: MemoryValue, element: Locator) {
+When('I type {value} (in)to {wdioLocator}', async function (this: QavajsWdioWorld, typeValue: MemoryValue, element: Locator) {
     await element().addValue(await typeValue.value());
 });
 
@@ -29,7 +30,7 @@ When('I type {value} (in)to {wdioLocator}', async function (typeValue: MemoryVal
  * @example I type 'wikipedia' chars to 'Google Input'
  * @example I type 'wikipedia' chars into 'Google Input'
  */
-When('I type {value} chars (in)to {wdioLocator}', async function (typeValue: MemoryValue, element: Locator) {
+When('I type {value} chars (in)to {wdioLocator}', async function (this: QavajsWdioWorld, typeValue: MemoryValue, element: Locator) {
     await element().click();
     await this.wdio.browser.keys(await typeValue.value());
 });
@@ -40,7 +41,7 @@ When('I type {value} chars (in)to {wdioLocator}', async function (typeValue: Mem
  * @param {boolean} [disableWait] - disable wait before click
  * @example I click 'Google Button'
  */
-When('I click {wdioLocator}', async function (element: Locator) {
+When('I click {wdioLocator}', async function (this: QavajsWdioWorld, element: Locator) {
     await element().click();
 });
 
@@ -50,7 +51,7 @@ When('I click {wdioLocator}', async function (element: Locator) {
  * @param {boolean} [disableWait] - disable wait before click
  * @example I double click 'Google Button'
  */
-When('I double click {wdioLocator}', async function (element: Locator) {
+When('I double click {wdioLocator}', async function (this: QavajsWdioWorld, element: Locator) {
     await element().doubleClick();
 });
 
@@ -60,7 +61,7 @@ When('I double click {wdioLocator}', async function (element: Locator) {
  * @param {boolean} [disableWait] - disable wait before click
  * @example I right click 'Google Button'
  */
-When('I right click {wdioLocator}', async function (element: Locator) {
+When('I right click {wdioLocator}', async function (this: QavajsWdioWorld, element: Locator) {
     await element().click({ button: 'right' });
 });
 
@@ -69,8 +70,8 @@ When('I right click {wdioLocator}', async function (element: Locator) {
  * @param {string} alias - element to click
  * @example I force click 'Google Button'
  */
-When('I force click {wdioLocator}', async function (element: Locator) {
-    await this.wdio.browser.execute((e: HTMLElement) => e.click(), await element().getElement());
+When('I force click {wdioLocator}', async function (this: QavajsWdioWorld, element: Locator) {
+    await this.wdio.browser.execute<any, any[]>((e: HTMLElement) => e.click(), await element().getElement());
 });
 
 /**
@@ -78,7 +79,7 @@ When('I force click {wdioLocator}', async function (element: Locator) {
  * @param {string} alias - element to clear
  * @example I clear 'Google Input'
  */
-When('I clear {wdioLocator}', async function (element: Locator) {
+When('I clear {wdioLocator}', async function (this: QavajsWdioWorld, element: Locator) {
     await element().clearValue();
 });
 
@@ -106,7 +107,7 @@ When(
  * Switch to parent frame
  * @example I switch to parent frame
  */
-When('I switch to parent frame', async function () {
+When('I switch to parent frame', async function (this: QavajsWdioWorld) {
     await this.wdio.browser.switchFrame(null);
 });
 
@@ -115,7 +116,7 @@ When('I switch to parent frame', async function () {
  * @param {number} index - index to switch
  * @example I switch to 2 frame
  */
-When('I switch to {int} frame', async function (index: number) {
+When('I switch to {int} frame', async function (this: QavajsWdioWorld, index: number) {
     const frame = this.wdio.browser.$$('iframe, frame')[index - 1];
     await this.wdio.browser.switchFrame(frame);
 });
@@ -125,7 +126,7 @@ When('I switch to {int} frame', async function (index: number) {
  * @param {string} alias - po alias
  * @example I switch to 'Checkout Iframe' frame
  */
-When('I switch to {wdioLocator} frame', async function (element: Locator) {
+When('I switch to {wdioLocator} frame', async function (this: QavajsWdioWorld, element: Locator) {
     await this.wdio.browser.switchFrame(element());
 });
 
@@ -134,7 +135,7 @@ When('I switch to {wdioLocator} frame', async function (element: Locator) {
  * @param {number} index - index to switch
  * @example I switch to 2 window
  */
-When('I switch to {int} window', async function (index: number) {
+When('I switch to {int} window', async function (this: QavajsWdioWorld, index: number) {
     await this.wdio.browser.waitUntil(
         async () => (await this.wdio.browser.getWindowHandles()).length >= index,
         { timeout: this.config.browser.timeout.page }
@@ -148,7 +149,7 @@ When('I switch to {int} window', async function (index: number) {
  * @param {string} matcher - window matcher (url or title)
  * @example I switch to 'google.com' window
  */
-When('I switch to {value} window', async function (matcher: MemoryValue) {
+When('I switch to {value} window', async function (this: QavajsWdioWorld, matcher: MemoryValue) {
     const urlOrTitle = await matcher.value()
     await this.wdio.browser.waitUntil(
         async () => {
@@ -171,7 +172,7 @@ When('I switch to {value} window', async function (matcher: MemoryValue) {
  * Refresh current page
  * @example I refresh page
  */
-When('I refresh page', async function () {
+When('I refresh page', async function (this: QavajsWdioWorld) {
     await this.wdio.browser.refresh();
 });
 
@@ -181,7 +182,7 @@ When('I refresh page', async function () {
  * @example I press 'Enter' key
  * @example I press 'Ctrl+C' keys
  */
-When('I press {value} key(s)', async function (key: MemoryValue) {
+When('I press {value} key(s)', async function (this: QavajsWdioWorld, key: MemoryValue) {
     const keySequence: string | string[] = await key.value();
     const keys = parseKeySequence(keySequence);
     await this.wdio.browser.keys(keys);
@@ -194,7 +195,7 @@ When('I press {value} key(s)', async function (key: MemoryValue) {
  * @example I press 'Enter' key 5 times
  * @example I press 'Ctrl+V' keys 4 times
  */
-When('I press {value} key(s) {int} time(s)', async function (key: MemoryValue, num: number) {
+When('I press {value} key(s) {int} time(s)', async function (this: QavajsWdioWorld, key: MemoryValue, num: number) {
     const keySequence: string | string[] = await key.value();
     const keys = parseKeySequence(keySequence);
     for (let i: number = 0; i < num; i++) {
@@ -209,7 +210,7 @@ When('I press {value} key(s) {int} time(s)', async function (key: MemoryValue, n
  * @example I select '1900' option from 'Registration Form > Date Of Birth'
  * @example I select '$dateOfBirth' option from 'Registration Form > Date Of Birth' dropdown
  */
-When('I select {value} option from {wdioLocator} dropdown', async function (option: MemoryValue, select: Locator) {
+When('I select {value} option from {wdioLocator} dropdown', async function (this: QavajsWdioWorld, option: MemoryValue, select: Locator) {
     await select().selectByVisibleText(await option.value())
 });
 
@@ -219,7 +220,7 @@ When('I select {value} option from {wdioLocator} dropdown', async function (opti
  * @param {string} alias - alias of select
  * @example I select 1 option from 'Registration Form > Date Of Birth' dropdown
  */
-When('I select {int}(st|nd|rd|th) option from {wdioLocator} dropdown', async function (optionIndex: number, select: Locator) {
+When('I select {int}(st|nd|rd|th) option from {wdioLocator} dropdown', async function (this: QavajsWdioWorld, optionIndex: number, select: Locator) {
     await select().selectByIndex(optionIndex - 1)
 });
 
@@ -228,8 +229,8 @@ When('I select {int}(st|nd|rd|th) option from {wdioLocator} dropdown', async fun
  * @param {string} alias - alias of element
  * @example I scroll to 'Element'
  */
-When('I scroll to {wdioLocator}', async function (element: Locator) {
-    await this.wdio.browser.execute((element: HTMLElement) => element.scrollIntoView(), await element().getElement())
+When('I scroll to {wdioLocator}', async function (this: QavajsWdioWorld, element: Locator) {
+    await this.wdio.browser.execute<any, any[]>((element: HTMLElement) => element.scrollIntoView(), await element().getElement())
 });
 
 /**
@@ -238,7 +239,7 @@ When('I scroll to {wdioLocator}', async function (element: Locator) {
  * @example I click back button
  * @example I click forward button
  */
-When('I click {wdioBrowserButton} button', async function (button: 'back' | 'forward') {
+When('I click {wdioBrowserButton} button', async function (this: QavajsWdioWorld, button: 'back' | 'forward') {
     await this.wdio.browser[button]();
 });
 
@@ -248,7 +249,7 @@ When('I click {wdioBrowserButton} button', async function (button: 'back' | 'for
  * @example
  * When I scroll by '0, 100'
  */
-When('I scroll by {value}', async function (offset: MemoryValue) {
+When('I scroll by {value}', async function (this: QavajsWdioWorld, offset: MemoryValue) {
     const [deltaX, deltaY] = parseCoords(await offset.value());
     await this.wdio.browser.action('wheel').scroll({
         deltaX,
@@ -264,7 +265,7 @@ When('I scroll by {value}', async function (offset: MemoryValue) {
  * @example
  * When I scroll by '0, 100' in 'Overflow Container'
  */
-When('I scroll by {value} in {wdioLocator}', async function (offset: MemoryValue, container: Locator) {
+When('I scroll by {value} in {wdioLocator}', async function (this: QavajsWdioWorld, offset: MemoryValue, container: Locator) {
     const [deltaX, deltaY] = parseCoords(await offset.value());
     await container().moveTo();
     await this.wdio.browser.action('wheel').scroll({
@@ -281,7 +282,7 @@ When('I scroll by {value} in {wdioLocator}', async function (offset: MemoryValue
  * @example
  * When I scroll until 'Row 99' becomes visible
  */
-When('I scroll until {wdioLocator} to be visible', async function (element: Locator) {
+When('I scroll until {wdioLocator} to be visible', async function (this: QavajsWdioWorld, element: Locator) {
     const isVisible = async () => element().isDisplayed();
     while (!await isVisible()) {
         await this.wdio.browser.action('wheel').scroll({
@@ -300,7 +301,7 @@ When('I scroll until {wdioLocator} to be visible', async function (element: Loca
  * @example
  * When I scroll in 'List' until 'Row 99' to be visible
  */
-When('I scroll in {wdioLocator} until {wdioLocator} to be visible', async function (origin: Locator, element: Locator) {
+When('I scroll in {wdioLocator} until {wdioLocator} to be visible', async function (this: QavajsWdioWorld, origin: Locator, element: Locator) {
     const isVisible = async () => element().isDisplayed();
     while (!await isVisible()) {
         await this.wdio.browser.action('wheel').scroll({
@@ -319,7 +320,7 @@ When('I scroll in {wdioLocator} until {wdioLocator} to be visible', async functi
  * @param {string} value - file path
  * @example I upload '/folder/file.txt' to 'File Input'
  */
-When('I upload {value} file to {wdioLocator}', async function (value: MemoryValue, element: Locator) {
+When('I upload {value} file to {wdioLocator}', async function (this: QavajsWdioWorld, value: MemoryValue, element: Locator) {
     await element().setValue(await value.value());
 });
 
@@ -329,16 +330,16 @@ When('I upload {value} file to {wdioLocator}', async function (value: MemoryValu
  * @param {string} targetAlias - target
  * @example I drag and drop 'Bishop' to 'E4'
  */
-When('I drag and drop {wdioLocator} to {wdioLocator}', async function (element: Locator, target: Locator) {
-    await this.wdio.browser.execute(dragAndDrop, await element().getElement(), await target().getElement());
+When('I drag and drop {wdioLocator} to {wdioLocator}', async function (this: QavajsWdioWorld, element: Locator, target: Locator) {
+    await this.wdio.browser.execute<any, any[]>(dragAndDrop, await element().getElement(), await target().getElement());
 });
 
 /**
  * Open new browser tab
  * @example I open new tab
  */
-When('I open new tab', async function () {
-    await this.wdio.browser.execute(() => { window.open('about:blank', '_blank') });
+When('I open new tab', async function (this: QavajsWdioWorld) {
+    await this.wdio.browser.execute<any, any[]>(() => { window.open('about:blank', '_blank') });
 });
 
 /**
@@ -349,7 +350,7 @@ When('I open new tab', async function () {
  * @example When I click '0, 20' coordinates in 'Element'
  * @example When I click '0, 20' coordinates in 'Element' (disable actionability wait)
  */
-When('I click {value} coordinates in {wdioLocator}', async function (coordinates: MemoryValue, element: Locator) {
+When('I click {value} coordinates in {wdioLocator}', async function (this: QavajsWdioWorld, coordinates: MemoryValue, element: Locator) {
     const coords = coordinates.value();
     const coordsObject = typeof coords === 'string' ? parseCoordsAsObject(coords) : coords;
     const width = await element().getSize('width');
@@ -364,7 +365,7 @@ When('I click {value} coordinates in {wdioLocator}', async function (coordinates
  * @param {string} size - desired size
  * @example I set window size '1366,768'
  */
-When('I set window size {value}', async function (size: MemoryValue) {
+When('I set window size {value}', async function (this: QavajsWdioWorld, size: MemoryValue) {
     const {x, y} = parseCoordsAsObject(await size.value());
     await this.wdio.browser.setWindowSize(x, y);
 });
@@ -373,7 +374,7 @@ When('I set window size {value}', async function (size: MemoryValue) {
  * Close current browser tab/window
  * @example I close current tab
  */
-When('I close current tab', async function () {
+When('I close current tab', async function (this: QavajsWdioWorld) {
     await this.wdio.browser.closeWindow();
     const windowHandles = await this.wdio.browser.getWindowHandles();
     await this.wdio.browser.switchToWindow(windowHandles[0]);

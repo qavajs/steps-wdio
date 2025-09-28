@@ -1,13 +1,14 @@
 import { parseCoords, virtualPointer } from './utils';
 import { Locator } from './pageObject';
 import { type MemoryValue, When } from '@qavajs/core';
+import { QavajsWdioWorld } from './QavajsWdioWorld';
 
 /**
  * Hover over element
  * @param {string} alias - element to hover over
  * @example I hover over 'Google Button'
  */
-When('I hover over {wdioLocator}', async function (element: Locator) {
+When('I hover over {wdioLocator}', async function (this: QavajsWdioWorld, element: Locator) {
     await element().moveTo();
     virtualPointer.hover(await element().getElement());
 });
@@ -17,7 +18,7 @@ When('I hover over {wdioLocator}', async function (element: Locator) {
  * @param {string} button - button to press (left, right, middle)
  * @example When I press left mouse button
  */
-When('I press {wdioMouseButton} mouse button', async function (button) {
+When('I press {wdioMouseButton} mouse button', async function (this: QavajsWdioWorld, button) {
     await this.wdio.browser
         .action('pointer')
         .move({ ...virtualPointer.pointer() })
@@ -30,7 +31,7 @@ When('I press {wdioMouseButton} mouse button', async function (button) {
  * @param {string} button - button to release (left, right, middle)
  * @example When I release left mouse button
  */
-When('I release {wdioMouseButton} mouse button', async function (button) {
+When('I release {wdioMouseButton} mouse button', async function (this: QavajsWdioWorld, button) {
     await this.wdio.browser
         .action('pointer')
         .move({ ...virtualPointer.pointer() })
@@ -43,7 +44,7 @@ When('I release {wdioMouseButton} mouse button', async function (button) {
  * @param {string} coords - x, y coordinates to move
  * @example When I move mouse to '10, 15'
  */
-When('I move mouse to {value}', async function (coords: MemoryValue) {
+When('I move mouse to {value}', async function (this: QavajsWdioWorld, coords: MemoryValue) {
     const [x, y] = parseCoords(await coords.value());
     virtualPointer.move(x, y);
     await this.wdio.browser
@@ -57,7 +58,7 @@ When('I move mouse to {value}', async function (coords: MemoryValue) {
  * @param {string} coords - x, y offset to scroll
  * @example When I scroll mouse wheel by '0, 15'
  */
-When('I scroll mouse wheel by {value}', async function (offset: MemoryValue) {
+When('I scroll mouse wheel by {value}', async function (this: QavajsWdioWorld, offset: MemoryValue) {
     const [deltaX, deltaY] = parseCoords(await offset.value());
     await this.wdio.browser
         .action('wheel')
