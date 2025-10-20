@@ -1,4 +1,4 @@
-export default function getSnapshot(done) {
+export default function getSnapshot() {
     function getHtmlContent(document) {
         const removeNode = [
             'SCRIPT'
@@ -44,5 +44,5 @@ export default function getSnapshot(done) {
         return doc.children[0];
     }
 
-    done(getHtmlContent(document).outerHTML.replace(/[\n\t]/g, ''))
+    return getHtmlContent(document).outerHTML.replace(/[\n\t]/g, '')
 }

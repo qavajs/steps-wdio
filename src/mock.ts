@@ -14,10 +14,10 @@ When('I create mock for {value} as {value}', async function (this: QavajsWdioWor
     memoryKey.set(await this.wdio.browser.mock(url));
 });
 
-async function respondWith(mockKey: MemoryValue, statusCode: MemoryValue, body: MemoryValue) {
+async function respondWith(this: QavajsWdioWorld, mockKey: MemoryValue, statusCode: MemoryValue, body: MemoryValue | string) {
     const mock = await mockKey.value() as WebdriverIO.Mock;
     const responseStatusCode: number = parseInt(await statusCode.value());
-    const responseBody = await body.value();
+    const responseBody = typeof body === 'string' ? await this.getValue(body) : await body.value();
     mock.respond(responseBody, {
         statusCode: responseStatusCode
     });
