@@ -43,7 +43,7 @@ export default class App {
 
     KeyDump = locator('#keywordevent');
 
-    Users = locator('#users > li');
+    User = locator.template(idx => `#users > li:nth-child(${idx})`);
 
     OverflowContainer = locator('#overflowContainer');
     ContentEditableText = locator('#contentEditable');

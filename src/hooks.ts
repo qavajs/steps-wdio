@@ -4,7 +4,7 @@ import { equalOrIncludes, getEventValue, ScreenshotEvent, SnapshotEvent } from '
 import getSnapshot from './client_script/snapshot';
 import { element } from './pageObject';
 import { QavajsWdioWorld } from './QavajsWdioWorld';
-const remotePromise = import('webdriverio').then(wdio => wdio.remote);
+const remoteModule = () => import('webdriverio').then(wdio => wdio.remote);
 
 class DriverHolder {
     driver!: WebdriverIO.Browser;
@@ -14,7 +14,7 @@ class DriverHolder {
 const driverHolder = new DriverHolder();
 
 Before({name: 'Init wdio driver'}, async function (this: QavajsWdioWorld) {
-    const remote = await remotePromise;
+    const remote = await remoteModule();
     const driverConfig = this.config.browser ?? this.config.driver;
     driverConfig.timeout = {
         ...defaultTimeouts,
@@ -46,7 +46,7 @@ BeforeStep(async function (this: QavajsWdioWorld) {
     const isBeforeStepSnapshot = equalOrIncludes(snapshotEvent, SnapshotEvent.BEFORE_STEP);
     if (isBeforeStepSnapshot) {
         try {
-            this.attach(Buffer.from(await this.wdio.browser.executeAsync(getSnapshot)).toString('base64'), 'text/html');
+            this.attach(Buffer.from(await this.wdio.browser.execute(getSnapshot)).toString('base64'), 'text/html');
         } catch (err) {
             console.warn(err)
         }
@@ -76,7 +76,7 @@ AfterStep(async function (this: QavajsWdioWorld, step) {
             (isOnFailSnapshot && step.result?.status === Status.FAILED) ||
             isAfterStepSnapshot
         ) {
-            this.attach(Buffer.from(await this.wdio.browser.executeAsync(getSnapshot)).toString('base64'), 'text/html');
+            this.attach(Buffer.from(await this.wdio.browser.execute(getSnapshot)).toString('base64'), 'text/html');
         }
     } catch (err) {
         console.warn(err)
