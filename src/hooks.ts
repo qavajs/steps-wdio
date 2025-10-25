@@ -4,7 +4,7 @@ import { equalOrIncludes, getEventValue, ScreenshotEvent, SnapshotEvent } from '
 import getSnapshot from './client_script/snapshot';
 import { element } from './pageObject';
 import { QavajsWdioWorld } from './QavajsWdioWorld';
-const remoteModule = () => import('webdriverio').then(wdio => wdio.remote);
+import { remote } from 'webdriverio';
 
 class DriverHolder {
     driver!: WebdriverIO.Browser;
@@ -14,7 +14,6 @@ class DriverHolder {
 const driverHolder = new DriverHolder();
 
 Before({name: 'Init wdio driver'}, async function (this: QavajsWdioWorld) {
-    const remote = await remoteModule();
     const driverConfig = this.config.browser ?? this.config.driver;
     driverConfig.timeout = {
         ...defaultTimeouts,
