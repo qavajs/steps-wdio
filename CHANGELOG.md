@@ -14,6 +14,12 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 :microscope: - experimental
 
+## [2.12.0]
+- :rocket: added `fully in viewport` locator matcher
+```gherkin
+Then I expect 'Element' to be fully in viewport
+```
+
 ## [2.11.0]
 - :rocket: added export of `QavajsWdioWorld`
 

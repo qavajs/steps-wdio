@@ -9,13 +9,16 @@ Feature: waits
     Then I expect '<element>' <condition>
 
     Examples:
-      | element                   | condition         |
-      | Present Element           | to be present     |
-      | Detach Element            | not to be present |
-      | Not Existing Element      | not to be present |
-      | Visible Element           | to be visible     |
+      | element              | condition               |
+      | Present Element      | to be present           |
+      | Detach Element       | not to be present       |
+      | Not Existing Element | not to be present       |
+      | Visible Element      | to be visible           |
 #      | Hidden Element            | to be invisible   |
-      | Present Element           | to be clickable   |
+      | Present Element      | to be clickable         |
+      | Visible Element      | to be in viewport       |
+      | Visible Element      | to be fully in viewport |
+
 
   @bidi
   @wd
