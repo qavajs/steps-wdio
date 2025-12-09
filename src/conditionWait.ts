@@ -1,3 +1,5 @@
+import isElementFullyInViewport from './client_script/fullyInViewport';
+
 class SoftAssertionError extends Error {
     constructor(...args: any[]) {
         super(...args);
@@ -13,7 +15,8 @@ export const conditionValidations = {
     INVISIBLE: 'invisible',
     ENABLED: 'enabled',
     DISABLED: 'disabled',
-    IN_VIEWPORT: 'in viewport'
+    IN_VIEWPORT: 'in viewport',
+    FULLY_IN_VIEWPORT: 'fully in viewport',
 }
 
 const notClause = '(not )?';
@@ -70,7 +73,15 @@ const waits = {
         reverse,
         timeout,
         timeoutMsg
-    })
+    }),
+    [conditionValidations.FULLY_IN_VIEWPORT]: (
+        element: WebdriverIO.Element,
+        reverse: boolean,
+        timeout: number,
+        timeoutMsg?: string
+    ) => element.waitUntil(async () => {
+        return ((await element.execute(isElementFullyInViewport)) !== reverse)
+    }, { timeout, timeoutMsg }),
 }
 /**
  * Wait for condition
