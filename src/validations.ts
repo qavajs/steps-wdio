@@ -1,6 +1,6 @@
-import { type Validation, type MemoryValue, Then } from '@qavajs/core';
-import { Locator } from './pageObject';
-import { QavajsWdioWorld } from './QavajsWdioWorld';
+import {type Validation, type MemoryValue, Then} from '@qavajs/core';
+import {Locator} from './pageObject';
+import {QavajsWdioWorld} from './QavajsWdioWorld';
 
 /**
  * Verify element condition
@@ -10,7 +10,9 @@ import { QavajsWdioWorld } from './QavajsWdioWorld';
  * @example I expect 'Loading' not to be present
  * @example I expect 'Search Bar > Submit Button' to be clickable
  */
-Then('I expect {wdioLocator} {wdioCondition}', async function (this: QavajsWdioWorld, element: Locator, condition: Function & { validation: string }) {
+Then('I expect {wdioLocator} {wdioCondition}', async function (this: QavajsWdioWorld, element: Locator, condition: Function & {
+    validation: string
+}) {
     const timeout = this.config.browser.timeout[condition.validation] ?? this.config.browser.timeout.page;
     await condition(element(), timeout);
 });
@@ -182,12 +184,12 @@ Then(
  * @example I expect every element in 'Header > Links' collection to be visible
  * @example I expect every element in 'Loading Bars' collection not to be present
  */
-Then('I expect every element in {wdioLocator} collection {wdioCondition}', 
+Then('I expect every element in {wdioLocator} collection {wdioCondition}',
     async function (this: QavajsWdioWorld, locator: Locator, condition: Function) {
         const collection = locator.collection();
         const conditionWait = (element: WebdriverIO.Element) => condition(element, this.config.browser.timeout.page);
         await Promise.all(await collection.map(conditionWait))
-});
+    });
 
 /**
  * Verify that all particular attributes in collection satisfy condition
@@ -280,3 +282,56 @@ Then(
     }
 );
 
+/**
+ * Verify that custom property (script result) of element satisfies condition
+ * @param {string} propertyGetter - property to verify
+ * @param {string} alias - element to verify
+ * @param {string} validationType - validation
+ * @param {string} value - expected value
+ * @example I expect '$shadowText' custom property of 'Search Input' to be equal 'text'
+ * @example I expect '$js(element => element.shadowRoot.textContent)' custom property of 'Label' to contain 'text'
+ */
+Then(
+    'I expect {value} custom property of {wdioLocator} {validation} {value}',
+    async function (this: QavajsWdioWorld, propertyGetter: MemoryValue, locator: Locator, validation: Validation, expected: MemoryValue) {
+        const script: () => any = await propertyGetter.value();
+        const expectedValue = await expected.value();
+        const element = await locator().getElement()
+        const actualValue = async () => this.wdio.browser.execute<any, any>(
+            script,
+            element
+        );
+        await validation.poll(actualValue, expectedValue, {
+            timeout: this.config.browser.timeout.value,
+            interval: this.config.browser.timeout.valueInterval
+        });
+    }
+);
+
+/**
+ * Verify that custom property (script result) of every element in collection satisfies condition
+ * @param {string} property - property to verify
+ * @param {string} alias - element to verify
+ * @param {string} validationType - validation
+ * @param {string} value - expected value
+ * @example I expect 'color' custom property of every element in 'Table > Rows' collection to be equal 'text'
+ * @example I expect 'font-family' custom property of every element in 'Labels' to contain 'text'
+ */
+Then(
+    'I expect {value} custom property of every element in {wdioLocator} collection {validation} {value}',
+    async function (this: QavajsWdioWorld, propertyGetter: MemoryValue, locator: Locator, validation: Validation, expected: MemoryValue) {
+        const script: () => any = await propertyGetter.value();
+        const expectedValue = await expected.value();
+        const collection = await locator.collection().getElements();
+        for (const element of collection) {
+            const actualValue = async () => this.wdio.browser.execute<any, any>(
+                script,
+                element
+            );
+            await validation.poll(actualValue, expectedValue, {
+                timeout: this.config.browser.timeout.value,
+                interval: this.config.browser.timeout.valueInterval
+            });
+        }
+    }
+);
