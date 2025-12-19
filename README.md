@@ -48,7 +48,7 @@ export default {
 
 ## Screenshots
 @qavajs/steps-wdio has build-in capability to take screenshot on particular event. If you need to add 
-screenshot to your report add _screenshot_ property to profile config.
+screenshot to your report add `screenshot` property to profile config.
 Supported events:
 - onFail
 - beforeStep

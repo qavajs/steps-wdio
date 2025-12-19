@@ -1,6 +1,6 @@
-import { Locator } from './pageObject';
-import { type MemoryValue, When } from '@qavajs/core';
-import { QavajsWdioWorld } from './QavajsWdioWorld';
+import {Locator} from './pageObject';
+import {type MemoryValue, When} from '@qavajs/core';
+import {QavajsWdioWorld} from './QavajsWdioWorld';
 
 /**
  * Save text of element to memory
@@ -117,7 +117,7 @@ When('I save page title as {value}', async function (this: QavajsWdioWorld, key:
  * @param {string} key - key to store value
  * @example I save screenshot as 'screenshot'
  */
-When('I save screenshot as {value}', async function(key: MemoryValue) {
+When('I save screenshot as {value}', async function (key: MemoryValue) {
     const screenshot = await this.wdio.browser.takeScreenshot();
     key.set(screenshot);
 });
@@ -128,7 +128,7 @@ When('I save screenshot as {value}', async function(key: MemoryValue) {
  * @param {string} key - key to store value
  * @example I save screenshot of 'Header > Logo' as 'screenshot'
  */
-When('I save screenshot of {wdioLocator} as {value}', async function(locator: Locator, key: MemoryValue) {
+When('I save screenshot of {wdioLocator} as {value}', async function (locator: Locator, key: MemoryValue) {
     const screenshot = await this.wdio.browser.takeElementScreenshot(await locator().elementId);
     key.set(screenshot);
 });
@@ -164,3 +164,39 @@ When('I save bounding rect of {wdioLocator} as {value}', async function (this: Q
     }, await locator().getElement());
     key.set(JSON.parse(value));
 });
+
+/**
+ * Save custom property of element to memory
+ * @param {string} property - custom property to store
+ * @param {string} alias - element to get value
+ * @param {string} key - key to store value
+ * @example I save '$shadowText' custom property of 'Checkbox' as 'text'
+ * @example I save '$js(element => element.shadowRoot.textContent)' property of 'Checkbox' as 'text'
+ */
+When('I save {value} custom property of {wdioLocator} as {value}',
+    async function (this: QavajsWdioWorld, propertyGetter: MemoryValue, locator: Locator, key: MemoryValue) {
+        const script = await propertyGetter.value();
+        const value = await this.wdio.browser.execute<any, any>(
+            script,
+            await locator().getElement()
+        );
+        key.set(value);
+    });
+
+/**
+ * Save array of property of collection to memory
+ * @param {string} propertyGetter - custom property to store
+ * @param {string} alias - collection to get values
+ * @param {string} key - key to store value
+ * @example I save 'href' property of every element of 'Search > Links' collection as 'hrefs'
+ */
+When(
+    'I save {value} custom property of every element of {wdioLocator} collection as {value}',
+    async function (property: MemoryValue, locator: Locator, key: MemoryValue) {
+        const script = await property.value();
+        const values = await locator.collection().map(
+            element => this.wdio.browser.execute(script, element)
+        );
+        key.set(values);
+    }
+);

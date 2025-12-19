@@ -23,6 +23,12 @@ Feature: memory
 
   @bidi
   @wd
+  Scenario: element custom property
+    When I save '$js(element => element.value)' custom property of 'Simple Text Input' as 'memory'
+    Then I expect '$memory' memory value to be equal '123'
+
+  @bidi
+  @wd
   Scenario: element attribute
     When I save 'name' attribute of 'Simple Text Input' as 'memory'
     Then I expect '$memory' memory value to be equal 'textInputName'
@@ -55,6 +61,12 @@ Feature: memory
   @wd
   Scenario: collection property of elements
     Then I save 'nodeName' property of every element of 'Simple Text List Items' collection as 'memory'
+    Then I expect '$memory' memory value to be equal '$array("LI", "LI", "LI")'
+
+  @bidi
+  @wd
+  Scenario: collection custom property of elements
+    Then I save '$js(element => element.nodeName)' custom property of every element of 'Simple Text List Items' collection as 'memory'
     Then I expect '$memory' memory value to be equal '$array("LI", "LI", "LI")'
 
   @bidi

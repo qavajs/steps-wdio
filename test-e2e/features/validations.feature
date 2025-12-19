@@ -37,6 +37,13 @@ Feature: validations
 
   @bidi
   @wd
+  Scenario: element custom property
+    Then I expect '$js(element => element.value)' custom property of 'Simple Text Input' to be equal '123'
+    Then I expect '$js(element => element.value)' custom property of 'Simple Text Input' not to be equal '1234'
+    Then I expect '$js(element => element.value)' custom property of 'Simple Text Input' to contain '12'
+
+  @bidi
+  @wd
   Scenario: element attribute
     Then I expect 'name' attribute of 'Simple Text Input' to be equal 'textInputName'
     Then I expect 'name' attribute of 'Simple Text Input' not to be equal 'textInput'
@@ -72,6 +79,12 @@ Feature: validations
   Scenario: collection property of elements
     Then I expect 'nodeName' property of every element in 'Simple Text List Items' collection to equal 'LI'
     Then I expect 'nodeName' property of every element in 'Simple Text List Items' collection not to contain 'A'
+
+  @bidi
+  @wd
+  Scenario: collection custom property of elements
+    Then I expect '$js(element => element.nodeName)' custom property of every element in 'Simple Text List Items' collection to equal 'LI'
+    Then I expect '$js(element => element.nodeName)' custom property of every element in 'Simple Text List Items' collection not to contain 'A'
 
   @bidi
   @wd
