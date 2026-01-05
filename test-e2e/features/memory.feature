@@ -12,7 +12,7 @@ Feature: memory
   @bidi
   @wd
   Scenario: element input value
-    When I save text of 'Simple Text Input' as 'memory'
+    When I save value of 'Simple Text Input' as 'memory'
     Then I expect '$memory' memory value to be equal '123'
 
 
