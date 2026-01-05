@@ -11,6 +11,13 @@ Feature: memory
 
   @bidi
   @wd
+  Scenario: element input value
+    When I save text of 'Simple Text Input' as 'memory'
+    Then I expect '$memory' memory value to be equal '123'
+
+
+  @bidi
+  @wd
   Scenario: collection number of elements
     When I save number of elements in 'Simple Text List Items' collection as 'memory'
     Then I expect '$memory' memory value to be equal '$js(3)'

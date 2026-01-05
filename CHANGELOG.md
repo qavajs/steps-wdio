@@ -14,6 +14,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 :microscope: - experimental
 
+## [2.13.1]
+- :rocket: implement missing `I save value of...` step
+
 ## [2.13.0]
 - :rocket: added steps to work with custom properties (script results) in memory and validations
 ```gherkin

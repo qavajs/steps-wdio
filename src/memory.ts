@@ -4,12 +4,22 @@ import {QavajsWdioWorld} from './QavajsWdioWorld';
 
 /**
  * Save text of element to memory
- * @param {string} alias - element to get value
+ * @param {string} alias - element to get text
  * @param {string} key - key to store value
  * @example I save text of 'Search Result (1)' as 'firstSearchResult'
  */
 When('I save text of {wdioLocator} as {value}', async function (this: QavajsWdioWorld, element: Locator, key: MemoryValue) {
     key.set(await element().getText());
+});
+
+/**
+ * Save value of element to memory
+ * @param {string} alias - element to get value
+ * @param {string} key - key to store value
+ * @example I save text of 'Search Result (1)' as 'firstSearchResult'
+ */
+When('I save value of {wdioLocator} as {value}', async function (this: QavajsWdioWorld, element: Locator, key: MemoryValue) {
+    key.set(await element().getValue());
 });
 
 /**
