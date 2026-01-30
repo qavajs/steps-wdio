@@ -1,4 +1,3 @@
-@debug
 Feature: actions
 
   Background:
@@ -172,7 +171,7 @@ Feature: actions
     Then I expect '$scrollY' memory value to be equal '$js(100)'
 
 
-  @bidi @debug
+  @bidi
   Scenario: scroll in window
     When I scroll by '0, 100'
     And I execute '$js(() => window.scrollX)' function and save result as 'scrollX'
@@ -224,14 +223,12 @@ Feature: actions
     And I press 'Backspace' key
     Then I expect text of 'Content Editable Text' to be equal 'this is content editable tex'
 
-  @bidi
   @wd
   Scenario: accept alert
     When I click 'Alert Button'
     And I accept alert
     Then I expect text of 'Action' to be equal 'true'
 
-  @bidi
   @wd
   Scenario: dismiss alert
     When I click 'Alert Button'
@@ -246,7 +243,6 @@ Feature: actions
     And I type 'I am not a robot' to alert
     Then I expect text of 'Action' to be equal 'I am not a robot'
 
-  @bidi
   @wd
   Scenario: expect text of alert
     When I click 'Alert Button'

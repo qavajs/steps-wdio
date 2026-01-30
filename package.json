@@ -41,7 +41,7 @@
     "@qavajs/validation": "^1.6.1"
   },
   "dependencies": {
-    "webdriverio": "^9.1.2",
+    "webdriverio": "^9.23.2",
     "@qavajs/po": "^1.12.1"
   }
 }

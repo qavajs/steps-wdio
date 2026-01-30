@@ -11,7 +11,7 @@ import memory from '@qavajs/memory';
  * @example I set '$sessionStorageKey' session storage value as '$sessionStorageValue'
  */
 When('I set {string} {word} storage value as {string}', async function (storageKey, storageType, value) {
-    await browser.execute(function (storageKey: string, storageType: string, value: any) {
+    await browser.execute<any, any>(function (storageKey: string, storageType: string, value: any) {
         const storage: string = storageType + 'Storage';
         // @ts-ignore
         window[storage].setItem(storageKey, value);
@@ -27,7 +27,7 @@ When('I set {string} {word} storage value as {string}', async function (storageK
  * @example I save value of '$sessionStorageKey' session storage value as 'sessionStorageValue'
  */
 When('I save value of {string} {word} storage as {string}', async function (storageKey, storageType, key) {
-    const value = await browser.execute(function (storageKey: string, storageType: string) {
+    const value = await browser.execute<any, any>(function (storageKey: string, storageType: string) {
         const storage: string = storageType + 'Storage';
         // @ts-ignore
         return window[storage].getItem(storageKey);

@@ -149,7 +149,7 @@ When(
         const wait = getPollValidation(waitType);
         const element = () => getElement(alias);
         const expectedValue = await getValue(value);
-        const getValueFn = async () => browser.execute(
+        const getValueFn = async () => browser.execute<any, any>(
             function (element: WebdriverIO.Element, propertyName: string) {
                 return getComputedStyle(element as any).getPropertyValue(propertyName)
             }, await element() as any, propertyName);
