@@ -1,3 +1,4 @@
+@debug
 Feature: actions
 
   Background:
@@ -165,17 +166,17 @@ Feature: actions
   @wd
   Scenario: scroll in window
     When I scroll by '0, 100'
-    And I execute 'return window.scrollX' function and save result as 'scrollX'
-    And I execute 'return window.scrollY' function and save result as 'scrollY'
+    And I execute '$js(() => window.scrollX)' function and save result as 'scrollX'
+    And I execute '$js(() => window.scrollY)' function and save result as 'scrollY'
     Then I expect '$scrollX' memory value to be equal '$js(0)'
     Then I expect '$scrollY' memory value to be equal '$js(100)'
 
 
-  @bidi
+  @bidi @debug
   Scenario: scroll in window
     When I scroll by '0, 100'
-    And I execute '() => window.scrollX' function and save result as 'scrollX'
-    And I execute '() => window.scrollY' function and save result as 'scrollY'
+    And I execute '$js(() => window.scrollX)' function and save result as 'scrollX'
+    And I execute '$js(() => window.scrollY)' function and save result as 'scrollY'
     Then I expect '$scrollX' memory value to be equal '$js(0)'
     Then I expect '$scrollY' memory value to be equal '$js(100)'
 
@@ -183,8 +184,8 @@ Feature: actions
   Scenario: scroll in element
     When I scroll by '0, 50' in 'Overflow Container'
     And I wait 500 ms
-    And I execute 'return document.querySelector("#overflowContainer").scrollLeft' function and save result as 'scrollX'
-    And I execute 'return document.querySelector("#overflowContainer").scrollTop' function and save result as 'scrollY'
+    And I execute '$js(() => document.querySelector("#overflowContainer").scrollLeft)' function and save result as 'scrollX'
+    And I execute '$js(() => document.querySelector("#overflowContainer").scrollTop)' function and save result as 'scrollY'
     Then I expect '$scrollX' memory value to be equal '$js(0)'
     Then I expect '$scrollY' memory value to be equal '$js(50)'
 
@@ -192,8 +193,8 @@ Feature: actions
   Scenario: scroll in element
     When I scroll by '0, 50' in 'Overflow Container'
     And I wait 500 ms
-    And I execute '() => document.querySelector("#overflowContainer").scrollLeft' function and save result as 'scrollX'
-    And I execute '() => document.querySelector("#overflowContainer").scrollTop' function and save result as 'scrollY'
+    And I execute '$js(() => document.querySelector("#overflowContainer").scrollLeft)' function and save result as 'scrollX'
+    And I execute '$js(() => document.querySelector("#overflowContainer").scrollTop)' function and save result as 'scrollY'
     Then I expect '$scrollX' memory value to be equal '$js(0)'
     Then I expect '$scrollY' memory value to be equal '$js(50)'
 
