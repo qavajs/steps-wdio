@@ -276,7 +276,7 @@ Then(
         const expectedValue = await getValue(value);
         const element = await getElement(alias);
         await conditionWait(element, conditionValidations.PRESENT, config.browser.timeout.present);
-        const actualValue = () => browser.execute(function (element: WebdriverIO.Element, propertyName: string) {
+        const actualValue = () => browser.execute<any, any>(function (element: WebdriverIO.Element, propertyName: string) {
             return getComputedStyle(element as any).getPropertyValue(propertyName)
         }, element as any, propertyName);
         const validation = getPollValidation(validationType);

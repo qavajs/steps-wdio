@@ -154,7 +154,7 @@ When('I save screenshot of {string} as {string}', async function(alias: string, 
 When('I save {string} css property of {string} as {string}', async function (property, alias, key) {
     const element = await getElement(alias);
     const propertyName = await getValue(property);
-    const value = await browser.execute(function (element: WebdriverIO.Element, propertyName: string) {
+    const value = await browser.execute<any, any>(function (element: WebdriverIO.Element, propertyName: string) {
         return getComputedStyle(element as any).getPropertyValue(propertyName)
     }, element as any, propertyName);
     memory.setValue(key, value);
@@ -171,7 +171,7 @@ When('I save {string} css property of {string} as {string}', async function (pro
  */
 When('I save bounding rect of {string} as {string}', async function (alias, key) {
     const element = await getElement(alias);
-    const value = await browser.execute(function (element: WebdriverIO.Element) {
+    const value = await browser.execute<any, any>(function (element: WebdriverIO.Element) {
         return JSON.stringify((element as any).getBoundingClientRect());
     }, element as any);
     memory.setValue(key, JSON.parse(value));
