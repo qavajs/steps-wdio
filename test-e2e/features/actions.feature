@@ -112,7 +112,7 @@ Feature: actions
   @bidi
   @wd
   Scenario: press key with modifier
-    And I press 'Alt+a' key
+    And I press 'Alt+A' key
     Then I expect text of 'Key Dump' to contain '"keyCode":65'
     Then I expect text of 'Key Dump' to contain '"altKey":true'
 
