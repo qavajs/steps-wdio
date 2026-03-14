@@ -14,6 +14,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 :microscope: - experimental
 
+## [2.14.0]
+- :rocket: added `wdio.getElementTree()` helper to extract element accessibility tree snapshot from page body
+
 ## [2.13.1]
 - :rocket: implement missing `I save value of...` step
 

@@ -4,7 +4,7 @@ import { IQavajsWdioConfig } from '../src/IQavajsWdioConfig';
 
 const common = {
     paths: ['test-e2e/features/*.feature'],
-    require: ['test-e2e/step-definitions/*.ts', 'src/*.ts'],
+    require: ['test-e2e/step_definitions/*.ts', 'src/*.ts'],
     browser: {
         logLevel: 'warn',
         capabilities: {

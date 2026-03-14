@@ -5,6 +5,7 @@ import getSnapshot from './client_script/snapshot';
 import { element } from './pageObject';
 import { QavajsWdioWorld } from './QavajsWdioWorld';
 import { remote } from 'webdriverio';
+import { Wdio } from './wdio';
 
 class DriverHolder {
     driver!: WebdriverIO.Browser;
@@ -25,8 +26,7 @@ Before({name: 'Init wdio driver'}, async function (this: QavajsWdioWorld) {
         driverHolder.driver = await remote(driverConfig);
         this.log(`browser instance started:\n${JSON.stringify(driverConfig, null, 2)}`);
     }
-    this.wdio = {} as any;
-    this.wdio.browser = this.wdio.driver = driverHolder.driver;
+    this.wdio = new Wdio(driverHolder.driver);
     if (driverConfig.timeout.implicit > 0) await this.wdio.browser.setTimeout({ 'implicit': driverConfig.timeout.implicit });
     this.element = element;
 });

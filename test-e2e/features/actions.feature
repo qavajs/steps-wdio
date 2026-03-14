@@ -214,3 +214,8 @@ Feature: actions
   @wd
   Scenario: scroll until visible in element
     When I scroll in 'Infinite Scroll' until 'Infinite Scroll Item By Index (26)' to be visible
+
+  @bidi
+  @wd
+  Scenario: element tree
+    When I extract element tree
