@@ -22,3 +22,9 @@ Then('I expect viewport size to equal {string}', async function (this: QavajsWdi
 Then('I save {value} to memory as {value}', async function (this: QavajsWdioWorld, value: MemoryValue, key: MemoryValue) {
      key.set(await value.value());
 });
+
+Then('I extract element tree', async function (this: QavajsWdioWorld) {
+    const result = await this.wdio.getElementTree();
+    expect(result).toContain('test-e2e/apps/actions.html');
+    expect(result).toContain('button "Click Me!"');
+});
