@@ -4,6 +4,14 @@ import { QavajsWdioWorld } from './QavajsWdioWorld';
 
 type SelectorDefinition = string | ((argument: string) => string) | ((argument: any) => any) | null;
 
+/**
+ * Represents a selector definition with optional type and component binding.
+ * @example
+ * class App {
+ *   Button = locator('#button');
+ *   ButtonByIndex = locator.template(idx => `#list li:nth-child(${idx})`);
+ * }
+ */
 export class Selector {
     selector: SelectorDefinition;
     component!: Function;
@@ -19,6 +27,11 @@ export class Selector {
     /**
      * Define current locator as component
      * @param { new () => void } component
+     * @example
+     * class BodyComponent { TextElement = locator('#textValue'); }
+     * class App {
+     *   BodyComponent = locator('body').as(BodyComponent);
+     * }
      */
     as(component: new () => void) {
         this.component = component;
@@ -35,6 +48,16 @@ export type NativeSelectorParams = {
 
 /**
  * Define selector
+ * @example
+ * class BodyComponent { TextElement = locator('#textValue'); }
+ * class App {
+ *   Button = locator('#button');
+ *   ButtonByText = locator.template(text => `//button[.="${text}"]`);
+ *   ButtonNative = locator.native(({ driver }) => driver.$('#button'));
+ *   BodyComponent = locator('body').as(BodyComponent);
+ *   BodyNative = locator.native(({ browser }) => browser.$('body')).as(BodyComponent);
+ *   TopLevelComponent = locator.as(BodyComponent);
+ * }
  */
 export interface LocatorDefinition {
     (selector: any): Selector;
@@ -42,22 +65,48 @@ export interface LocatorDefinition {
     /**
      * Define selector as a template
      * @param {(argument: string) => string} selector - selector template
+     * @example
+     * class App {
+     *   ItemByIndex = locator.template(idx => `#list li:nth-child(${idx})`);
+     *   ItemByText = locator.template(text => `//ul/li[contains(., "${text}")]`);
+     * }
      */
     template: (selector: (argument: string) => string) => Selector;
 
     /**
      * Define selector using native wdio API
-     * @param {(argument: string) => string} selector - selector function
+     * @param {(params: NativeSelectorParams) => ChainablePromiseElement} selector - selector function
+     * @example
+     * class App {
+     *   ButtonNative = locator.native(({ driver }) => driver.$('#button'));
+     *   TextNative = locator.native(({ browser }) => browser.$('#textValue'));
+     * }
      */
     native: (selector: (params: NativeSelectorParams) => ChainablePromiseElement) => Selector;
 
     /**
      * Define component
      * @param { new () => void } component
+     * @example
+     * class BodyComponent { TextElement = locator('#textValue'); }
+     * class App {
+     *   TopLevelComponent = locator.as(BodyComponent);
+     * }
      */
     as: (component: new () => void) => Selector;
 }
 
+/**
+ * Create a simple selector from a CSS/XPath string or any value accepted by WebdriverIO's `$`.
+ * @param selector - CSS selector, XPath, or WDIO-compatible selector string
+ * @returns {Selector}
+ * @example
+ * class App {
+ *   Button = locator('#button');
+ *   Input = locator('#input');
+ *   ListItems = locator('#list li');
+ * }
+ */
 export const locator: LocatorDefinition = function locator(selector: any): Selector {
     return new Selector(selector);
 }
@@ -76,6 +125,14 @@ locator.as = function (component: new () => void) {
     return selector;
 }
 
+/**
+ * Represents a single resolved step in a page-object traversal chain.
+ * Produced by {@link query} and consumed by {@link element}.
+ * @example
+ * // Given App with: User = locator.template(idx => `#users > li:nth-child(${idx})`)
+ * // query(App, 'User(2)') returns:
+ * // [ChainItem { alias: 'User', selector: fn, type: 'template', argument: '2' }]
+ */
 export class ChainItem {
     alias: string;
     argument?: string;
@@ -90,6 +147,34 @@ export class ChainItem {
     }
 }
 
+/**
+ * Resolve a `>` delimited alias path against a page-object root and return the
+ * ordered list of {@link ChainItem}s needed to locate the element.
+ *
+ * Path syntax: `"Alias > ChildAlias > TemplateAlias(argument)"`
+ *
+ * @param root - A page-object class constructor or instance that acts as the traversal root.
+ * @param path - A `>` delimited string of alias names, optionally with a single argument in parentheses.
+ * @returns {ChainItem[]} Ordered chain of resolved selectors.
+ * @throws {Error} When an alias is not found on the current component or a non-component is traversed.
+ * @example
+ * class BodyComponent { TextElement = locator('#textValue'); }
+ * class App {
+ *   BodyComponent = locator('body').as(BodyComponent);
+ *   User = locator.template(idx => `#users > li:nth-child(${idx})`);
+ * }
+ *
+ * query(App, 'BodyComponent > TextElement');
+ * // => [
+ * //   ChainItem { alias: 'BodyComponent', selector: 'body',       type: 'simple' },
+ * //   ChainItem { alias: 'TextElement',   selector: '#textValue', type: 'simple' },
+ * // ]
+ *
+ * query(App, 'User(3)');
+ * // => [
+ * //   ChainItem { alias: 'User', selector: fn, type: 'template', argument: '3' },
+ * // ]
+ */
 export function query(root: any, path: string) {
     const elements = path.split(/\s*>\s*/);
     const tokens = [];
@@ -122,6 +207,18 @@ export function query(root: any, path: string) {
     return tokens;
 }
 
+/**
+ * A callable that resolves the page-object path to a single WDIO element.
+ * Calling it returns the element; `.collection()` returns all matching elements.
+ * @example
+ * // Resolves to a single element
+ * const btn = await this.element('Button');
+ * await btn().click();
+ *
+ * // Resolves to a collection
+ * const items = await this.element('SimpleTextListItems');
+ * await items.collection();
+ */
 export interface Locator {
     (): ChainablePromiseElement;
     collection: () => ChainablePromiseArray;
