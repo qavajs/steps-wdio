@@ -3,22 +3,16 @@
     "./**/*.ts"
   ],
   "compilerOptions": {
-    "target": "es2018",
+    "target": "es2022",
     "module": "node16",
     "moduleResolution": "node16",
-    "outDir": "./lib",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "skipLibCheck": true,
-    "allowJs": true,
     "sourceMap": true,
-    "declaration": true,
     "types": [
-      "node",
-      "@wdio/types",
-      "webdriverio",
-      "express"
+      "node"
     ]
   }
 }
