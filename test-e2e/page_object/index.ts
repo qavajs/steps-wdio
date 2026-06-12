@@ -83,4 +83,5 @@ export default class App {
 
 class BodyComponent {
     TextElement = locator('#textValue');
+    NonExistingElement = locator('#doesnotexist')
 }

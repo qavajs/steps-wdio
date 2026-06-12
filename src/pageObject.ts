@@ -228,7 +228,12 @@ export function element(this: QavajsWdioWorld, path: string): Locator {
     const chain = query(this.config.pageObject, path);
     const driver = this.wdio.driver as WebdriverIO.Browser;
     const logger = this;
-    const logItem = (item: ChainItem) => `.$('${item.type === 'template' ? item.selector(item.argument) : item.selector}')`;
+    const logItem = (item: ChainItem, collection = false) => {
+        const fn = collection ? '$$' : '$';
+        if (item.type === 'template') return `.${fn}('${item.selector(item.argument)}')`;
+        if (item.type === 'native') return `.[native:${item.alias}]`;
+        return item.selector ? `.${fn}('${item.selector}')` : '';
+    };
     const log = (logChain: string) => logger.log(`${path} -> ${logChain.replace(/^\./, '')}`);
     const getter: Locator = function () {
         let current = driver as unknown as ChainablePromiseElement;
@@ -254,8 +259,9 @@ export function element(this: QavajsWdioWorld, path: string): Locator {
         let logChain = '';
         for (let i = 0; i < chain.length; i++) {
             const item = chain[i];
-            logChain += logItem(item);
-            if (i === chain.length - 1) {
+            const isLast = i === chain.length - 1;
+            logChain += logItem(item, isLast);
+            if (isLast) {
                 log(logChain);
                 switch (item.type) {
                     case 'simple': return current.$$(item.selector);

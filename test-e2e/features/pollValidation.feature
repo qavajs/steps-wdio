@@ -63,6 +63,15 @@ Feature: waits
 
   @bidi
   @wd
+  Scenario Outline: wait for number of elements in collection = 0
+    Then I expect number of elements in 'Body Component > Non Existing Element' collection <condition> '<expected>'
+
+    Examples:
+      | condition   | expected |
+      | to be equal | 0        |
+
+  @bidi
+  @wd
   Scenario: wait for current url
     Then I expect current url to contain '#anchor'
 
