@@ -83,7 +83,7 @@ AfterStep(async function (this: QavajsWdioWorld, step) {
 });
 
 After({name: 'Shutdown wdio driver'}, async function (this: QavajsWdioWorld) {
-    if (this.wdio.browser && !this.config.driverConfig.reuseSession) {
+    if (this.wdio?.browser && !this.config.driverConfig?.reuseSession) {
         await this.wdio.browser.deleteSession();
         this.log('browser instance closed');
     }

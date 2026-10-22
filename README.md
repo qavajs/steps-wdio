@@ -8,6 +8,7 @@ Write browser and mobile automation in plain Gherkin — no glue code required.
 ## Table of Contents
 
 - [Installation](#installation)
+- [Migrating from v2 (WebdriverIO v9)](#migrating-from-v2-webdriverio-v9)
 - [Configuration](#configuration)
 - [Page Object](#page-object)
 - [Steps Reference](#steps-reference)
@@ -28,6 +29,7 @@ Write browser and mobile automation in plain Gherkin — no glue code required.
 - [Snapshots](#snapshots)
 - [Session Reuse](#session-reuse)
 - [TypeScript](#typescript)
+  - [Frames and windows in custom steps](#frames-and-windows-in-custom-steps)
 
 ---
 
@@ -36,6 +38,26 @@ Write browser and mobile automation in plain Gherkin — no glue code required.
 ```
 npm install @qavajs/steps-wdio
 ```
+
+Requires Node.js 22.19.0 or later and WebdriverIO v10 (use `@qavajs/steps-wdio@2` for WebdriverIO v9).
+
+---
+
+## Migrating from v2 (WebdriverIO v9)
+
+`@qavajs/steps-wdio@3` is built on WebdriverIO v10. Gherkin steps are unchanged, but some WebdriverIO behavior changed underneath them:
+
+| Change | What to do |
+|--------|------------|
+| Node.js 22.19.0+ is required | Upgrade Node.js |
+| WebDriver BiDi is the default protocol | Nothing for built-in steps: frame and window steps work in both BiDi and Classic sessions. Set `'wdio:enforceWebDriverClassic': true` in capabilities to keep using Classic |
+| Single element lookup is strict: `$` throws `StrictSelectorError` if a selector matches more than one element | Make locators unique, or set `strictSelectors: false` in the `browser` section to use the first match as before |
+| `touchPerform` is removed | `I perform touch action` steps now run as W3C touch actions; same data table format |
+| `browser.switchFrame` / `browser.switchWindow` throw in BiDi sessions | In custom steps use `this.wdio.switchFrame` / `this.wdio.switchWindow` (see [Frames and windows in custom steps](#frames-and-windows-in-custom-steps)) |
+| `getCookies('name')` / `getCookies(['name'])` are rejected | In custom steps pass an object filter: `getCookies({ name: 'name' })` |
+| Appium 3 is required; capabilities need the `appium:` prefix (`appium:deviceName`, `appium:automationName`) | Update Appium and capabilities |
+
+See the [WebdriverIO v10 migration guide](https://webdriver.io/docs/v10-migration) for the full list of changes that may affect custom steps.
 
 ---
 
@@ -70,6 +92,10 @@ export default {
     }
 }
 ```
+
+> **Strict selectors:** since WebdriverIO v10 resolving a single element throws `StrictSelectorError`
+> if the selector matches more than one element. Set `strictSelectors: false` in the `browser` section
+> to restore the v9 behavior (first matched element is used).
 
 ---
 
@@ -145,11 +171,11 @@ Use `>` to traverse component chains and parentheses to pass template arguments.
 | `I hover over {element}` | Move mouse over element |
 | `I drag and drop {element} to {element}` | Drag source onto target |
 | `I upload {value} file to {element}` | Set file path on a file input |
-| `I switch to {int} frame` | Switch to frame by index |
-| `I switch to {element} frame` | Switch to frame by element |
-| `I switch to parent frame` | Switch back to parent frame |
+| `I switch to {int} frame` | Switch to frame by index (BiDi and Classic) |
+| `I switch to {element} frame` | Switch to frame by element (BiDi and Classic) |
+| `I switch to parent frame` | Switch back to the top-level page (BiDi and Classic) |
 | `I switch to {int} window` | Switch to browser tab by index |
-| `I switch to {value} window` | Switch to browser tab by title |
+| `I switch to {value} window` | Switch to browser tab whose URL or title contains the value |
 | `I open new tab` | Open a new browser tab |
 | `I close current tab` | Close the current browser tab |
 | `I refresh page` | Reload the current page |
@@ -326,6 +352,18 @@ Additional steps for native mobile automation (Appium):
 | `I unlock device` | Unlock the device screen |
 | `I set {orientation} orientation` | Set `portrait` or `landscape` orientation |
 | `I set device time {value}` | Set device time (format: `HH:mm` or custom) |
+| `I perform touch action:` | Perform `press` / `moveTo` / `wait` / `release` sequence (executed as W3C touch actions) |
+| `I perform touch action {value}` | Perform touch actions from memory (`{ action, options }[]` or W3C action sources) |
+
+`press` and `moveTo` take `x, y` as percentages of the viewport, `wait` takes milliseconds:
+
+```gherkin
+When I perform touch action:
+  | press   | 90, 80 |
+  | wait    | 200    |
+  | moveTo  | 10, 80 |
+  | release |        |
+```
 
 ---
 
@@ -393,5 +431,25 @@ import { When } from '@cucumber/cucumber';
 When('I do something custom', async function (this: QavajsWdioWorld) {
     const browser = this.wdio.browser;
     await browser.execute(() => console.log('hello'));
+});
+```
+
+### Frames and windows in custom steps
+
+Since WebdriverIO v10, `browser.switchFrame` and `browser.switchWindow` throw in BiDi sessions. The `wdio` helper provides methods that work in both BiDi and Classic sessions:
+
+| Method | Description |
+|--------|-------------|
+| `this.wdio.switchFrame(element)` | Switch to frame element; following `browser.$` and `browser.execute` calls target this frame |
+| `this.wdio.switchFrame(null)` | Switch back to the top-level page |
+| `this.wdio.switchToWindow(handle)` | Switch to window by handle |
+| `this.wdio.switchWindow(matcher)` | Switch to the first window whose URL or title contains `matcher`; returns `false` if none matches |
+| `this.wdio.getElementTree()` | Get the accessibility tree snapshot of the current page |
+
+```typescript
+When('I read text in checkout frame', async function (this: QavajsWdioWorld) {
+    await this.wdio.switchFrame(this.wdio.browser.$('#checkout'));
+    this.log(await this.wdio.browser.$('#total').getText());
+    await this.wdio.switchFrame(null);
 });
 ```
