@@ -108,7 +108,7 @@ When(
  * @example I switch to parent frame
  */
 When('I switch to parent frame', async function (this: QavajsWdioWorld) {
-    await this.wdio.browser.switchFrame(null);
+    await this.wdio.switchFrame(null);
 });
 
 /**
@@ -118,7 +118,7 @@ When('I switch to parent frame', async function (this: QavajsWdioWorld) {
  */
 When('I switch to {int} frame', async function (this: QavajsWdioWorld, index: number) {
     const frame = this.wdio.browser.$$('iframe, frame')[index - 1];
-    await this.wdio.browser.switchFrame(frame);
+    await this.wdio.switchFrame(frame);
 });
 
 /**
@@ -127,7 +127,7 @@ When('I switch to {int} frame', async function (this: QavajsWdioWorld, index: nu
  * @example I switch to 'Checkout Iframe' frame
  */
 When('I switch to {wdioLocator} frame', async function (this: QavajsWdioWorld, element: Locator) {
-    await this.wdio.browser.switchFrame(element());
+    await this.wdio.switchFrame(element());
 });
 
 /**
@@ -141,7 +141,7 @@ When('I switch to {int} window', async function (this: QavajsWdioWorld, index: n
         { timeout: this.config.browser.timeout.page }
     );
     const windowHandles = await this.wdio.browser.getWindowHandles();
-    await this.wdio.browser.switchToWindow(windowHandles[index - 1]);
+    await this.wdio.switchToWindow(windowHandles[index - 1]);
 });
 
 /**
@@ -152,14 +152,7 @@ When('I switch to {int} window', async function (this: QavajsWdioWorld, index: n
 When('I switch to {value} window', async function (this: QavajsWdioWorld, matcher: MemoryValue) {
     const urlOrTitle = await matcher.value()
     await this.wdio.browser.waitUntil(
-        async () => {
-            try {
-                await this.wdio.browser.switchWindow(urlOrTitle);
-                return true
-            } catch (err) {
-                return false
-            }
-        },
+        async () => this.wdio.switchWindow(urlOrTitle),
         {
             timeout: this.config.browser.timeout.page,
             timeoutMsg: `Page matching ${urlOrTitle} was not found`,
@@ -377,5 +370,5 @@ When('I set window size {value}', async function (this: QavajsWdioWorld, size: M
 When('I close current tab', async function (this: QavajsWdioWorld) {
     await this.wdio.browser.closeWindow();
     const windowHandles = await this.wdio.browser.getWindowHandles();
-    await this.wdio.browser.switchToWindow(windowHandles[0]);
+    await this.wdio.switchToWindow(windowHandles[0]);
 });

@@ -2,6 +2,31 @@ import { Locator } from './pageObject';
 import { type MemoryValue, DataTable, When } from '@qavajs/core';
 import { QavajsWdioWorld } from './QavajsWdioWorld';
 
+type TouchAction = { action: string, options?: { x?: number, y?: number, ms?: number } };
+
+/**
+ * Perform legacy touchPerform-like action sequence via W3C actions
+ * (touchPerform was removed in webdriverio v10)
+ * @param {WebdriverIO.Browser} driver - driver instance
+ * @param {TouchAction[] | object[]} actions - touchPerform-like actions or W3C action sources
+ */
+async function performTouchActions(driver: WebdriverIO.Browser, actions: TouchAction[] | object[]) {
+    if (actions.every(source => 'type' in source && 'actions' in source)) {
+        return driver.performActions(actions as any);
+    }
+    const finger = driver.action('pointer', { parameters: { pointerType: 'touch' } });
+    for (const { action, options = {} } of actions as TouchAction[]) {
+        switch (action) {
+            case 'press': finger.move({ x: Math.round(options.x as number), y: Math.round(options.y as number) }).down(); break;
+            case 'moveTo': finger.move({ x: Math.round(options.x as number), y: Math.round(options.y as number) }); break;
+            case 'wait': finger.pause(options.ms as number); break;
+            case 'release': finger.up(); break;
+            default: throw new Error(`Touch action '${action}' is not supported`);
+        }
+    }
+    await finger.perform();
+}
+
 /**
  * Tap element
  * @param {string} alias - element to tap
@@ -64,7 +89,7 @@ When('I call to {value}', async function(this: QavajsWdioWorld, phoneNumber: Mem
 
 /**
  * Perform touch action
- * @param {DataTable} actionsTable - data table of actions and params (see https://webdriver.io/docs/api/appium#touchperform)
+ * @param {DataTable} actionsTable - data table of actions and params (performed as W3C touch pointer actions)
  * press and move to accept x and y percentages of current viewport
  * wait accepts milliseconds
  * release doesn't accept any params
@@ -90,17 +115,18 @@ When('I perform touch action:', async function(this: QavajsWdioWorld, actionsTab
         }
         return { action, options }
     }));
-    await this.wdio.driver.touchPerform(actions);
+    await performTouchActions(this.wdio.driver, actions);
 });
 
 /**
  * Perform touch action saved in memory
- * @param {string} actionsAlias - memory alias which resolves to action sequence  (see https://webdriver.io/docs/api/appium#touchperform)
+ * @param {string} actionsAlias - memory alias which resolves to touchPerform-like action sequence ({ action, options }[])
+ * or W3C action sources (see https://webdriver.io/docs/api/webdriver#performactions)
  * @example
  * When I perform touch action '$actions'
  */
 When('I perform touch action {value}', async function (this: QavajsWdioWorld, actions: MemoryValue) {
-    await this.wdio.driver.touchPerform(await actions.value());
+    await performTouchActions(this.wdio.driver, await actions.value());
 });
 
 /**

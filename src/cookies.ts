@@ -21,6 +21,6 @@ When('I set {value} cookie as {value}', async function (this: QavajsWdioWorld, c
  * @example I save value of 'auth' cookie as 'authCookie'
  */
 When('I save value of {value} cookie as {value}', async function (this: QavajsWdioWorld, cookie: MemoryValue, key: MemoryValue) {
-    const cookies = await this.wdio.browser.getCookies([await cookie.value()]);
+    const cookies = await this.wdio.browser.getCookies({ name: await cookie.value() });
     key.set(cookies.pop());
 });

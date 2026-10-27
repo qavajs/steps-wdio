@@ -14,6 +14,18 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 :microscope: - experimental
 
+## [3.0.0]
+Breaking: upgraded to WebdriverIO v10. See the README section "Migrating from v2 (WebdriverIO v9)".
+- :rocket: upgraded `webdriverio` to v10 (requires Node.js >= 22.19.0)
+- :rocket: `I switch to {int} frame`, `I switch to {wdioLocator} frame` and `I switch to parent frame` steps work in BiDi sessions (`browser.switchFrame` throws in BiDi since wdio v10)
+- :rocket: `I switch to {value} window` step works in BiDi sessions and matches window by URL or title (`browser.switchWindow` throws in BiDi since wdio v10)
+- :rocket: added `wdio.switchFrame`, `wdio.switchToWindow` and `wdio.switchWindow` helpers that work in both Classic and BiDi sessions
+- :beetle: fixed `I save value of {value} cookie as {value}` step: wdio v10 rejects string and array filters in `getCookies`
+- :beetle: `After` hook no longer throws when the driver failed to start
+- :x: `touchPerform` was removed in wdio v10: `I perform touch action` steps now run as W3C touch pointer actions; `I perform touch action {value}` also accepts W3C action sources
+- :x: single element lookup is strict by default in wdio v10 (`StrictSelectorError` when a selector matches several elements); set `browser.strictSelectors: false` to restore previous behavior
+- :pencil: added `engines.node >= 22.19.0` to `package.json`
+
 ## [2.14.0]
 - :rocket: added `wdio.getElementTree()` helper to extract element accessibility tree snapshot from page body
 
